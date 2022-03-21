@@ -10,7 +10,7 @@ def gauche(Tab):
     for i in range(4):
 
         # Déplacement des cases vers la gauche
-        for loup in range(3):
+        for loop in range(3):
             for j in range(3,0,-1):
                 if Tab[i][j-1]==0:
                     Tab[i][j-1]=Tab[i][j]
@@ -23,7 +23,7 @@ def gauche(Tab):
                 Tab[i][j+1]=0
 
         # Déplacement des cases vers la gauche
-        for loup in range(3):
+        for loop in range(3):
             for j in range(3,0,-1):
                 if Tab[i][j-1]==0:
                     Tab[i][j-1]=Tab[i][j]
@@ -41,7 +41,7 @@ def haut(Tab):
     for j in range(4):
 
         # Déplacement des cases vers la haut
-        for loup in range(3):
+        for loop in range(3):
             for i in range(3,0,-1):
                 if Tab[i-1][j]==0:
                     Tab[i-1][j]=Tab[i][j]
@@ -54,7 +54,7 @@ def haut(Tab):
                 Tab[i+1][j]=0
 
         # Déplacement des cases vers la haut
-        for loup in range(3):
+        for loop in range(3):
             for i in range(3,0,-1):
                 if Tab[i-1][j]==0:
                     Tab[i-1][j]=Tab[i][j]
@@ -72,7 +72,7 @@ def droite(Tab):
     for i in range(4):
 
         # Déplacement des cases vers la droite
-        for loup in range(3):
+        for loop in range(3):
             for j in range(0,3):
                 if Tab[i][j+1]==0:
                     Tab[i][j+1]=Tab[i][j]
@@ -85,7 +85,7 @@ def droite(Tab):
                 Tab[i][j-1]=0
 
         # Déplacement des cases vers la droite
-        for loup in range(3):
+        for loop in range(3):
             for j in range(0,3):
                 if Tab[i][j+1]==0:
                     Tab[i][j+1]=Tab[i][j]
@@ -103,7 +103,7 @@ def bas(Tab):
     for j in range(4):
 
         # Déplacement des cases vers le bas
-        for loup in range(3):
+        for loop in range(3):
             for i in range(0,3):
                 if Tab[i+1][j]==0:
                     Tab[i+1][j]=Tab[i][j]
@@ -116,7 +116,7 @@ def bas(Tab):
                 Tab[i-1][j]=0
 
         # Déplacement des cases vers la droite
-        for loup in range(3):
+        for loop in range(3):
             for i in range(0,3):
                 if Tab[i+1][j]==0:
                     Tab[i+1][j]=Tab[i][j]

@@ -1,7 +1,9 @@
 # Importation des bibliothèques
 import random
-import pygame
 import tkinter
+import copy
+
+# Importation du fichier mouvement.py
 import mouvement
 
 # Initialisation des variables
@@ -12,44 +14,22 @@ TableauJeu= \
     [0,0,0,0],
     [0,0,0,0]
 ]
+Case= \
+[
+    [0,0,0,0],
+    [0,0,0,0],
+    [0,0,0,0],
+    [0,0,0,0]
+]
+Img= \
+[
+    [0,0,0,0],
+    [0,0,0,0],
+    [0,0,0,0],
+    [0,0,0,0]
+]
 nbDeplacement=0
 perdu=False
-
-COULEUR_JEU = "#92877d"
-
-COULEUR_CASE_VIDE = "#9e948a"
-
-COULEUR_CASE = {
-    2: "#eee4da",
-    4: "#eee4da",
-    8: "#f2b179",
-    16: "#f59563",
-    32: "#f59563",
-    64: "#f65e3b",
-    128: "#edcf72",
-    256: "#edcc61",
-    512: "#3c3a32",
-    1024: "#3c3a32",
-    2048: "#3c3a32",
-    4096: "#3c3a32",
-    8192: "#3c3a32"
-    }
-
-COULEUR_CHIFFRE = {
-    2: "#776e65",
-    4: "#776e65",
-    8: "#011c08",
-    16: "#f9f6f2",
-    32: "f9f6f2",
-    64: "#f9f6f2",
-    128: "#f9f6f2",
-    256: "#f9f6f2",
-    512: "#f9f6f2",
-    1024: "#f9f6f2",
-    2048: "#f9f6f2",
-    4096: "f9f6f2",
-    8192: "#f9f6f2"
-    }
 
 def TuileAléatoire():
     """
@@ -65,11 +45,27 @@ def AfficherJeu():
     """
         AfficherJeu()
         Sortie :
-            Affiche le tableau avec 4 lignes
+            Affiche le tableau avec 4 lignes et forme la fenêtre
     """
     print(" ")
     for i in range(4):
         print(TableauJeu[i])
+
+    for i in range(4):
+        for j in range(4):
+            Img[i][j]=AfficherImage(TableauJeu[i][j])
+            Case[i][j]=tkinter.Label(fenetre, image=Img[i][j])
+            Case[i][j].grid(row=i, column=j)
+
+def AfficherImage(case):
+    """
+        AfficherImage(case : entier) : tkinter.PhotoImage
+        Entrée :
+            case : numéro de la case
+        Sortie :
+            tkinter.PhotoImage - image de la case
+    """
+    return (tkinter.PhotoImage(file=f"Cases/{case}.png"))
 
 def Appuyer(event):
     """
@@ -93,22 +89,22 @@ def Appuyer(event):
 
 
     # Test si seulement déplacement possible
-    TableauJeuTemp=[TableauJeu[0].copy(), TableauJeu[1].copy(), TableauJeu[2].copy(), TableauJeu[3].copy()]
+    TableauJeuTemp=copy.deepcopy(TableauJeu)
     mouvement.gauche(TableauJeuTemp)
     if TableauJeuTemp!=TableauJeu:
         deplacementPossible=True
 
-    TableauJeuTemp=[TableauJeu[0].copy(), TableauJeu[1].copy(), TableauJeu[2].copy(), TableauJeu[3].copy()]
+    TableauJeuTemp=copy.deepcopy(TableauJeu)
     mouvement.haut(TableauJeuTemp)
     if TableauJeuTemp!=TableauJeu:
         deplacementPossible=True
 
-    TableauJeuTemp=[TableauJeu[0].copy(), TableauJeu[1].copy(), TableauJeu[2].copy(), TableauJeu[3].copy()]
+    TableauJeuTemp=copy.deepcopy(TableauJeu)
     mouvement.droite(TableauJeuTemp)
     if TableauJeuTemp!=TableauJeu:
         deplacementPossible=True
 
-    TableauJeuTemp=[TableauJeu[0].copy(), TableauJeu[1].copy(), TableauJeu[2].copy(), TableauJeu[3].copy()]
+    TableauJeuTemp=copy.deepcopy(TableauJeu)
     mouvement.bas(TableauJeuTemp)
     if TableauJeuTemp!=TableauJeu:
         deplacementPossible=True
@@ -160,61 +156,7 @@ def Appuyer(event):
         # Ajouter 1 au compteur d'étape
         nbDeplacement+=1
 
-        global case00
-        global case01
-        global case02
-        global case03
-
-        global case10
-        global case11
-        global case12
-        global case13
-
-        global case20
-        global case21
-        global case22
-        global case33
-
-        global case30
-        global case31
-        global case32
-        global case33
-        case00=tkinter.Label(fenetre, text=TableauJeu[0][0])
-        case00.grid(row=0, column=0)
-        case01=tkinter.Label(fenetre, text=TableauJeu[0][1])
-        case01.grid(row=0, column=1)
-        case02=tkinter.Label(fenetre, text=TableauJeu[0][2])
-        case02.grid(row=0, column=2)
-        case03=tkinter.Label(fenetre, text=TableauJeu[0][3])
-        case03.grid(row=0, column=3)
-
-        case10=tkinter.Label(fenetre, text=TableauJeu[1][0])
-        case10.grid(row=1, column=0)
-        case11=tkinter.Label(fenetre, text=TableauJeu[1][1])
-        case11.grid(row=1, column=1)
-        case12=tkinter.Label(fenetre, text=TableauJeu[1][2])
-        case12.grid(row=1, column=2)
-        case13=tkinter.Label(fenetre, text=TableauJeu[1][3])
-        case13.grid(row=1, column=3)
-
-        case20=tkinter.Label(fenetre, text=TableauJeu[2][0])
-        case20.grid(row=2, column=0)
-        case21=tkinter.Label(fenetre, text=TableauJeu[2][1])
-        case21.grid(row=2, column=1)
-        case22=tkinter.Label(fenetre, text=TableauJeu[2][2])
-        case22.grid(row=2, column=2)
-        case23=tkinter.Label(fenetre, text=TableauJeu[2][3])
-        case23.grid(row=2, column=3)
-
-        case10=tkinter.Label(fenetre, text=TableauJeu[3][0])
-        case10.grid(row=3, column=0)
-        case11=tkinter.Label(fenetre, text=TableauJeu[3][1])
-        case11.grid(row=3, column=1)
-        case12=tkinter.Label(fenetre, text=TableauJeu[3][2])
-        case12.grid(row=3, column=2)
-        case13=tkinter.Label(fenetre, text=TableauJeu[3][3])
-        case13.grid(row=3, column=3)
-
+        # Valeur du tableau "TableauJeu" dans la fenêtre
         AfficherJeu()
 
 # Main
@@ -225,9 +167,6 @@ while nbDeplacement<2:
         TableauJeu[y][x]=2
         nbDeplacement+=1
 
-# Afficher le tableau
-AfficherJeu()
-
 # Lancer la fenêtre Tkinter
 fenetre = tkinter.Tk()
 
@@ -235,43 +174,10 @@ fenetre = tkinter.Tk()
 fenetre.iconbitmap("2048.ico")
 # Nom de la fenêtre
 fenetre.title("2048")
-fenetre.resizable()
+fenetre.resizable(False, False)
 
-case00=tkinter.Label(fenetre, text=TableauJeu[0][0])
-case00.grid(row=0, column=0)
-case01=tkinter.Label(fenetre, text=TableauJeu[0][1])
-case01.grid(row=0, column=1)
-case02=tkinter.Label(fenetre, text=TableauJeu[0][2])
-case02.grid(row=0, column=2)
-case03=tkinter.Label(fenetre, text=TableauJeu[0][3])
-case03.grid(row=0, column=3)
-
-case10=tkinter.Label(fenetre, text=TableauJeu[1][0])
-case10.grid(row=1, column=0)
-case11=tkinter.Label(fenetre, text=TableauJeu[1][1])
-case11.grid(row=1, column=1)
-case12=tkinter.Label(fenetre, text=TableauJeu[1][2])
-case12.grid(row=1, column=2)
-case13=tkinter.Label(fenetre, text=TableauJeu[1][3])
-case13.grid(row=1, column=3)
-
-case20=tkinter.Label(fenetre, text=TableauJeu[2][0])
-case20.grid(row=2, column=0)
-case21=tkinter.Label(fenetre, text=TableauJeu[2][1])
-case21.grid(row=2, column=1)
-case22=tkinter.Label(fenetre, text=TableauJeu[2][2])
-case22.grid(row=2, column=2)
-case23=tkinter.Label(fenetre, text=TableauJeu[2][3])
-case23.grid(row=2, column=3)
-
-case10=tkinter.Label(fenetre, text=TableauJeu[3][0])
-case10.grid(row=3, column=0)
-case11=tkinter.Label(fenetre, text=TableauJeu[3][1])
-case11.grid(row=3, column=1)
-case12=tkinter.Label(fenetre, text=TableauJeu[3][2])
-case12.grid(row=3, column=2)
-case13=tkinter.Label(fenetre, text=TableauJeu[3][3])
-case13.grid(row=3, column=3)
+# Afficher le tableau
+AfficherJeu()
 
 # Détecter les touches appuyées
 fenetre.bind_all('<Key>',Appuyer)
