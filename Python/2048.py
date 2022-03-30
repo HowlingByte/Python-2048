@@ -4,7 +4,6 @@ import random
 import tkinter
 import copy
 import pygame
-import time
 from fonction2048 import *
 
 # Importation de messagebox de tkinter
