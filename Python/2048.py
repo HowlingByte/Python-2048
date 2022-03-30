@@ -1,12 +1,9 @@
 # Importation des bibliothèques
-import random
 import tkinter
 import copy
 import pygame
+import tkinter.messagebox
 from fonction2048 import *
-
-# Importation de messagebox de tkinter
-from tkinter import messagebox
 
 # Importation du fichier mouvement.py
 import mouvement
@@ -46,7 +43,6 @@ def AfficherJeu():
     for i in range(4):
         print(TableauJeu[i])
 
-    for i in range(4):
         for j in range(4):
             Img[i][j]=AfficherImage(TableauJeu[i][j])
             Case[i][j]=tkinter.Label(fenetre, image=Img[i][j], bg ="#4d4d4d")
@@ -57,7 +53,7 @@ def Quitter():
         Quitter()
             Fermer tkinter et pygame
     """
-    if messagebox.askyesno("Quitter 2048", "Voulez-vous vraiment quitter ?"):
+    if tkinter.messagebox.askyesno("Quitter 2048", "Voulez-vous vraiment quitter ?"):
         fenetre.destroy()
         pygame.mixer.quit()
 
@@ -80,6 +76,7 @@ def Appuyer(event):
     """
         Fonction utilisée en jeu
     """
+
     # Variables globales
     global perdu
     global nbDeplacement
@@ -208,11 +205,9 @@ fenetre.resizable(False, False) # Non redimensionnement de la fenêtre
 AfficherJeu()
 
 # Espacement entre les cases
-nombreCol, nombreRow = fenetre.grid_size()
-for col in range(nombreCol):
-    fenetre.grid_columnconfigure(col, minsize=200)
-for row in range(nombreRow):
-    fenetre.grid_rowconfigure(row, minsize=200)
+for i in range(4):
+    fenetre.grid_columnconfigure(i, minsize=200)
+    fenetre.grid_rowconfigure(i, minsize=200)
 
 # Couleur de fond fond
 fenetre.configure(background = "#4d4d4d")
