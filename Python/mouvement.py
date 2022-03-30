@@ -6,6 +6,9 @@ def gauche(Tab):
             j : colonne
     """
 
+    fusion=False
+    deplacement=False
+
     # Boucle pour chaque ligne
     for i in range(4):
 
@@ -15,12 +18,14 @@ def gauche(Tab):
                 if Tab[i][j-1]==0:
                     Tab[i][j-1]=Tab[i][j]
                     Tab[i][j]=0
+                    deplacement=True
 
         # Fusion des cases
         for j in range(0,3):
-            if Tab[i][j]==Tab[i][j+1]:
+            if Tab[i][j]==Tab[i][j+1] and Tab[i][j]!=0:
                 Tab[i][j]=(Tab[i][j])*2
                 Tab[i][j+1]=0
+                fusion=True
 
         # Déplacement des cases vers la gauche
         for loop in range(3):
@@ -28,6 +33,9 @@ def gauche(Tab):
                 if Tab[i][j-1]==0:
                     Tab[i][j-1]=Tab[i][j]
                     Tab[i][j]=0
+                    deplacement=True
+        
+    return deplacement, fusion
 
 def haut(Tab):
     """
@@ -36,6 +44,9 @@ def haut(Tab):
             i : ligne
             j : colonne
     """
+
+    deplacement=False
+    fusion=False
 
     # Boucle pour chaque colonne
     for j in range(4):
@@ -46,12 +57,14 @@ def haut(Tab):
                 if Tab[i-1][j]==0:
                     Tab[i-1][j]=Tab[i][j]
                     Tab[i][j]=0
+                    deplacement=True
 
         # Fusion des cases
         for i in range(0,3):
-            if Tab[i][j]==Tab[i+1][j]:
+            if Tab[i][j]==Tab[i+1][j] and Tab[i][j]!=0:
                 Tab[i][j]=(Tab[i][j])*2
                 Tab[i+1][j]=0
+                fusion=True
 
         # Déplacement des cases vers la haut
         for loop in range(3):
@@ -59,6 +72,9 @@ def haut(Tab):
                 if Tab[i-1][j]==0:
                     Tab[i-1][j]=Tab[i][j]
                     Tab[i][j]=0
+                    deplacement=True
+
+    return deplacement, fusion
 
 def droite(Tab):
     """
@@ -68,6 +84,8 @@ def droite(Tab):
             j : colonne
     """
 
+    deplacement=False
+    fusion=False
     # Boucle pour chaque ligne
     for i in range(4):
 
@@ -77,12 +95,14 @@ def droite(Tab):
                 if Tab[i][j+1]==0:
                     Tab[i][j+1]=Tab[i][j]
                     Tab[i][j]=0
+                    deplacement=True
 
         # Fusion des cases
         for j in range(3,0,-1):
-            if Tab[i][j]==Tab[i][j-1]:
+            if Tab[i][j]==Tab[i][j-1] and Tab[i][j]!=0:
                 Tab[i][j]=(Tab[i][j])*2
                 Tab[i][j-1]=0
+                fusion=True
 
         # Déplacement des cases vers la droite
         for loop in range(3):
@@ -90,7 +110,10 @@ def droite(Tab):
                 if Tab[i][j+1]==0:
                     Tab[i][j+1]=Tab[i][j]
                     Tab[i][j]=0
+                    deplacement=True
 
+    return deplacement, fusion
+    
 def bas(Tab):
     """
         Déplacement des cases vers le bas et fusion des cases si deux cases côte à côte sont égaux.
@@ -98,6 +121,9 @@ def bas(Tab):
             i : ligne
             j : colonne
     """
+
+    deplacement=False
+    fusion=False
 
     # Boucle pour chaque colonne
     for j in range(4):
@@ -108,12 +134,14 @@ def bas(Tab):
                 if Tab[i+1][j]==0:
                     Tab[i+1][j]=Tab[i][j]
                     Tab[i][j]=0
+                    deplacement=True
 
         # Fusion des cases
         for i in range(3,0,-1):
-            if Tab[i][j]==Tab[i-1][j]:
+            if Tab[i][j]==Tab[i-1][j] and Tab[i][j]!=0:
                 Tab[i][j]=(Tab[i][j])*2
                 Tab[i-1][j]=0
+                fusion=True
 
         # Déplacement des cases vers la droite
         for loop in range(3):
@@ -121,3 +149,6 @@ def bas(Tab):
                 if Tab[i+1][j]==0:
                     Tab[i+1][j]=Tab[i][j]
                     Tab[i][j]=0
+                    deplacement=True
+
+    return deplacement, fusion
