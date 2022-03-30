@@ -194,6 +194,20 @@ def Appuyer(event):
         AfficherJeu()
         
 
+def JouerSon(son):
+    """
+        JouerSon(son : string)
+        Sortie :
+            Jouer le son donné
+    """
+    pygame.mixer.music.load(son)
+    pygame.mixer.music.play(loops=0)
+
+def Quitter():
+    if messagebox.askyesno("Quitter 2048", "Voulez-vous vraiment quitter ?"):
+        fenetre.destroy()
+        pygame.mixer.stop()
+
 # Main
 # Boucle pour mettre deux cases de 2 dans le tableau
 while nbDeplacement<2:
