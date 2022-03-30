@@ -1,5 +1,4 @@
 # Importation des bibliothèques
-from lib2to3 import pygram
 import random
 import tkinter
 import copy
@@ -36,7 +35,6 @@ Img= \
 ]
 nbDeplacement=0
 perdu=False
-paremetreSon=1
 
 def AfficherJeu():
     """
@@ -63,21 +61,18 @@ def Quitter():
         fenetre.destroy()
         pygame.mixer.quit()
 
-def Son(paremetreSon):
-    if paremetreSon == 1:
+def Son():
+    if paremetreSon.get():
         pygame.mixer.init()
-        print("U")
     else:
         pygame.mixer.quit()
-        print("P")
 
 def JouerSon(son):
     """
         JouerSon(son : string)
             Jouer le son donné
     """
-    global paremetreSon
-    if paremetreSon==1:
+    if paremetreSon.get():
         pygame.mixer.music.load(son)
         pygame.mixer.music.play(loops=0)
 
@@ -191,29 +186,15 @@ def Appuyer(event):
 
         # Valeur du tableau "TableauJeu" dans la fenêtre
         AfficherJeu()
-        
-
-def JouerSon(son):
-    """
-        JouerSon(son : string)
-        Sortie :
-            Jouer le son donné
-    """
-    pygame.mixer.music.load(son)
-    pygame.mixer.music.play(loops=0)
-
-def Quitter():
-    if messagebox.askyesno("Quitter 2048", "Voulez-vous vraiment quitter ?"):
-        fenetre.destroy()
-        pygame.mixer.stop()
 
 # Main
 # Boucle pour mettre deux cases de 2 dans le tableau
-while nbDeplacement<2:
+case_debut=0
+while case_debut<2:
     x,y=TuileAléatoire()
     if TableauJeu[y][x]==0:
         TableauJeu[y][x]=2
-        nbDeplacement+=1
+        case_debut+=1
 
 # Lancer la fenêtre Tkinter
 fenetre = tkinter.Tk()
@@ -222,9 +203,6 @@ fenetre = tkinter.Tk()
 fenetre.iconbitmap("2048.ico") # Îcone de la fenêtre
 fenetre.title("2048") # Nom de la fenêtre
 fenetre.resizable(False, False) # Non redimensionnement de la fenêtre
-
-# Initialiser pygame
-pygame.mixer.init()
 
 # Afficher le tableau
 AfficherJeu()
@@ -245,7 +223,9 @@ fenetre.protocol("WM_DELETE_WINDOW", Quitter)
 # Barre menu
 barreMenu = tkinter.Menu(fenetre)
 menu = tkinter.Menu(barreMenu, tearoff=0)
-menu.add_checkbutton(label="Son", onvalue=1, offvalue=0, variable=paremetreSon, command=Son(paremetreSon))
+paremetreSon=tkinter.BooleanVar()
+paremetreSon.set(True)
+menu.add_checkbutton(label="Son", onvalue=True, offvalue=False, variable=paremetreSon, command=Son())
 menu.add_command(label="Minimiser", command=fenetre.iconify)
 menu.add_command(label="Quitter", command=Quitter)
 barreMenu.add_cascade(label="Menu", menu=menu)
