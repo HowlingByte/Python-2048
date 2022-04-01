@@ -4,6 +4,7 @@ import copy
 import pygame
 import tkinter.messagebox
 from fonction2048 import *
+from taillefenetre import *
 
 # Importation du fichier mouvement.py
 import mouvement
@@ -39,12 +40,13 @@ def AfficherJeu():
         Sortie :
             Affiche le tableau avec 4 lignes et forme la fenêtre
     """
+    
     print(" ")
     for i in range(4):
         print(TableauJeu[i])
-
+    
         for j in range(4):
-            Img[i][j]=AfficherImage(TableauJeu[i][j])
+            Img[i][j]=AfficherImage(TableauJeu[i][j], taille)
             Case[i][j]=tkinter.Label(fenetre, image=Img[i][j], bg ="#4d4d4d")
             Case[i][j].grid(row=i, column=j)
 
@@ -53,11 +55,17 @@ def Quitter():
         Quitter()
             Fermer tkinter et pygame
     """
+
     if tkinter.messagebox.askyesno("Quitter 2048", "Voulez-vous vraiment quitter ?"):
         fenetre.destroy()
         pygame.mixer.quit()
 
 def Son():
+    """
+        Son()
+            Initialise ou éteint pygame.mixer en fonction de la variable paremetreSon
+    """
+
     if paremetreSon.get():
         pygame.mixer.init()
     else:
@@ -68,6 +76,7 @@ def JouerSon(son):
         JouerSon(son : string)
             Jouer le son donné
     """
+
     if paremetreSon.get():
         pygame.mixer.music.load(son)
         pygame.mixer.music.play(loops=0)
@@ -77,14 +86,20 @@ def Recommancer():
         Recommancer():
             Recommancer le jeu
     """
+
+    # Variables globales
     global nbDeplacement
     global perdu
+
+    # Remettre à zéro les tableaux
     for i in range(4):
         TableauJeu[i]=[0, 0, 0, 0]
         Case[i]=[0, 0, 0, 0]
         Img[i]=[0, 0, 0, 0]
 
+    # Remettre à zéro le nombre de déplacement
     nbDeplacement=0
+    # Remettre à zéro la variable perdu
     perdu=False
 
     # Boucle pour mettre deux cases de 2 dans le tableau
@@ -95,11 +110,13 @@ def Recommancer():
             TableauJeu[y][x]=2
             case_debut+=1
 
+    # Afficher le jeu
     AfficherJeu()
 
 def Appuyer(event):
     """
-        Fonction utilisée en jeu
+        Appuyer(event : event)
+            Fonction utilisée en jeu
     """
 
     # Variables globales
@@ -211,9 +228,12 @@ def Appuyer(event):
         # Valeur du tableau "TableauJeu" dans la fenêtre
         AfficherJeu()
 
+    # Test si 2048 est atteint
     for i in range(4):
         if 2048 in TableauJeu[i]:
+            # Message de victoire
             tkinter.messagebox.showinfo("Gagné", "Vous avez gagné !")
+            # Demande à l'utilisateur si recommencer
             if tkinter.messagebox.askquestion("Recommencer", "Voulez-vous recommencer ?"):
                 Recommancer()
 
@@ -226,21 +246,24 @@ while case_debut<2:
         TableauJeu[y][x]=2
         case_debut+=1
 
+# Lancer la fonction TailleFenêtre pour avoir la taille de la fenêtre qu'on demande à l'utilisateur
+taille=TailleFenetre()
+
 # Lancer la fenêtre Tkinter
 fenetre = tkinter.Tk()
 
 # Paramètre de la fenêtre
 fenetre.iconbitmap("2048.ico") # Îcone de la fenêtre
 fenetre.title("2048") # Nom de la fenêtre
-fenetre.resizable(False, False) # Non redimensionnement de la fenêtre
+fenetre.resizable() # Non redimensionnement de la fenêtre
 
 # Afficher le tableau
 AfficherJeu()
 
 # Espacement entre les cases
 for i in range(4):
-    fenetre.grid_columnconfigure(i, minsize=200)
-    fenetre.grid_rowconfigure(i, minsize=200)
+    fenetre.grid_columnconfigure(i, minsize=taille)
+    fenetre.grid_rowconfigure(i, minsize=taille)
 
 # Couleur de fond fond
 fenetre.configure(background = "#4d4d4d")
@@ -250,13 +273,20 @@ fenetre.protocol("WM_DELETE_WINDOW", Quitter)
 
 # Barre menu
 barreMenu = tkinter.Menu(fenetre)
+# Ajouter le menu au barre menu
 menu = tkinter.Menu(barreMenu, tearoff=0)
+# Ajouter un checkbutton au menu
 paremetreSon=tkinter.BooleanVar()
 paremetreSon.set(True)
 menu.add_checkbutton(label="Son", onvalue=True, offvalue=False, variable=paremetreSon, command=Son())
+# Ajouter bouton recommancer au menu
 menu.add_command(label="Recommancer", command=Recommancer)
+# Ajouter un séparateur
+menu.add_separator()
+# Ajouter minimiser quitter au menu
 menu.add_command(label="Minimiser", command=fenetre.iconify)
-menu.add_command(label="Quitter", command=Quitter)
+# Ajouter bouton quitter au menu
+menu.add_command(label="Quitter", command=lambda:[fenetre.quit(), pygame.mixer.quit()])
 barreMenu.add_cascade(label="Menu", menu=menu)
 fenetre.config(menu=barreMenu)
 
