@@ -1,12 +1,9 @@
 # Importation des bibliothèques
-import random
 import tkinter
 import copy
 import pygame
+import tkinter.messagebox
 from fonction2048 import *
-
-# Importation de messagebox de tkinter
-from tkinter import messagebox
 
 # Importation du fichier mouvement.py
 import mouvement
@@ -46,7 +43,6 @@ def AfficherJeu():
     for i in range(4):
         print(TableauJeu[i])
 
-    for i in range(4):
         for j in range(4):
             Img[i][j]=AfficherImage(TableauJeu[i][j])
             Case[i][j]=tkinter.Label(fenetre, image=Img[i][j], bg ="#4d4d4d")
@@ -57,7 +53,7 @@ def Quitter():
         Quitter()
             Fermer tkinter et pygame
     """
-    if messagebox.askyesno("Quitter 2048", "Voulez-vous vraiment quitter ?"):
+    if tkinter.messagebox.askyesno("Quitter 2048", "Voulez-vous vraiment quitter ?"):
         fenetre.destroy()
         pygame.mixer.quit()
 
@@ -76,10 +72,36 @@ def JouerSon(son):
         pygame.mixer.music.load(son)
         pygame.mixer.music.play(loops=0)
 
+def Recommancer():
+    """
+        Recommancer():
+            Recommancer le jeu
+    """
+    global nbDeplacement
+    global perdu
+    for i in range(4):
+        TableauJeu[i]=[0, 0, 0, 0]
+        Case[i]=[0, 0, 0, 0]
+        Img[i]=[0, 0, 0, 0]
+
+    nbDeplacement=0
+    perdu=False
+
+    # Boucle pour mettre deux cases de 2 dans le tableau
+    case_debut=0
+    while case_debut<2:
+        x,y=TuileAléatoire()
+        if TableauJeu[y][x]==0:
+            TableauJeu[y][x]=2
+            case_debut+=1
+
+    AfficherJeu()
+
 def Appuyer(event):
     """
         Fonction utilisée en jeu
     """
+
     # Variables globales
     global perdu
     global nbDeplacement
@@ -119,6 +141,8 @@ def Appuyer(event):
         perdu=True
         print("Game Over !")
         print("Nombre de déplacement", ":", nbDeplacement)
+        if tkinter.messagebox.showinfo("Perdu", "Vous avez perdu !"):
+            Recommancer()
 
     elif deplacementPossible:
 
@@ -187,6 +211,12 @@ def Appuyer(event):
         # Valeur du tableau "TableauJeu" dans la fenêtre
         AfficherJeu()
 
+    for i in range(4):
+        if 2048 in TableauJeu[i]:
+            tkinter.messagebox.showinfo("Gagné", "Vous avez gagné !")
+            if tkinter.messagebox.askquestion("Recommencer", "Voulez-vous recommencer ?"):
+                Recommancer()
+
 # Main
 # Boucle pour mettre deux cases de 2 dans le tableau
 case_debut=0
@@ -208,11 +238,9 @@ fenetre.resizable(False, False) # Non redimensionnement de la fenêtre
 AfficherJeu()
 
 # Espacement entre les cases
-nombreCol, nombreRow = fenetre.grid_size()
-for col in range(nombreCol):
-    fenetre.grid_columnconfigure(col, minsize=200)
-for row in range(nombreRow):
-    fenetre.grid_rowconfigure(row, minsize=200)
+for i in range(4):
+    fenetre.grid_columnconfigure(i, minsize=200)
+    fenetre.grid_rowconfigure(i, minsize=200)
 
 # Couleur de fond fond
 fenetre.configure(background = "#4d4d4d")
@@ -226,6 +254,7 @@ menu = tkinter.Menu(barreMenu, tearoff=0)
 paremetreSon=tkinter.BooleanVar()
 paremetreSon.set(True)
 menu.add_checkbutton(label="Son", onvalue=True, offvalue=False, variable=paremetreSon, command=Son())
+menu.add_command(label="Recommancer", command=Recommancer)
 menu.add_command(label="Minimiser", command=fenetre.iconify)
 menu.add_command(label="Quitter", command=Quitter)
 barreMenu.add_cascade(label="Menu", menu=menu)
@@ -236,3 +265,4 @@ fenetre.bind_all('<Key>',Appuyer)
 
 # Mainloop
 fenetre.mainloop()
+
