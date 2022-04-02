@@ -58,6 +58,31 @@ def TailleFenetre():
         """
         event.widget.configure(bg="#0E639C", fg="white")
 
+    def BougerFenetreCommence(event):
+        global x, y
+        x = event.x
+        y = event.y
+
+    def BougerFenetreArrete(event):
+        global x, y
+        x = None
+        y = None
+        
+    def BougerFenetre(event):
+        """
+            BougerFenetre(event)
+            Entrée :
+                event : événement
+            Sortie :
+                Bouge la fenêtre
+        """
+        global x, y
+        deltax = event.x - x
+        deltay = event.y - y
+        ax = fenetre.winfo_x() + deltax
+        ay = fenetre.winfo_y() + deltay
+        fenetre.geometry(f"+{ax}+{ay}")
+
     # Lancer la fenêtre Tkinter
     fenetre = tkinter.Tk()
 
@@ -72,6 +97,8 @@ def TailleFenetre():
     # Barre titre pour changer la barre windows originale
     barreTitre=tkinter.Frame(fenetre, bg="#3C3C3C", borderwidth=2)
     barreTitre.pack(side="top", fill="x")
+    barreTitre.bind("<ButtonPress-1>", BougerFenetreCommence)
+    barreTitre.bind("<ButtonRelease-1>", BougerFenetreArrete)
     barreTitre.bind("<B1-Motion>", BougerFenetre)
     # Icone dans la barre titre
     icone = Image.open("2048.ico")
@@ -79,9 +106,14 @@ def TailleFenetre():
     icone = ImageTk.PhotoImage(icone)
     label = tkinter.Label(barreTitre, image=icone, bg="#3C3C3C")
     label.pack(side="left", padx=5, pady=5)
+    label.bind("<ButtonPress-1>", BougerFenetreCommence)
+    label.bind("<ButtonRelease-1>", BougerFenetreArrete)
+    label.bind("<B1-Motion>", BougerFenetre)
     # Titre dans la barre titre
     titre=tkinter.Label(barreTitre, text="  2048", bg="#3C3C3C", fg="white")
     titre.pack(side="left")
+    titre.bind("<ButtonPress-1>", BougerFenetreCommence)
+    titre.bind("<ButtonRelease-1>", BougerFenetreArrete)
     titre.bind("<B1-Motion>", BougerFenetre)
     # Bouton fermer
     boutonFermer=tkinter.Button(barreTitre, text="    X    ", command=lambda:[fenetre.destroy(), exit()], bg="#3C3C3C", fg="white", activebackground="#D71526", activeforeground="white", borderwidth=0, font=("Calibri", 12))

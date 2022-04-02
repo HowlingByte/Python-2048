@@ -48,51 +48,6 @@ def sigint_handler(signal, frame):
     pygame.mixer.quit()
     exit()
 
-def AfficherJeu():
-    """
-        AfficherJeu()
-        Sortie :
-            Affiche le tableau avec 4 lignes et forme la fenêtre
-    """
-    global score
-
-    #print(" ")
-    for i in range(4):
-        # Afficher les 4 lignes
-        #print(TableauJeu[i])
-
-        # Création des images
-        for j in range(4):
-            Img[i][j]=AfficherImage(TableauJeu[i][j], taille)
-            Case[i][j]=tkinter.Label(fenetre, image=Img[i][j], bg ="#4d4d4d")
-            Case[i][j].grid(row=i+6, column=j)
-
-    # Calculer la somme du tableau
-    sommeTableau=sum(TableauJeu[0])+sum(TableauJeu[1])+sum(TableauJeu[2])+sum(TableauJeu[3])
-
-    # Afficher le nombre de déplacement
-    nbDeplacementLabel=tkinter.Label(fenetre, text=f"  Nombre de déplacement : {nbDeplacement}\t\t", bg ="#4d4d4d", fg="white", font=("Helvetica", 10, "bold"))
-    nbDeplacementLabel.grid(row=2, column=0, columnspan=4, sticky="w")
-
-    # Afficher le score
-    scoreLabel=tkinter.Label(fenetre, text=f"  Score : {score}\t\t", bg ="#4d4d4d", fg="white", font=("Helvetica", 10, "bold"))
-    scoreLabel.grid(row=3, column=0, columnspan=4, sticky="w")
-
-    # Afficher la somme du tableau
-    sommeTableauLabel=tkinter.Label(fenetre, text=f"  Somme du tableau : {sommeTableau}\t\t", bg ="#4d4d4d", fg="white", font=("Helvetica", 10, "bold"))
-    sommeTableauLabel.grid(row=4, column=0, columnspan=4, sticky="w")
-
-def BougerFenetre(event):
-    """
-        BougerFenetre(event)
-        Entrée :
-            event : événement
-        Sortie :
-            Bouge la fenêtre
-    """
-
-    fenetre.geometry("+{}+{}".format(event.x_root, event.y_root))
-
 def EnterBoutonFermer(event):
     """
         EnterBoutonFermer(event)
@@ -124,6 +79,31 @@ def LeaveBoutonMinimiser(event):
     """
 
     event.widget.configure(bg="#3C3C3C", fg="white")
+
+def BougerFenetreCommence(event):
+    global x, y
+    x = event.x
+    y = event.y
+
+def BougerFenetreArrete(event):
+    global x, y
+    x = None
+    y = None
+
+def BougerFenetre(event):
+    """
+        BougerFenetre(event)
+        Entrée :
+            event : événement
+        Sortie :
+            Bouge la fenêtre
+    """
+    global x, y
+    deltax = event.x - x
+    deltay = event.y - y
+    ax = fenetre.winfo_x() + deltax
+    ay = fenetre.winfo_y() + deltay
+    fenetre.geometry(f"+{ax}+{ay}")
 
 def Quitter():
     """
@@ -181,6 +161,40 @@ def JouerSon(son):
         pygame.mixer.music.load(son)
         pygame.mixer.music.play(loops=0)
 
+def AfficherJeu():
+    """
+        AfficherJeu()
+        Sortie :
+            Affiche le tableau avec 4 lignes et forme la fenêtre
+    """
+    global score
+
+    #print(" ")
+    for i in range(4):
+        # Afficher les 4 lignes
+        #print(TableauJeu[i])
+
+        # Création des images
+        for j in range(4):
+            Img[i][j]=AfficherImage(TableauJeu[i][j], taille)
+            Case[i][j]=tkinter.Label(fenetre, image=Img[i][j], bg ="#4d4d4d")
+            Case[i][j].grid(row=i+6, column=j)
+
+    # Calculer la somme du tableau
+    sommeTableau=sum(TableauJeu[0])+sum(TableauJeu[1])+sum(TableauJeu[2])+sum(TableauJeu[3])
+
+    # Afficher le nombre de déplacement
+    nbDeplacementLabel=tkinter.Label(fenetre, text=f"  Nombre de déplacement : {nbDeplacement}\t\t", bg ="#4d4d4d", fg="white", font=("Helvetica", 10, "bold"))
+    nbDeplacementLabel.grid(row=2, column=0, columnspan=4, sticky="w")
+
+    # Afficher le score
+    scoreLabel=tkinter.Label(fenetre, text=f"  Score : {score}\t\t", bg ="#4d4d4d", fg="white", font=("Helvetica", 10, "bold"))
+    scoreLabel.grid(row=3, column=0, columnspan=4, sticky="w")
+
+    # Afficher la somme du tableau
+    sommeTableauLabel=tkinter.Label(fenetre, text=f"  Somme du tableau : {sommeTableau}\t\t", bg ="#4d4d4d", fg="white", font=("Helvetica", 10, "bold"))
+    sommeTableauLabel.grid(row=4, column=0, columnspan=4, sticky="w")
+    
 def Recommancer():
     """
         Recommancer():
@@ -372,6 +386,7 @@ fenetre = tkinter.Tk()
 fenetre.iconbitmap("2048.ico") # Îcone de la fenêtre
 fenetre.title("2048") # Nom de la fenêtre
 fenetre.resizable(False, False) # Non redimensionnement de la fenêtre
+fenetre.geometry("+40+40")
 
 # Enlever barre windows
 fenetre.overrideredirect(True)
@@ -379,11 +394,16 @@ fenetre.attributes("-topmost", True) # Fenêtre au premier plan
 # Barre titre pour changer la barre windows originale
 barreTitre=tkinter.Frame(fenetre, bg="#3C3C3C", borderwidth=2)
 barreTitre.grid(row=0, columnspan=4, sticky="nsew")
+barreTitre.bind("<ButtonPress-1>", BougerFenetreCommence)
+barreTitre.bind("<ButtonRelease-1>", BougerFenetreArrete)
 barreTitre.bind("<B1-Motion>", BougerFenetre)
 # Titre dans la barre titre
 titre=tkinter.Label(fenetre, text="  2048", bg="#3C3C3C", fg="white")
 titre.grid(row=0, column=1, columnspan=2)
+titre.bind("<ButtonPress-1>", BougerFenetreCommence)
+titre.bind("<ButtonRelease-1>", BougerFenetreArrete)
 titre.bind("<B1-Motion>", BougerFenetre)
+        
 # Bouton fermer et minimiser dans la barre titre
 bouton_F_M=tkinter.Frame(fenetre, bg="#3C3C3C", borderwidth=2)
 bouton_F_M.grid(row=0, column=3, sticky="ne")
@@ -402,6 +422,9 @@ icone = icone.resize((20, 20))
 icone = ImageTk.PhotoImage(icone)
 label = tkinter.Label(barreTitre, image=icone, bg="#3C3C3C")
 label.grid(row=0, column=0, padx=5, pady=5)
+label.bind("<ButtonPress-1>", BougerFenetreCommence)
+label.bind("<ButtonRelease-1>", BougerFenetreArrete)
+label.bind("<B1-Motion>", BougerFenetre)
 # Création de l"onglet Menu
 menu = tkinter.Menubutton(barreTitre, text="Menu", bg="#3C3C3C", activebackground="#505050", activeforeground="white", foreground="white")
 menu.grid(row=0, column=1)
