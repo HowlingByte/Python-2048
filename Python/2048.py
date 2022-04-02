@@ -3,6 +3,7 @@ import tkinter
 import copy
 import pygame
 import tkinter.messagebox
+from PIL import Image, ImageTk
 
 # Importation des fichiers .py du dossier python
 import mouvement
@@ -23,7 +24,7 @@ Case= \
     [0,0,0,0],
     [0,0,0,0],
     [0,0,0,0]
-]   
+]
 Img= \
 [
     [0,0,0,0],
@@ -34,6 +35,7 @@ Img= \
 nbDeplacement=0
 perdu=False
 score=0
+minimiser=False
 
 def AfficherJeu():
     """
@@ -43,31 +45,74 @@ def AfficherJeu():
     """
     global score
 
-    print(" ")
+    #print(" ")
     for i in range(4):
         # Afficher les 4 lignes
-        print(TableauJeu[i])
-    
+        #print(TableauJeu[i])
+
         # Création des images
         for j in range(4):
             Img[i][j]=AfficherImage(TableauJeu[i][j], taille)
             Case[i][j]=tkinter.Label(fenetre, image=Img[i][j], bg ="#4d4d4d")
-            Case[i][j].grid(row=i+5, column=j)
-        
+            Case[i][j].grid(row=i+6, column=j)
+
     # Calculer la somme du tableau
     sommeTableau=sum(TableauJeu[0])+sum(TableauJeu[1])+sum(TableauJeu[2])+sum(TableauJeu[3])
 
     # Afficher le nombre de déplacement
     nbDeplacementLabel=tkinter.Label(fenetre, text=f"  Nombre de déplacement : {nbDeplacement}\t\t", bg ="#4d4d4d", fg="white", font=("Helvetica", 10, "bold"))
-    nbDeplacementLabel.grid(row=1, column=0, columnspan=4, sticky="w")
+    nbDeplacementLabel.grid(row=2, column=0, columnspan=4, sticky="w")
 
     # Afficher le score
     scoreLabel=tkinter.Label(fenetre, text=f"  Score : {score}\t\t", bg ="#4d4d4d", fg="white", font=("Helvetica", 10, "bold"))
-    scoreLabel.grid(row=2, column=0, columnspan=4, sticky="w")
+    scoreLabel.grid(row=3, column=0, columnspan=4, sticky="w")
 
     # Afficher la somme du tableau
     sommeTableauLabel=tkinter.Label(fenetre, text=f"  Somme du tableau : {sommeTableau}\t\t", bg ="#4d4d4d", fg="white", font=("Helvetica", 10, "bold"))
-    sommeTableauLabel.grid(row=3, column=0, columnspan=4, sticky="w")    
+    sommeTableauLabel.grid(row=4, column=0, columnspan=4, sticky="w")
+
+def BougerFenetre(event):
+    """
+        BougerFenetre(event)
+        Entrée :
+            event : événement
+        Sortie :
+            Bouge la fenêtre
+    """
+
+    fenetre.geometry("+{}+{}".format(event.x_root, event.y_root))
+
+def EnterBoutonFermer(event):
+    """
+        EnterBoutonFermer(event)
+            Changement de couleur du bouton lorsqu'on passe la souris dessus
+    """
+
+    event.widget.configure(bg="#D71526", fg="white")
+
+def LeaveBoutonFermer(event):
+    """
+        LeaveBoutonFermer(event)
+            Changement de couleur du bouton lorsqu'on sort la souris de la zone du bouton
+    """
+
+    event.widget.configure(bg="#3C3C3C", fg="white")
+
+def EnterBoutonMinimiser(event):
+    """
+        EnterBoutonMinimiser(event)
+            Changement de couleur du bouton lorsqu'on passe la souris dessus
+    """
+
+    event.widget.configure(bg="#505050", fg="white")
+
+def LeaveBoutonMinimiser(event):
+    """
+        LeaveBoutonMinimiser(event)
+            Changement de couleur du bouton lorsqu'on sort la souris de la zone du bouton
+    """
+
+    event.widget.configure(bg="#3C3C3C", fg="white")
 
 def Quitter():
     """
@@ -79,6 +124,30 @@ def Quitter():
         fenetre.destroy()
         pygame.mixer.quit()
         exit()
+
+def Minimiser():
+    """
+        Minimiser()
+            Minimiser la fenêtre
+    """
+
+    global minimiser
+    fenetre.overrideredirect(False)
+    fenetre.iconify()
+    minimiser=0
+
+def Agrandir(event):
+    """
+        Agrandir()
+            Agrandir la fenêtre
+    """
+
+    global minimiser
+    minimiser+=1
+    if minimiser==2:
+        minimiser=0
+        fenetre.deiconify()
+        fenetre.overrideredirect(True)
 
 def Son():
     """
@@ -180,8 +249,8 @@ def Appuyer(event):
     # Si déplacement impossible, perdu
     if not deplacementPossible and not perdu:
         perdu=True
-        print("Game Over !")
-        print("Nombre de déplacement", ":", nbDeplacement)
+        #print("Game Over !")
+        #print("Nombre de déplacement", ":", nbDeplacement)
         if tkinter.messagebox.showinfo("Perdu", "Vous avez perdu !"):
             Recommancer()
 
@@ -266,11 +335,11 @@ def Appuyer(event):
                 Recommancer()
     """
     # Récupére la largeur
-    width = fenetre.winfo_width() 
+    width = fenetre.winfo_width()
     # Récupére la hauteur
     height = fenetre.winfo_height()
     print("Largeur :", width)   # Affiche la largeur
-    print("Hauteur :", height) 
+    print("Hauteur :", height)
     """
 
 # Main
@@ -293,28 +362,40 @@ fenetre.iconbitmap("2048.ico") # Îcone de la fenêtre
 fenetre.title("2048") # Nom de la fenêtre
 fenetre.resizable(False, False) # Non redimensionnement de la fenêtre
 
-# Afficher le tableau
-AfficherJeu()
-
-# Espacement entre les cases
-for i in range(4):
-    fenetre.grid_columnconfigure(i, minsize=taille)
-    fenetre.grid_rowconfigure(i+5, minsize=taille)
-
-# Couleur de fond fond
-fenetre.configure(background = "#4d4d4d")
-
-# Exécution de la fonction "Quitter" lors de lors du click de fermeture de la fenêtre
-fenetre.protocol("WM_DELETE_WINDOW", Quitter)
-
-# Barre de menu
-barreMenu = tkinter.Frame(fenetre, borderwidth=3, bg="#3C3C3C")
-barreMenu.grid(row=0, column=0, columnspan=4, sticky="nsew")
+# Enlever barre windows
+fenetre.overrideredirect(True)
+fenetre.attributes("-topmost", True) # Fenêtre au premier plan
+# Barre titre pour changer la barre windows originale
+barreTitre=tkinter.Frame(fenetre, bg="#3C3C3C", borderwidth=2)
+barreTitre.grid(row=0, columnspan=4, sticky="nsew")
+barreTitre.bind("<B1-Motion>", BougerFenetre)
+# Titre dans la barre titre
+titre=tkinter.Label(fenetre, text="  2048", bg="#3C3C3C", fg="white")
+titre.grid(row=0, column=1, columnspan=2)
+titre.bind("<B1-Motion>", BougerFenetre)
+# Bouton fermer et minimiser dans la barre titre
+bouton_F_M=tkinter.Frame(fenetre, bg="#3C3C3C", borderwidth=2)
+bouton_F_M.grid(row=0, column=3, sticky="ne")
+boutonFermer=tkinter.Button(bouton_F_M, text="    X    ", command=Quitter, bg="#3C3C3C", fg="white", activebackground="#D71526", activeforeground="white", borderwidth=0, font=("Calibri", 12))
+boutonFermer.grid(row=0, column=1, sticky="ne")
+boutonFermer.bind("<Enter>", EnterBoutonFermer)
+boutonFermer.bind("<Leave>", LeaveBoutonFermer)
+boutonMinimiser=tkinter.Button(bouton_F_M, text="    -    ", command=Minimiser, bg="#3C3C3C", fg="white", activebackground="#505050", activeforeground="white", borderwidth=0, font=("Calibri", 12))
+boutonMinimiser.grid(row=0, column=0, sticky="ne")
+boutonMinimiser.bind("<Enter>", EnterBoutonMinimiser)
+boutonMinimiser.bind("<Leave>", LeaveBoutonMinimiser)
+fenetre.bind("<Map>", Agrandir)
+# Icone dans la barre titre
+icone = Image.open("2048.ico")
+icone = icone.resize((20, 20))
+icone = ImageTk.PhotoImage(icone)
+label = tkinter.Label(barreTitre, image=icone, bg="#3C3C3C")
+label.grid(row=0, column=0, padx=5, pady=5)
 # Création de l"onglet Menu
-menu = tkinter.Menubutton(barreMenu, text="Menu", bg="#3C3C3C", activebackground="#505050", activeforeground="white", foreground="white")
-menu.grid(row=0, column=0)
+menu = tkinter.Menubutton(barreTitre, text="Menu", bg="#3C3C3C", activebackground="#505050", activeforeground="white", foreground="white")
+menu.grid(row=0, column=1)
 # Création d"un menu défilant
-menuDeroulant = tkinter.Menu(menu, background="#4d4d4d", foreground="#ffffff", tearoff=0)
+menuDeroulant = tkinter.Menu(menu, background="#4d4d4d", foreground="#ffffff", tearoff=0, activebackground="#094771")
 # Ajouter un checkbutton au menu
 paremetreSon=tkinter.BooleanVar()
 paremetreSon.set(True)
@@ -330,7 +411,7 @@ menuDeroulant.add_command(label="Quitter", command=lambda:[fenetre.quit(), pygam
 # Ajouter un séparateur
 menuDeroulant.add_separator()
 # Ajouter un bouton à propos au menu
-menuDeroulant.add_command(label="À propos", command = lambda:[tkinter.messagebox.showinfo("À propos", "2048 (Projet NSI GA.1)\n\nCréé par :\n\n- ING Bryan\n- ABASSE Tidiane\n- GALANG Andrei\n\nVersion : 5.0")])
+menuDeroulant.add_command(label="À propos", command = lambda:[tkinter.messagebox.showinfo("À propos", "2048 (Projet NSI GA.1)\n\nCréé par :\n\n- ING Bryan\n- ABASSE Tidiane\n- GALANG Andrei\n\nVersion : 5.0 (S5)")])
 # Attribution du menu déroulant au menu Affichage
 menu.configure(menu=menuDeroulant)
 
@@ -358,6 +439,20 @@ menu.add_command(label="À propos", command=lambda:[tkinter.messagebox.showinfo(
 barreMenu.add_cascade(label="Menu", menu=menu)
 fenetre.config(menu=barreMenu)
 """
+
+# Afficher le tableau
+AfficherJeu()
+
+# Espacement entre les cases
+for i in range(4):
+    fenetre.grid_columnconfigure(i, minsize=taille)
+    fenetre.grid_rowconfigure(i+6, minsize=taille)
+
+# Couleur de fond fond
+fenetre.configure(background = "#4d4d4d")
+
+# Exécution de la fonction "Quitter" lors de lors du click de fermeture de la fenêtre
+fenetre.protocol("WM_DELETE_WINDOW", Quitter)
 
 # Détecter les touches appuyées
 fenetre.bind_all("<Key>",Appuyer)
