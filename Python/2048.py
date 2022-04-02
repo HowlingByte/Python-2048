@@ -406,7 +406,7 @@ titre.bind("<B1-Motion>", BougerFenetre)
         
 # Bouton fermer et minimiser dans la barre titre
 bouton_F_M=tkinter.Frame(fenetre, bg="#3C3C3C", borderwidth=2)
-bouton_F_M.grid(row=0, column=3, sticky="ne")
+bouton_F_M.grid(row=0, columnspan=4, sticky="ne")
 boutonFermer=tkinter.Button(bouton_F_M, text="    X    ", command=Quitter, bg="#3C3C3C", fg="white", activebackground="#D71526", activeforeground="white", borderwidth=0, font=("Arial", 12))
 boutonFermer.grid(row=0, column=1, sticky="ne")
 boutonFermer.bind("<Enter>", EnterBoutonFermer)
