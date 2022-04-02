@@ -19,17 +19,6 @@ def TailleFenetre():
         fenetre.destroy()
         exit()
 
-    def BougerFenetre(event):
-        """
-            BougerFenetre(event)
-            Entrée :
-                event : événement
-            Sortie :
-                Bouge la fenêtre
-        """
-
-        fenetre.geometry("+{}+{}".format(event.x_root, event.y_root))
-
     def EnterBoutonFermer(event):
         """
             EnterBoutonFermer(event)
@@ -59,14 +48,14 @@ def TailleFenetre():
         event.widget.configure(bg="#0E639C", fg="white")
 
     def BougerFenetreCommence(event):
-        global x, y
-        x = event.x
-        y = event.y
+        global x, y # On récupère les variables x et y
+        x = event.x # On récupère la position de la souris en x
+        y = event.y # On récupère la position de la souris en y
 
     def BougerFenetreArrete(event):
-        global x, y
-        x = None
-        y = None
+        global x, y # On récupère les variables x et y
+        x = None # On réinitialise x
+        y = None # On réinitialise y
 
     def BougerFenetre(event):
         """
@@ -76,12 +65,12 @@ def TailleFenetre():
             Sortie :
                 Bouge la fenêtre
         """
-        global x, y
-        deltax = event.x - x
-        deltay = event.y - y
-        ax = fenetre.winfo_x() + deltax
-        ay = fenetre.winfo_y() + deltay
-        fenetre.geometry(f"+{ax}+{ay}")
+        global x, y # On récupère les variables x et y
+        deltax = event.x - x # On calcule la différence entre la position de la souris et la position de la souris au début du déplacement 
+        deltay = event.y - y # On calcule la différence entre la position de la souris et la position de la souris au début du déplacement
+        ax = fenetre.winfo_x() + deltax # On calcule la nouvelle position de la fenêtre en fonction de la différence entre la position de la souris et la position de la souris au début du déplacement
+        ay = fenetre.winfo_y() + deltay # On calcule la nouvelle position de la fenêtre en fonction de la différence entre la position de la souris et la position de la souris au début du déplacement
+        fenetre.geometry(f"+{ax}+{ay}") # On déplace la fenêtre
 
     # Lancer la fenêtre Tkinter
     fenetre = tkinter.Tk()

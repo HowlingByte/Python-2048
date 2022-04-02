@@ -44,9 +44,9 @@ def sigint_handler(signal, frame):
         sigint_handler(signal, frame)
             Ferme la fenetre sans erreur lors du KeyboardInterrupt
     """
-    fenetre.destroy()
-    pygame.mixer.quit()
-    exit()
+    fenetre.destroy() # Fermer la fenêtre
+    pygame.mixer.quit() # Fermer pygame
+    exit() # Quitter le programme
 
 def EnterBoutonFermer(event):
     """
@@ -54,7 +54,7 @@ def EnterBoutonFermer(event):
             Changement de couleur du bouton lorsqu'on passe la souris dessus
     """
 
-    event.widget.configure(bg="#D71526", fg="white")
+    event.widget.configure(bg="#D71526", fg="white") # Changement de couleur du bouton
 
 def LeaveBoutonFermer(event):
     """
@@ -62,7 +62,7 @@ def LeaveBoutonFermer(event):
             Changement de couleur du bouton lorsqu'on sort la souris de la zone du bouton
     """
 
-    event.widget.configure(bg="#3C3C3C", fg="white")
+    event.widget.configure(bg="#3C3C3C", fg="white") # Changement de couleur du bouton
 
 def EnterBoutonMinimiser(event):
     """
@@ -70,7 +70,7 @@ def EnterBoutonMinimiser(event):
             Changement de couleur du bouton lorsqu'on passe la souris dessus
     """
 
-    event.widget.configure(bg="#505050", fg="white")
+    event.widget.configure(bg="#505050", fg="white") # Changement de couleur du bouton
 
 def LeaveBoutonMinimiser(event):
     """
@@ -78,17 +78,17 @@ def LeaveBoutonMinimiser(event):
             Changement de couleur du bouton lorsqu'on sort la souris de la zone du bouton
     """
 
-    event.widget.configure(bg="#3C3C3C", fg="white")
+    event.widget.configure(bg="#3C3C3C", fg="white") # Changement de couleur du bouton
 
 def BougerFenetreCommence(event):
-    global x, y
-    x = event.x
-    y = event.y
+    global x, y # On récupère les variables x et y
+    x = event.x # On récupère la position de la souris en x
+    y = event.y # On récupère la position de la souris en y
 
 def BougerFenetreArrete(event):
-    global x, y
-    x = None
-    y = None
+    global x, y # On récupère les variables x et y
+    x = None # On réinitialise x
+    y = None # On réinitialise y
 
 def BougerFenetre(event):
     """
@@ -98,12 +98,12 @@ def BougerFenetre(event):
         Sortie :
             Bouge la fenêtre
     """
-    global x, y
-    deltax = event.x - x
-    deltay = event.y - y
-    ax = fenetre.winfo_x() + deltax
-    ay = fenetre.winfo_y() + deltay
-    fenetre.geometry(f"+{ax}+{ay}")
+    global x, y # On récupère les variables x et y
+    deltax = event.x - x # On calcule la différence entre la position de la souris et la position de la souris au début du déplacement 
+    deltay = event.y - y # On calcule la différence entre la position de la souris et la position de la souris au début du déplacement
+    ax = fenetre.winfo_x() + deltax # On calcule la nouvelle position de la fenêtre en fonction de la différence entre la position de la souris et la position de la souris au début du déplacement
+    ay = fenetre.winfo_y() + deltay # On calcule la nouvelle position de la fenêtre en fonction de la différence entre la position de la souris et la position de la souris au début du déplacement
+    fenetre.geometry(f"+{ax}+{ay}") # On déplace la fenêtre
 
 def Quitter():
     """
@@ -111,10 +111,10 @@ def Quitter():
             Fermer tkinter et pygame
     """
 
-    if tkinter.messagebox.askyesno("Quitter 2048", "Voulez-vous vraiment quitter ?"):
-        fenetre.destroy()
-        pygame.mixer.quit()
-        exit()
+    if tkinter.messagebox.askyesno("Quitter 2048", "Voulez-vous vraiment quitter ?"): # Demande de confirmation
+        fenetre.destroy() # Fermer la fenêtre
+        pygame.mixer.quit() # Fermeture de pygame
+        exit() # Quitter le programme
 
 def Minimiser():
     """
@@ -122,10 +122,10 @@ def Minimiser():
             Minimiser la fenêtre
     """
 
-    global minimiser
-    fenetre.overrideredirect(False)
-    fenetre.iconify()
-    minimiser=0
+    global minimiser # On récupère la variable minimiser
+    fenetre.overrideredirect(False) # Désactiver overrideredirect
+    fenetre.iconify() # Minimiser la fenêtre
+    minimiser=0 # Réinitialisation de minimiser
 
 def Agrandir(event):
     """
@@ -133,12 +133,12 @@ def Agrandir(event):
             Agrandir la fenêtre
     """
 
-    global minimiser
-    minimiser+=1
-    if minimiser==2:
-        minimiser=0
-        fenetre.deiconify()
-        fenetre.overrideredirect(True)
+    global minimiser # On récupère la variable minimiser
+    minimiser+=1 # On incrémente de 1 minimiser
+    if minimiser==2: # Si minimiser est à 2 (2 car quand on a miniser la fenêtre cette fonction s'est exécuté, alors qu'on veut qu'elle s'éxcute que lorsque l'on a cliqué sur la fentêtre dans la barre des taches)
+        minimiser=0 # Réinitialisation de minimiser
+        fenetre.deiconify() # Agrandissement de la fenêtre
+        fenetre.overrideredirect(True) # Remettre overriderdirect
 
 def Son():
     """
@@ -146,10 +146,11 @@ def Son():
             Initialise ou éteint pygame.mixer en fonction de la variable paremetreSon
     """
 
+    # Si parametreSon est à True
     if paremetreSon.get():
-        pygame.mixer.init()
-    else:
-        pygame.mixer.quit()
+        pygame.mixer.init() # Initialisation de pygame.mixer
+    else: # Sinon
+        pygame.mixer.quit() # Arrêt de pygame.mixer
 
 def JouerSon(son):
     """
@@ -157,9 +158,10 @@ def JouerSon(son):
             Jouer le son donné
     """
 
+    # Si parametreSon est à True
     if paremetreSon.get():
-        pygame.mixer.music.load(son)
-        pygame.mixer.music.play(loops=0)
+        pygame.mixer.music.load(son) # Chargement du son
+        pygame.mixer.music.play(loops=0) # Jouer le son
 
 def AfficherJeu():
     """
@@ -175,25 +177,27 @@ def AfficherJeu():
         #print(TableauJeu[i])
 
         # Création des images
-        for j in range(4):
-            Img[i][j]=AfficherImage(TableauJeu[i][j], taille)
-            Case[i][j]=tkinter.Label(fenetre, image=Img[i][j], bg ="#4d4d4d")
-            Case[i][j].grid(row=i+6, column=j)
+        for j in range(4): 
+            Img[i][j]=AfficherImage(TableauJeu[i][j], taille) # Création des images
+            if nbDeplacement!=0: # Si le joueur a déplacé au moins une case
+                Case[i][j].grid_forget() # Supprimer la case dans la grille de la fenêtre
+            Case[i][j]=tkinter.Label(fenetre, image=Img[i][j], bg ="#4d4d4d") # Créer la case
+            Case[i][j].grid(row=i+6, column=j) # Placer la case dans la grille de la fenêtre
 
     # Calculer la somme du tableau
     sommeTableau=sum(TableauJeu[0])+sum(TableauJeu[1])+sum(TableauJeu[2])+sum(TableauJeu[3])
 
     # Afficher le nombre de déplacement
     nbDeplacementLabel=tkinter.Label(fenetre, text=f"  Nombre de déplacement : {nbDeplacement}\t\t", bg ="#4d4d4d", fg="white", font=("Helvetica", 10, "bold"))
-    nbDeplacementLabel.grid(row=2, column=0, columnspan=4, sticky="w")
+    nbDeplacementLabel.grid(row=2, column=0, columnspan=4, sticky="w") # Placer le label dans la grille de la fenêtre
 
     # Afficher le score
     scoreLabel=tkinter.Label(fenetre, text=f"  Score : {score}\t\t", bg ="#4d4d4d", fg="white", font=("Helvetica", 10, "bold"))
-    scoreLabel.grid(row=3, column=0, columnspan=4, sticky="w")
+    scoreLabel.grid(row=3, column=0, columnspan=4, sticky="w") # Placer le label dans la grille de la fenêtre
 
     # Afficher la somme du tableau
     sommeTableauLabel=tkinter.Label(fenetre, text=f"  Somme du tableau : {sommeTableau}\t\t", bg ="#4d4d4d", fg="white", font=("Helvetica", 10, "bold"))
-    sommeTableauLabel.grid(row=4, column=0, columnspan=4, sticky="w")
+    sommeTableauLabel.grid(row=4, column=0, columnspan=4, sticky="w") # Placer le label dans la grille de la fenêtre
 
 def Recommancer():
     """
@@ -208,6 +212,10 @@ def Recommancer():
 
     # Remettre à zéro les tableaux
     for i in range(4):
+
+        for j in range(4):
+            Case[i][j].grid_forget() # Supprimer la case dans la grille de la fenêtre
+        
         TableauJeu[i]=[0, 0, 0, 0]
         Case[i]=[0, 0, 0, 0]
         Img[i]=[0, 0, 0, 0]
@@ -292,10 +300,10 @@ def Appuyer(event):
             deplacementFait=True
 
             if fusionGauche:
-                JouerSon("Audio/Fusion.mp3")
-                score+=scoreGauche
+                JouerSon("Audio/Fusion.mp3") # Jouer le son de la fusion
+                score+=scoreGauche # Ajouter le score de la fusion
             else:
-                JouerSon("Audio/Deplacement.mp3")
+                JouerSon("Audio/Deplacement.mp3") # Jouer le son du déplacement
 
         # 38 Flèche haut
         # 90 Z
@@ -305,10 +313,10 @@ def Appuyer(event):
             deplacementFait=True
 
             if fusionHaut:
-                JouerSon("Audio/Fusion.mp3")
-                score+=scoreHaut
+                JouerSon("Audio/Fusion.mp3") # Jouer le son de la fusion
+                score+=scoreHaut # Ajouter le score de la fusion
             else:
-                JouerSon("Audio/Deplacement.mp3")
+                JouerSon("Audio/Deplacement.mp3") # Jouer le son du déplacement
 
         # 39 Flèche droite
         # 68 D
@@ -318,10 +326,10 @@ def Appuyer(event):
             deplacementFait=True
 
             if fusionDroite:
-                JouerSon("Audio/Fusion.mp3")
-                score+=scoreDroite
+                JouerSon("Audio/Fusion.mp3") # Jouer le son de la fusion
+                score+=scoreDroite # Ajouter le score de la fusion
             else:
-                JouerSon("Audio/Deplacement.mp3")
+                JouerSon("Audio/Deplacement.mp3") # Jouer le son du déplacement
 
         # 40 Flèche bas
         # 83 S
@@ -331,10 +339,10 @@ def Appuyer(event):
             deplacementFait=True
 
             if fusionBas:
-                JouerSon("Audio/Fusion.mp3")
-                score+=scoreBas
+                JouerSon("Audio/Fusion.mp3") # Jouer le son de la fusion
+                score+=scoreBas # Ajouter le score de la fusion
             else:
-                JouerSon("Audio/Deplacement.mp3")
+                JouerSon("Audio/Deplacement.mp3") # Jouer le son du déplacement
 
     if caseVide and deplacementFait:
         # Faire apparaître une nouvelle case de 2
@@ -386,7 +394,7 @@ fenetre = tkinter.Tk()
 fenetre.iconbitmap("2048.ico") # Îcone de la fenêtre
 fenetre.title("2048") # Nom de la fenêtre
 fenetre.resizable(False, False) # Non redimensionnement de la fenêtre
-fenetre.geometry("+100+100")
+fenetre.geometry("+100+100") # Position de la fenêtre
 
 # Enlever barre windows
 fenetre.overrideredirect(True)
