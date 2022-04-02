@@ -3,6 +3,8 @@ import tkinter
 import copy
 import pygame
 import tkinter.messagebox
+import sys
+import signal
 from PIL import Image, ImageTk
 
 # Importation des fichiers .py du dossier python
@@ -36,6 +38,15 @@ nbDeplacement=0
 perdu=False
 score=0
 minimiser=False
+
+def sigint_handler(signal, frame):
+    """
+        sigint_handler(signal, frame)
+            Ferme la fenetre sans erreur lors du KeyboardInterrupt
+    """
+    fenetre.destroy()
+    pygame.mixer.quit()
+    exit()
 
 def AfficherJeu():
     """
@@ -405,7 +416,7 @@ menuDeroulant.add_command(label="Recommancer", command=Recommancer)
 # Ajouter un séparateur
 menuDeroulant.add_separator()
 # Ajouter minimiser quitter au menu
-menuDeroulant.add_command(label="Minimiser", command=fenetre.iconify)
+menuDeroulant.add_command(label="Minimiser", command=Minimiser)
 # Ajouter bouton quitter au menu
 menuDeroulant.add_command(label="Quitter", command=lambda:[fenetre.quit(), pygame.mixer.quit(), exit()])
 # Ajouter un séparateur
@@ -456,6 +467,10 @@ fenetre.protocol("WM_DELETE_WINDOW", Quitter)
 
 # Détecter les touches appuyées
 fenetre.bind_all("<Key>",Appuyer)
+
+# Détecte KeyboardInterrupt
+signal.signal(signal.SIGINT, sigint_handler)
+
 
 # Mainloop
 fenetre.mainloop()

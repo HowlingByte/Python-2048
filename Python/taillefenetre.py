@@ -1,5 +1,7 @@
 # Importation des bibliothèques
 import tkinter
+import sys
+import signal
 from PIL import Image, ImageTk
 
 def TailleFenetre():
@@ -8,7 +10,15 @@ def TailleFenetre():
         Sortie :
             Retourne la taille de la fenêtre
     """
-    
+
+    def sigint_handler(signal, frame):
+        """
+            sigint_handler(signal, frame)
+                Ferme la fenetre sans erreur lors du KeyboardInterrupt
+        """
+        fenetre.destroy()
+        exit()
+
     def BougerFenetre(event):
         """
             BougerFenetre(event)
@@ -17,7 +27,7 @@ def TailleFenetre():
             Sortie :
                 Bouge la fenêtre
         """
-        
+
         fenetre.geometry("+{}+{}".format(event.x_root, event.y_root))
 
     def EnterBoutonFermer(event):
@@ -26,7 +36,7 @@ def TailleFenetre():
                 Changement de couleur du bouton lorsqu'on passe la souris dessus
         """
         event.widget.configure(bg="#D71526", fg="white")
-    
+
     def LeaveBoutonFermer(event):
         """
             LeaveBoutonFermer(event)
@@ -47,7 +57,7 @@ def TailleFenetre():
                 Changement de couleur du bouton lorsqu'on sort la souris de la zone du bouton
         """
         event.widget.configure(bg="#0E639C", fg="white")
-        
+
     # Lancer la fenêtre Tkinter
     fenetre = tkinter.Tk()
 
@@ -58,7 +68,7 @@ def TailleFenetre():
     fenetre.configure(background = "#1E1E1E") # Couleur de fond fond
     fenetre.overrideredirect(True)
     fenetre.attributes("-topmost", True) # Fond de la fenêtre au premier plan
-    
+
     # Barre titre pour changer la barre windows originale
     barreTitre=tkinter.Frame(fenetre, bg="#3C3C3C", borderwidth=2)
     barreTitre.pack(side="top", fill="x")
@@ -99,14 +109,14 @@ def TailleFenetre():
     # Texte
     text=tkinter.Label(fenetre, text="Veuillez choisir la taille de la fenêtre", bg="#1E1E1E", fg="white")
     text.pack()
-    
+
     # Création du menu
     OptionList = \
         [
         "800x932",
         "600x666",
         "400x433",
-        ] 
+        ]
     variable = tkinter.StringVar(fenetre)
     variable.set(OptionList[1])
     menu = tkinter.OptionMenu(fenetre, variable, *OptionList)
@@ -122,6 +132,9 @@ def TailleFenetre():
 
     # Fermer le programme lors de lors du click de fermeture de la fenêtre
     fenetre.protocol("WM_DELETE_WINDOW", lambda:[fenetre.destroy(), exit()])
+
+    # Détecte KeyboardInterrupt
+    signal.signal(signal.SIGINT, sigint_handler)
 
     # Exécution de la fenêtre
     fenetre.mainloop()
