@@ -67,7 +67,7 @@ def TailleFenetre():
         global x, y
         x = None
         y = None
-        
+
     def BougerFenetre(event):
         """
             BougerFenetre(event)
@@ -89,7 +89,7 @@ def TailleFenetre():
     # Paramètre de la fenêtre
     fenetre.iconbitmap("2048.ico") # Îcone de la fenêtre
     fenetre.title("2048") # Nom de la fenêtre
-    fenetre.geometry("280x370+40+40") # Taille de la fenêtre
+    fenetre.geometry("280x370+100+100") # Taille de la fenêtre
     fenetre.configure(background = "#1E1E1E") # Couleur de fond fond
     fenetre.overrideredirect(True)
     fenetre.attributes("-topmost", True) # Fond de la fenêtre au premier plan
@@ -102,7 +102,7 @@ def TailleFenetre():
     barreTitre.bind("<B1-Motion>", BougerFenetre)
     # Icone dans la barre titre
     icone = Image.open("2048.ico")
-    icone = icone.resize((20, 20))
+    icone = icone.resize((16, 16))
     icone = ImageTk.PhotoImage(icone)
     label = tkinter.Label(barreTitre, image=icone, bg="#3C3C3C")
     label.pack(side="left", padx=5, pady=5)
@@ -116,7 +116,7 @@ def TailleFenetre():
     titre.bind("<ButtonRelease-1>", BougerFenetreArrete)
     titre.bind("<B1-Motion>", BougerFenetre)
     # Bouton fermer
-    boutonFermer=tkinter.Button(barreTitre, text="    X    ", command=lambda:[fenetre.destroy(), exit()], bg="#3C3C3C", fg="white", activebackground="#D71526", activeforeground="white", borderwidth=0, font=("Calibri", 12))
+    boutonFermer=tkinter.Button(barreTitre, text="    X    ", command=lambda:[fenetre.destroy(), exit()], bg="#3C3C3C", fg="white", activebackground="#D71526", activeforeground="white", borderwidth=0, font=("Arial", 12))
     boutonFermer.pack(side="right")
     boutonFermer.bind("<Enter>", EnterBoutonFermer)
     boutonFermer.bind("<Leave>", LeaveBoutonFermer)

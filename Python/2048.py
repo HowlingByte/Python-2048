@@ -194,7 +194,7 @@ def AfficherJeu():
     # Afficher la somme du tableau
     sommeTableauLabel=tkinter.Label(fenetre, text=f"  Somme du tableau : {sommeTableau}\t\t", bg ="#4d4d4d", fg="white", font=("Helvetica", 10, "bold"))
     sommeTableauLabel.grid(row=4, column=0, columnspan=4, sticky="w")
-    
+
 def Recommancer():
     """
         Recommancer():
@@ -386,7 +386,7 @@ fenetre = tkinter.Tk()
 fenetre.iconbitmap("2048.ico") # Îcone de la fenêtre
 fenetre.title("2048") # Nom de la fenêtre
 fenetre.resizable(False, False) # Non redimensionnement de la fenêtre
-fenetre.geometry("+40+40")
+fenetre.geometry("+100+100")
 
 # Enlever barre windows
 fenetre.overrideredirect(True)
@@ -407,18 +407,18 @@ titre.bind("<B1-Motion>", BougerFenetre)
 # Bouton fermer et minimiser dans la barre titre
 bouton_F_M=tkinter.Frame(fenetre, bg="#3C3C3C", borderwidth=2)
 bouton_F_M.grid(row=0, column=3, sticky="ne")
-boutonFermer=tkinter.Button(bouton_F_M, text="    X    ", command=Quitter, bg="#3C3C3C", fg="white", activebackground="#D71526", activeforeground="white", borderwidth=0, font=("Calibri", 12))
+boutonFermer=tkinter.Button(bouton_F_M, text="    X    ", command=Quitter, bg="#3C3C3C", fg="white", activebackground="#D71526", activeforeground="white", borderwidth=0, font=("Arial", 12))
 boutonFermer.grid(row=0, column=1, sticky="ne")
 boutonFermer.bind("<Enter>", EnterBoutonFermer)
 boutonFermer.bind("<Leave>", LeaveBoutonFermer)
-boutonMinimiser=tkinter.Button(bouton_F_M, text="    -    ", command=Minimiser, bg="#3C3C3C", fg="white", activebackground="#505050", activeforeground="white", borderwidth=0, font=("Calibri", 12))
+boutonMinimiser=tkinter.Button(bouton_F_M, text="    —    ", command=Minimiser, bg="#3C3C3C", fg="white", activebackground="#505050", activeforeground="white", borderwidth=0, font=("Arial", 12))
 boutonMinimiser.grid(row=0, column=0, sticky="ne")
 boutonMinimiser.bind("<Enter>", EnterBoutonMinimiser)
 boutonMinimiser.bind("<Leave>", LeaveBoutonMinimiser)
 fenetre.bind("<Map>", Agrandir)
 # Icone dans la barre titre
 icone = Image.open("2048.ico")
-icone = icone.resize((20, 20))
+icone = icone.resize((16, 16))
 icone = ImageTk.PhotoImage(icone)
 label = tkinter.Label(barreTitre, image=icone, bg="#3C3C3C")
 label.grid(row=0, column=0, padx=5, pady=5)
