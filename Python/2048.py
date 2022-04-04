@@ -36,6 +36,7 @@ Img= \
 ]
 nbDeplacement=0
 perdu=False
+gagne=False
 score=0
 minimiser=False
 
@@ -220,6 +221,7 @@ def Appuyer(event):
 
     # Variables globales
     global perdu
+    global gagne
     global nbDeplacement
     global score
 
@@ -334,11 +336,11 @@ def Appuyer(event):
 
     # Test si 2048 est atteint
     for i in range(4):
-        if 2048 in TableauJeu[i]:
+        if 2048 in TableauJeu[i] and not gagne:
             # Message de victoire
             tkinter.messagebox.showinfo("Gagné", "Vous avez gagné !")
             # Demande à l'utilisateur si recommencer
-            if tkinter.messagebox.askquestion("Recommencer", "Voulez-vous recommencer ?"):
+            if tkinter.messagebox.askyesno("Recommencer", "Voulez-vous recommencer ?"):
                 Recommancer()
     """
     # Récupére la largeur
@@ -433,7 +435,7 @@ menuDeroulant.add_command(
     label="Minimiser", command=Minimiser)
 # Ajouter bouton quitter au menu
 menuDeroulant.add_command(
-    label="Quitter", command=lambda:[fenetre.quit(), pygame.mixer.quit(), exit()])
+    label="Quitter", command=Quitter)
 # Ajouter un séparateur
 menuDeroulant.add_separator()
 # Ajouter un bouton à propos au menu
