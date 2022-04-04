@@ -1,8 +1,11 @@
 # Importation des bibliothèques
 import tkinter
+import tkinter.messagebox
 import sys
 import signal
 from PIL import Image, ImageTk
+
+from fonction2048 import *
 
 def TailleFenetre():
     """
@@ -18,34 +21,6 @@ def TailleFenetre():
         """
         fenetre.destroy()
         exit()
-
-    def EnterBoutonFermer(event):
-        """
-            EnterBoutonFermer(event)
-                Changement de couleur du bouton lorsqu'on passe la souris dessus
-        """
-        event.widget.configure(bg="#D71526", fg="white")
-
-    def LeaveBoutonFermer(event):
-        """
-            LeaveBoutonFermer(event)
-                Changement de couleur du bouton lorsqu'on sort la souris de la zone du bouton
-        """
-        event.widget.configure(bg="#3C3C3C", fg="white")
-
-    def EnterBouton(event):
-        """
-            EnterBouton(event)
-                Changement de couleur du bouton lorsqu'on passe la souris dessus
-        """
-        event.widget.configure(bg="#1177BB", fg="white")
-
-    def LeaveBouton(event):
-        """
-            LeaveBouton(event)
-                Changement de couleur du bouton lorsqu'on sort la souris de la zone du bouton
-        """
-        event.widget.configure(bg="#0E639C", fg="white")
 
     def BougerFenetreCommence(event):
         global x, y # On récupère les variables x et y
@@ -105,7 +80,9 @@ def TailleFenetre():
     titre.bind("<ButtonRelease-1>", BougerFenetreArrete)
     titre.bind("<B1-Motion>", BougerFenetre)
     # Bouton fermer
-    boutonFermer=tkinter.Button(barreTitre, text="    X    ", command=lambda:[fenetre.destroy(), exit()], bg="#3C3C3C", fg="white", activebackground="#D71526", activeforeground="white", borderwidth=0, font=("Arial", 12))
+    boutonFermer=tkinter.Button(
+        barreTitre, text="    X    ", command=lambda:[fenetre.destroy(), exit()], bg="#3C3C3C", fg="white",
+        activebackground="#D71526", activeforeground="white", borderwidth=0, font=("Arial", 12))
     boutonFermer.pack(side="right")
     boutonFermer.bind("<Enter>", EnterBoutonFermer)
     boutonFermer.bind("<Leave>", LeaveBoutonFermer)
@@ -118,7 +95,10 @@ def TailleFenetre():
     menu.pack(side="left")
     # Création d"un menu défilant
     menuDeroulant = tkinter.Menu(menu, background="#4d4d4d", foreground="#ffffff", activebackground="#094771", tearoff=0)
-    menuDeroulant.add_command(label="À propos", command = lambda:[tkinter.messagebox.showinfo("À propos", "2048 (Projet NSI GA.1)\n\nCréé par :\n\n- ING Bryan\n- ABASSE Tidiane\n- GALANG Andrei\n\nVersion : 5.0(S5)")])
+    menuDeroulant.add_command(
+        label="À propos", command = lambda:[tkinter.messagebox.showinfo(
+            "À propos", "2048 (Projet NSI GA.1)\n\nCréé par :\n\n- ING Bryan\n- ABASSE Tidiane\n- GALANG Andrei\n\nVersion : 5.0 (S5)"
+            )])
     # Attribution du menu déroulant au menu Affichage
     menu.configure(menu=menuDeroulant)
 
@@ -140,10 +120,10 @@ def TailleFenetre():
         ]
     variable = tkinter.StringVar(fenetre)
     variable.set(OptionList[1])
-    menu = tkinter.OptionMenu(fenetre, variable, *OptionList)
-    menu.config(background="#3C3C3C", activebackground="#3C3C3C", foreground="white", activeforeground="white", borderwidth=0, bd=0, highlightthickness=0, width=20, border=0)
-    menu["menu"].config(background="#3C3C3C", activebackground="#094771", foreground="white", activeforeground="white", borderwidth=0, bd=0)
-    menu.pack(pady=10)
+    menuTaille = tkinter.OptionMenu(fenetre, variable, *OptionList)
+    menuTaille.config(background="#3C3C3C", activebackground="#3C3C3C", foreground="white", activeforeground="white", borderwidth=0, bd=0, highlightthickness=0, width=20, border=0)
+    menuTaille["menu"].config(background="#3C3C3C", activebackground="#094771", foreground="white", activeforeground="white", borderwidth=0, bd=0)
+    menuTaille.pack(pady=10)
 
     # Bouton pour valider
     bouton = tkinter.Button(fenetre, text="   Valider   ", command=fenetre.destroy, borderwidth=0, bg="#0E639C", fg="white", font=("Helvetica", 10))
