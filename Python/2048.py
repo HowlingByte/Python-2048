@@ -260,6 +260,7 @@ def Appuyer(event):
         perdu=True
         #print("Game Over !")
         #print("Nombre de déplacement", ":", nbDeplacement)
+        JouerSon("Audio/Perdu.mp3")
         if tkinter.messagebox.showinfo("Perdu", "Vous avez perdu !"):
             Recommancer()
 
@@ -337,6 +338,8 @@ def Appuyer(event):
     # Test si 2048 est atteint
     for i in range(4):
         if 2048 in TableauJeu[i] and not gagne:
+            # Son lorsque gagné
+            JouerSon("Audio/Gagne.mp3")
             # Message de victoire
             tkinter.messagebox.showinfo("Gagné", "Vous avez gagné !")
             # Demande à l'utilisateur si recommencer
