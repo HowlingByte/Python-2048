@@ -5,7 +5,7 @@ import sys
 import signal
 from PIL import Image, ImageTk
 
-from fonction2048 import *
+from autresfonctions2048 import *
 
 def TailleFenetre():
     """

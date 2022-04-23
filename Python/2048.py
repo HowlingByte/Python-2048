@@ -9,7 +9,7 @@ from PIL import Image, ImageTk
 
 # Importation des fichiers .py du dossier python
 import mouvement
-from fonction2048 import *
+from autresfonctions2048 import *
 from taillefenetre import *
 
 # Initialisation des variables
@@ -139,7 +139,6 @@ def AfficherJeu():
             Affiche le tableau avec 4 lignes et forme la fenêtre
     """
     global score
-
     #print(" ")
     for i in range(4):
         # Afficher les 4 lignes
@@ -174,10 +173,10 @@ def AfficherJeu():
     sommeTableauLabel.grid(
         row=4, column=0, columnspan=4, sticky="w") # Placer le label dans la grille de la fenêtre
 
-def Recommancer():
+def Recommencer():
     """
-        Recommancer():
-            Recommancer le jeu
+        Recommencer():
+            Recommencer le jeu
     """
 
     # Variables globales
@@ -203,12 +202,12 @@ def Recommancer():
     score=0
 
     # Boucle pour mettre deux cases de 2 dans le tableau
-    case_debut=0
-    while case_debut<2:
+    caseDebut=0
+    while caseDebut<2:
         x,y=TuileAléatoire()
         if TableauJeu[y][x]==0:
             TableauJeu[y][x]=2
-            case_debut+=1
+            caseDebut+=1
 
     # Afficher le jeu
     AfficherJeu()
@@ -262,7 +261,7 @@ def Appuyer(event):
         #print("Nombre de déplacement", ":", nbDeplacement)
         JouerSon("Audio/Perdu.mp3")
         if tkinter.messagebox.showinfo("Perdu", "Vous avez perdu !"):
-            Recommancer()
+            Recommencer()
 
     elif deplacementPossible:
 
@@ -344,7 +343,7 @@ def Appuyer(event):
             tkinter.messagebox.showinfo("Gagné", "Vous avez gagné !")
             # Demande à l'utilisateur si recommencer
             if tkinter.messagebox.askyesno("Recommencer", "Voulez-vous recommencer ?"):
-                Recommancer()
+                Recommencer()
     """
     # Récupére la largeur
     width = fenetre.winfo_width()
@@ -356,12 +355,12 @@ def Appuyer(event):
 
 # Main
 # Boucle pour mettre deux cases de 2 dans le tableau
-case_debut=0
-while case_debut<2:
+caseDebut=0
+while caseDebut<2:
     x,y=TuileAléatoire()
     if TableauJeu[y][x]==0:
         TableauJeu[y][x]=2
-        case_debut+=1
+        caseDebut+=1
 
 # Lancer la fonction TailleFenêtre pour avoir la taille de la fenêtre qu'on demande à l'utilisateur
 taille=TailleFenetre()
@@ -392,16 +391,16 @@ titre.bind("<ButtonRelease-1>", BougerFenetreArrete)
 titre.bind("<B1-Motion>", BougerFenetre)
         
 # Bouton fermer et minimiser dans la barre titre
-bouton_F_M=tkinter.Frame(fenetre, bg="#3C3C3C", borderwidth=2)
-bouton_F_M.grid(row=0, columnspan=4, sticky="ne")
+boutonFermerMinimiserFrame=tkinter.Frame(fenetre, bg="#3C3C3C", borderwidth=2)
+boutonFermerMinimiserFrame.grid(row=0, columnspan=4, sticky="ne")
 boutonFermer=tkinter.Button(
-    bouton_F_M, text="    X    ", command=Quitter, bg="#3C3C3C", fg="white", activebackground="#D71526",
+    boutonFermerMinimiserFrame, text="    X    ", command=Quitter, bg="#3C3C3C", fg="white", activebackground="#D71526",
     activeforeground="white", borderwidth=0, font=("Arial", 12))
 boutonFermer.grid(row=0, column=1, sticky="ne")
 boutonFermer.bind("<Enter>", EnterBoutonFermer)
 boutonFermer.bind("<Leave>", LeaveBoutonFermer)
 boutonMinimiser=tkinter.Button(
-    bouton_F_M, text="    —    ", command=Minimiser, bg="#3C3C3C", fg="white", activebackground="#505050", 
+    boutonFermerMinimiserFrame, text="    —    ", command=Minimiser, bg="#3C3C3C", fg="white", activebackground="#505050", 
     activeforeground="white", borderwidth=0, font=("Arial", 12))
 boutonMinimiser.grid(row=0, column=0, sticky="ne")
 boutonMinimiser.bind("<Enter>", EnterBoutonMinimiser)
@@ -428,9 +427,9 @@ paremetreSon=tkinter.BooleanVar()
 paremetreSon.set(True)
 menuDeroulant.add_checkbutton(
     label="Son", onvalue=True, offvalue=False, variable=paremetreSon, command=Son())
-# Ajouter bouton recommancer au menu
+# Ajouter bouton Recommencer au menu
 menuDeroulant.add_command(
-    label="Recommancer", command=Recommancer)
+    label="Recommencer", command=Recommencer)
 # Ajouter un séparateur
 menuDeroulant.add_separator()
 # Ajouter minimiser quitter au menu
@@ -458,8 +457,8 @@ menu = tkinter.Menu(barreMenu, tearoff=0, background="#4d4d4d", foreground="whit
 paremetreSon=tkinter.BooleanVar()
 paremetreSon.set(True)
 menu.add_checkbutton(label="Son", onvalue=True, offvalue=False, variable=paremetreSon, command=Son())
-# Ajouter bouton recommancer au menu
-menu.add_command(label="Recommancer", command=Recommancer)
+# Ajouter bouton Recommencer au menu
+menu.add_command(label="Recommencer", command=Recommencer)
 # Ajouter un séparateur
 menu.add_separator()
 # Ajouter minimiser quitter au menu
