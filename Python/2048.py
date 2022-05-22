@@ -3,9 +3,9 @@ import tkinter
 import tkinter.messagebox
 import copy
 import pygame
-import sys
 import signal
 from PIL import Image, ImageTk
+import time
 
 # Importation des fichiers .py du dossier python
 import mouvement
@@ -37,14 +37,112 @@ Img= \
 nbDeplacement=0
 perdu=False
 gagne=False
-score=0
 minimiser=False
+jouer=True
+
+def ReinitialiserScore():
+    """
+        ReinitialiserScore()
+            Reinitialiser le record
+    """
+    fichierEcrire=open("record.txt", "w") # On ouvre le fichier record.txt en écriture
+    fichierEcrire.write("0") # On écrit 0 dans le fichier
+    fichierEcrire.close() # On ferme le fichier
+    AfficherJeu()
+
+def FenetreFocusIn(event):
+    """
+        FenetreFocusIn(event)
+            Fonction qui permet de mettre à jour la couleur de la fenêtre lorsqu'on a le focus sur la fênetre
+    """
+    
+    barreTitre.configure(bg=gris3)
+    titre.configure(bg=gris3, fg=blanc)
+    boutonFermerMinimiserFrame.configure(bg=gris3)
+    boutonFermer.configure(bg=gris3, fg=blanc)
+    boutonMinimiser.configure(bg=gris3, fg=blanc)
+    label.configure(bg=gris3)
+    menu.configure(bg=gris3, fg=blanc)
+    menuDeroulant.configure(bg=gris3, fg=blanc)
+    fenetre.configure(bg=gris2)
+    recordLabel.configure(bg=gris2, fg=blanc)
+    nbDeplacementLabel.configure(bg=gris2, fg=blanc)
+    sommeTableauLabel.configure(bg=gris2, fg=blanc)
+    timerLabel.configure(bg=gris2, fg=blanc)
+    for i in range(4):
+        for j in range(4): 
+            Case[i][j].configure(bg=gris2)
+
+def FenetreFocusOut(event):
+    """
+        FenetreFocusOut(event)
+            Fonction qui permet de mettre à jour la couleur de la fenêtre lorsqu'on n'a plus le focus sur la fênetre
+    """
+
+    barreTitre.configure(bg=gris4)
+    titre.configure(bg=gris4, fg=gris1)
+    boutonFermerMinimiserFrame.configure(bg=gris4)
+    boutonFermer.configure(bg=gris4, fg=gris1)
+    boutonMinimiser.configure(bg=gris4, fg=gris1)
+    label.configure(bg=gris4)
+    menu.configure(bg=gris4, fg=gris1)
+    menuDeroulant.configure(bg=gris4, fg=gris1)
+    fenetre.configure(bg=gris3)
+    recordLabel.configure(bg=gris3, fg=gris1)
+    nbDeplacementLabel.configure(bg=gris3, fg=gris1)
+    sommeTableauLabel.configure(bg=gris3, fg=gris1)
+    timerLabel.configure(bg=gris3, fg=gris1)
+    for i in range(4):
+        for j in range(4): 
+            Case[i][j].configure(bg=gris3)
+            
+def Timer(i, label):
+    """
+        Timer(i, label)
+            Fonction qui permet de mettre à jour le label timerLabel
+        Entrée :
+            i : temps en seconde
+            label : label qui contient le temps
+    """
+
+    minute=(f"0{i//60}"[-2:]) # On récupère les minutes
+    seconde=(f"0{i%60}"[-2:]) # On récupère les secondes
+    label.set(f"  Timer : {minute}:{seconde}") # On met à jour le label
+    i = round(time.time() - tempsDebut) # On met à jour le temps
+    fenetre.after(1000, lambda: [Timer(i, label)]) # On rappelle la fonction Timer() après 1 seconde
+
+def Focus(event):
+    """
+        Focus(event)
+            Fonction qui permet de récupérer le focus de la fenêtre
+    """
+
+    fenetre.focus_get() # On récupère le focus de la fenêtre
+    fenetre.lift() # On remonte la fenêtre
+    FenetreFocusIn(None)
+
+def Minimiser(event): 
+    """
+        Minimiser(event)
+            Minimiser la fenêtre
+    """
+
+    fenetre.withdraw()
+
+def Agrandir(event):
+    """
+        Agrandir(event)
+            Agrandir la fenêtre
+    """
+
+    fenetre.deiconify()
 
 def sigint_handler(signal, frame):
     """
         sigint_handler(signal, frame)
             Ferme la fenetre sans erreur lors du KeyboardInterrupt
     """
+
     fenetre.destroy() # Fermer la fenêtre
     pygame.mixer.quit() # Fermer pygame
     exit() # Quitter le programme
@@ -67,6 +165,7 @@ def BougerFenetre(event):
         Sortie :
             Bouge la fenêtre
     """
+
     global x, y # On récupère les variables x et y
     deltax = event.x - x # On calcule la différence entre la position de la souris et la position de la souris au début du déplacement 
     deltay = event.y - y # On calcule la différence entre la position de la souris et la position de la souris au début du déplacement
@@ -80,34 +179,10 @@ def Quitter():
             Fermer tkinter et pygame
     """
 
-    if tkinter.messagebox.askyesno("Quitter 2048", "Voulez-vous vraiment quitter ?"): # Demande de confirmation
+    if tkinter.messagebox.askyesno("Quitter 2048", "Voulez-vous vraiment quitter ?", icon="question"): # Demande de confirmation
         fenetre.destroy() # Fermer la fenêtre
         pygame.mixer.quit() # Fermeture de pygame
         exit() # Quitter le programme
-
-def Minimiser():
-    """
-        Minimiser()
-            Minimiser la fenêtre
-    """
-
-    global minimiser # On récupère la variable minimiser
-    fenetre.overrideredirect(False) # Désactiver overrideredirect
-    fenetre.iconify() # Minimiser la fenêtre
-    minimiser=0 # Réinitialisation de minimiser
-
-def Agrandir(event):
-    """
-        Agrandir(event)
-            Agrandir la fenêtre
-    """
-
-    global minimiser # On récupère la variable minimiser
-    minimiser+=1 # On incrémente de 1 minimiser
-    if minimiser==2: # Si minimiser est à 2 (2 car quand on a miniser la fenêtre cette fonction s'est exécuté, alors qu'on veut qu'elle s'éxcute que lorsque l'on a cliqué sur la fentêtre dans la barre des taches)
-        minimiser=0 # Réinitialisation de minimiser
-        fenetre.deiconify() # Agrandissement de la fenêtre
-        fenetre.overrideredirect(True) # Remettre overriderdirect
 
 def Son():
     """
@@ -138,40 +213,32 @@ def AfficherJeu():
         Sortie :
             Affiche le tableau avec 4 lignes et forme la fenêtre
     """
-    global score
-    #print(" ")
+
     for i in range(4):
-        # Afficher les 4 lignes
-        #print(TableauJeu[i])
 
         # Création des images
         for j in range(4): 
             Img[i][j]=AfficherImage(TableauJeu[i][j], taille) # Création des images
-            if nbDeplacement!=0: # Si le joueur a déplacé au moins une case
-                Case[i][j].grid_forget() # Supprimer la case dans la grille de la fenêtre
-            Case[i][j]=tkinter.Label(fenetre, image=Img[i][j], bg ="#4d4d4d") # Créer la case
-            Case[i][j].grid(row=i+6, column=j) # Placer la case dans la grille de la fenêtre
-
-    # Calculer la somme du tableau
-    sommeTableau=sum(TableauJeu[0])+sum(TableauJeu[1])+sum(TableauJeu[2])+sum(TableauJeu[3])
+            Case[i][j].configure(image=Img[i][j])
+            Case[i][j].image = Img[i][j]
 
     # Afficher le nombre de déplacement
-    nbDeplacementLabel=tkinter.Label(
-        fenetre, text=f"  Nombre de déplacement : {nbDeplacement}\t\t", bg ="#4d4d4d", fg="white", font=("Helvetica", 10, "bold"))
-    nbDeplacementLabel.grid(
-        row=2, column=0, columnspan=4, sticky="w") # Placer le label dans la grille de la fenêtre
+    nbDeplacementVar.set(f"  Nombre de déplacement : {nbDeplacement}")
 
-    # Afficher le score
-    scoreLabel=tkinter.Label(
-        fenetre, text=f"  Score : {score}\t\t", bg ="#4d4d4d", fg="white", font=("Helvetica", 10, "bold"))
-    scoreLabel.grid(
-        row=3, column=0, columnspan=4, sticky="w") # Placer le label dans la grille de la fenêtre
+    # Afficher le score (somme du tableau)
+    sommeTableau=sum(TableauJeu[0])+sum(TableauJeu[1])+sum(TableauJeu[2])+sum(TableauJeu[3])
+    sommeTableauVar.set(f"  Score : {sommeTableau}")
 
-    # Afficher la somme du tableau
-    sommeTableauLabel=tkinter.Label(
-        fenetre, text=f"  Somme du tableau : {sommeTableau}\t\t", bg ="#4d4d4d", fg="white", font=("Helvetica", 10, "bold"))
-    sommeTableauLabel.grid(
-        row=4, column=0, columnspan=4, sticky="w") # Placer le label dans la grille de la fenêtre
+    # Afficher le record
+    fichierLire=open("record.txt", "r")
+    record=int(fichierLire.read())
+    fichierLire.close()
+    if sommeTableau>record:
+        fichierEcrire=open("record.txt", "w")
+        fichierEcrire.write(str(sommeTableau))
+        fichierEcrire.close()
+        record=sommeTableau
+    recordVar.set(f"  Record score : {record}")
 
 def Recommencer():
     """
@@ -182,24 +249,18 @@ def Recommencer():
     # Variables globales
     global nbDeplacement
     global perdu
-    global score
+    global tempsDebut
 
-    # Remettre à zéro les tableaux
+    # Remettre à zéro le tableau
     for i in range(4):
-
-        for j in range(4):
-            Case[i][j].grid_forget() # Supprimer la case dans la grille de la fenêtre
-        
         TableauJeu[i]=[0, 0, 0, 0]
-        Case[i]=[0, 0, 0, 0]
-        Img[i]=[0, 0, 0, 0]
 
     # Remettre à zéro le nombre de déplacement
     nbDeplacement=0
     # Remettre à zéro la variable perdu
     perdu=False
-    # Remettre à zéro le score
-    score=0
+    # Remettre à zéro le temps de départ
+    tempsDebut=time.time()
 
     # Boucle pour mettre deux cases de 2 dans le tableau
     caseDebut=0
@@ -222,7 +283,7 @@ def Appuyer(event):
     global perdu
     global gagne
     global nbDeplacement
-    global score
+    global jouer
 
     # Variables locales
     caseVide=False
@@ -240,30 +301,30 @@ def Appuyer(event):
 
     # Test si seulement déplacement possible
     TableauJeuTempGauche=copy.deepcopy(TableauJeu)
-    deplacementGauche, fusionGauche, scoreGauche=mouvement.gauche(TableauJeuTempGauche)
+    deplacementGauche, fusionGauche=mouvement.gauche(TableauJeuTempGauche)
 
     TableauJeuTempHaut=copy.deepcopy(TableauJeu)
-    deplacementHaut, fusionHaut, scoreHaut=mouvement.haut(TableauJeuTempHaut)
+    deplacementHaut, fusionHaut=mouvement.haut(TableauJeuTempHaut)
 
     TableauJeuTempDroite=copy.deepcopy(TableauJeu)
-    deplacementDroite, fusionDroite, scoreDroite=mouvement.droite(TableauJeuTempDroite)
+    deplacementDroite, fusionDroite=mouvement.droite(TableauJeuTempDroite)
 
     TableauJeuTempBas=copy.deepcopy(TableauJeu)
-    deplacementBas, fusionBas, scoreBas=mouvement.bas(TableauJeuTempBas)
+    deplacementBas, fusionBas=mouvement.bas(TableauJeuTempBas)
 
     if deplacementGauche or deplacementHaut or deplacementDroite or deplacementBas or fusionGauche or fusionHaut or fusionDroite or fusionBas:
         deplacementPossible=True
 
     # Si déplacement impossible, perdu
-    if not deplacementPossible and not perdu:
+    if not deplacementPossible and not perdu and jouer:
         perdu=True
-        #print("Game Over !")
-        #print("Nombre de déplacement", ":", nbDeplacement)
         JouerSon("Audio/Perdu.mp3")
-        if tkinter.messagebox.showinfo("Perdu", "Vous avez perdu !"):
+        jouer=False
+        if tkinter.messagebox.showinfo("Perdu", f"Vous avez perdu !\n{nbDeplacementVar.get()}\n{sommeTableauVar.get()}\n{timer.get()}", icon="info"):
             Recommencer()
+            jouer=True
 
-    elif deplacementPossible:
+    elif deplacementPossible and jouer:
 
         # Récupérer keycode de la touche appuyée
         keycode=(event.keycode)
@@ -277,7 +338,6 @@ def Appuyer(event):
 
             if fusionGauche:
                 JouerSon("Audio/Fusion.mp3") # Jouer le son de la fusion
-                score+=scoreGauche # Ajouter le score de la fusion
             else:
                 JouerSon("Audio/Deplacement.mp3") # Jouer le son du déplacement
 
@@ -290,7 +350,6 @@ def Appuyer(event):
 
             if fusionHaut:
                 JouerSon("Audio/Fusion.mp3") # Jouer le son de la fusion
-                score+=scoreHaut # Ajouter le score de la fusion
             else:
                 JouerSon("Audio/Deplacement.mp3") # Jouer le son du déplacement
 
@@ -303,7 +362,6 @@ def Appuyer(event):
 
             if fusionDroite:
                 JouerSon("Audio/Fusion.mp3") # Jouer le son de la fusion
-                score+=scoreDroite # Ajouter le score de la fusion
             else:
                 JouerSon("Audio/Deplacement.mp3") # Jouer le son du déplacement
 
@@ -316,7 +374,6 @@ def Appuyer(event):
 
             if fusionBas:
                 JouerSon("Audio/Fusion.mp3") # Jouer le son de la fusion
-                score+=scoreBas # Ajouter le score de la fusion
             else:
                 JouerSon("Audio/Deplacement.mp3") # Jouer le son du déplacement
 
@@ -331,27 +388,24 @@ def Appuyer(event):
         # Ajouter 1 au compteur d'étape
         nbDeplacement+=1
 
-        # Valeur du tableau "TableauJeu" dans la fenêtre
-        AfficherJeu()
+    # Valeur du tableau "TableauJeu" dans la fenêtre
+    AfficherJeu()
 
     # Test si 2048 est atteint
     for i in range(4):
-        if 2048 in TableauJeu[i] and not gagne:
+        if 2048 in TableauJeu[i] and not gagne and jouer:
+            jouer=False
+            gagne=True
             # Son lorsque gagné
             JouerSon("Audio/Gagne.mp3")
             # Message de victoire
-            tkinter.messagebox.showinfo("Gagné", "Vous avez gagné !")
+            tkinter.messagebox.showinfo("Gagné", f"Vous avez gagné !\n{nbDeplacementVar.get()}\n{sommeTableauVar.get()}\n{timer.get()}", icon="info")
             # Demande à l'utilisateur si recommencer
-            if tkinter.messagebox.askyesno("Recommencer", "Voulez-vous recommencer ?"):
+            if not tkinter.messagebox.askyesno("Continuer", "Voulez-vous continuez ?", icon="question"):
                 Recommencer()
-    """
-    # Récupére la largeur
-    width = fenetre.winfo_width()
-    # Récupére la hauteur
-    height = fenetre.winfo_height()
-    print("Largeur :", width)   # Affiche la largeur
-    print("Hauteur :", height)
-    """
+                jouer=True
+            else:
+                jouer=True
 
 # Main
 # Boucle pour mettre deux cases de 2 dans le tableau
@@ -366,7 +420,14 @@ while caseDebut<2:
 taille=TailleFenetre()
 
 # Lancer la fenêtre Tkinter
-fenetre = tkinter.Tk()
+root = tkinter.Tk()
+root.attributes("-alpha",0.0)
+root.bind("<Unmap>", Minimiser)
+root.bind("<Map>", Agrandir)
+fenetre = tkinter.Toplevel(root)
+
+root.iconbitmap("2048.ico") # Îcone de la fenêtre
+root.title("2048") # Nom de la fenêtre
 
 # Paramètre de la fenêtre
 fenetre.iconbitmap("2048.ico") # Îcone de la fenêtre
@@ -376,102 +437,131 @@ fenetre.geometry("+100+100") # Position de la fenêtre
 
 # Enlever barre windows
 fenetre.overrideredirect(True)
-fenetre.attributes("-topmost", True) # Fenêtre au premier plan
+#fenetre.attributes("-topmost", True) # Fenêtre au premier plan
+
 # Barre titre pour changer la barre windows originale
-barreTitre=tkinter.Frame(fenetre, bg="#3C3C3C", borderwidth=1)
+barreTitre=tkinter.Frame(fenetre, bg=gris3, borderwidth=1)
 barreTitre.grid(row=0, columnspan=4, sticky="nsew")
 barreTitre.bind("<ButtonPress-1>", BougerFenetreCommence)
 barreTitre.bind("<ButtonRelease-1>", BougerFenetreArrete)
 barreTitre.bind("<B1-Motion>", BougerFenetre)
+
 # Titre dans la barre titre
-titre=tkinter.Label(fenetre, text="  2048", bg="#3C3C3C", fg="white")
+titre=tkinter.Label(fenetre, text="  2048", bg=gris3, fg="white")
 titre.grid(row=0, column=1, columnspan=2)
 titre.bind("<ButtonPress-1>", BougerFenetreCommence)
 titre.bind("<ButtonRelease-1>", BougerFenetreArrete)
 titre.bind("<B1-Motion>", BougerFenetre)
         
 # Bouton fermer et minimiser dans la barre titre
-boutonFermerMinimiserFrame=tkinter.Frame(fenetre, bg="#3C3C3C", borderwidth=2)
+boutonFermerMinimiserFrame=tkinter.Frame(fenetre, bg=gris3, borderwidth=2)
 boutonFermerMinimiserFrame.grid(row=0, columnspan=4, sticky="ne")
 boutonFermer=tkinter.Button(
-    boutonFermerMinimiserFrame, text="    X    ", command=Quitter, bg="#3C3C3C", fg="white", activebackground="#D71526",
+    boutonFermerMinimiserFrame, text="    X    ", command=Quitter, bg=gris3, fg="white", activebackground=rouge,
     activeforeground="white", borderwidth=0, font=("Arial", 12))
 boutonFermer.grid(row=0, column=1, sticky="ne")
 boutonFermer.bind("<Enter>", EnterBoutonFermer)
 boutonFermer.bind("<Leave>", LeaveBoutonFermer)
 boutonMinimiser=tkinter.Button(
-    boutonFermerMinimiserFrame, text="    —    ", command=Minimiser, bg="#3C3C3C", fg="white", activebackground="#505050", 
+    boutonFermerMinimiserFrame, text="    —    ", command=lambda:[fenetre.withdraw(), root.iconify()], bg=gris3, fg="white", activebackground=gris1, 
     activeforeground="white", borderwidth=0, font=("Arial", 12))
 boutonMinimiser.grid(row=0, column=0, sticky="ne")
 boutonMinimiser.bind("<Enter>", EnterBoutonMinimiser)
 boutonMinimiser.bind("<Leave>", LeaveBoutonMinimiser)
-fenetre.bind("<Map>", Agrandir)
+
 # Icone dans la barre titre
 icone = Image.open("2048.ico")
 icone = icone.resize((16, 16))
 icone = ImageTk.PhotoImage(icone)
-label = tkinter.Label(barreTitre, image=icone, bg="#3C3C3C")
+label = tkinter.Label(barreTitre, image=icone, bg=gris3)
 label.grid(row=0, column=0, padx=5, pady=5)
 label.bind("<ButtonPress-1>", BougerFenetreCommence)
 label.bind("<ButtonRelease-1>", BougerFenetreArrete)
 label.bind("<B1-Motion>", BougerFenetre)
+
 # Création de l"onglet Menu
 menu = tkinter.Menubutton(
-    barreTitre, text="Menu", bg="#3C3C3C", activebackground="#505050", activeforeground="white", foreground="white")
+    barreTitre, text="Menu", bg=gris3, activebackground=gris1, activeforeground="white", foreground="white")
 menu.grid(row=0, column=1)
+
 # Création d"un menu défilant
 menuDeroulant = tkinter.Menu(
-    menu, background="#4d4d4d", foreground="#ffffff", tearoff=0, activebackground="#094771")
+    menu, background=gris2, foreground=blanc, tearoff=0, activebackground=bleu3)
+
 # Ajouter un checkbutton au menu
 paremetreSon=tkinter.BooleanVar()
 paremetreSon.set(True)
 menuDeroulant.add_checkbutton(
     label="Son", onvalue=True, offvalue=False, variable=paremetreSon, command=Son())
+
 # Ajouter bouton Recommencer au menu
 menuDeroulant.add_command(
     label="Recommencer", command=Recommencer)
+
+# Ajouter bouton Reinitialiser score au menu
+menuDeroulant.add_command(
+    label="Reinitialiser score", command=ReinitialiserScore)
+
 # Ajouter un séparateur
 menuDeroulant.add_separator()
+
 # Ajouter minimiser quitter au menu
 menuDeroulant.add_command(
-    label="Minimiser", command=Minimiser)
+    label="Minimiser", command=lambda:[fenetre.withdraw(), root.iconify()])
+
 # Ajouter bouton quitter au menu
 menuDeroulant.add_command(
     label="Quitter", command=Quitter)
+
 # Ajouter un séparateur
 menuDeroulant.add_separator()
+
 # Ajouter un bouton à propos au menu
 menuDeroulant.add_command(
     label="À propos", command = lambda:[tkinter.messagebox.showinfo(
-        "À propos", "2048 (Projet NSI GA.1)\n\nCréé par :\n\n- ING Bryan\n- ABASSE Tidiane\n- GALANG Andrei\n\nVersion : 5.0 (S5)"
+        "À propos", "2048 (Projet NSI GA.1)\n\nCréé par :\n\n- ING Bryan\n- ABASSE Tidiane\n- GALANG Andrei\n\nVersion : 9.0 (S9)", icon="info"
         )])
+
 # Attribution du menu déroulant au menu Affichage
 menu.configure(menu=menuDeroulant)
 
-"""
-# Barre menu
-barreMenu = tkinter.Menu(fenetre)
-# Ajouter le menu au barre menu
-menu = tkinter.Menu(barreMenu, tearoff=0, background="#4d4d4d", foreground="white")
-# Ajouter un checkbutton au menu
-paremetreSon=tkinter.BooleanVar()
-paremetreSon.set(True)
-menu.add_checkbutton(label="Son", onvalue=True, offvalue=False, variable=paremetreSon, command=Son())
-# Ajouter bouton Recommencer au menu
-menu.add_command(label="Recommencer", command=Recommencer)
-# Ajouter un séparateur
-menu.add_separator()
-# Ajouter minimiser quitter au menu
-menu.add_command(label="Minimiser", command=fenetre.iconify)
-# Ajouter bouton quitter au menu
-menu.add_command(label="Quitter", command=lambda:[fenetre.quit(), pygame.mixer.quit(), exit()])
-# Ajouter un séparateur
-menu.add_separator()
-# Ajouter un bouton à propos au menu
-menu.add_command(label="À propos", command=lambda:[tkinter.messagebox.showinfo("À propos", "2048 (Projet NSI GA.1)\n\nCréé par :\n\n- ING Bryan\n- ABASSE Tidiane\n- GALANG Andrei\n\nVersion : 5.0")])
-barreMenu.add_cascade(label="Menu", menu=menu)
-fenetre.config(menu=barreMenu)
-"""
+# Label cases
+for i in range(4):
+    for j in range(4): 
+        Img[i][j]=AfficherImage(TableauJeu[i][j], taille) # Création des images
+        Case[i][j]=tkinter.Label(fenetre, image=Img[i][j], bg =gris2) # Créer la case
+        Case[i][j].grid(row=i+6, column=j) # Placer la case dans la grille de la fenêtre
+
+# Label record
+recordVar=tkinter.StringVar()
+recordLabel=tkinter.Label(fenetre, textvariable=recordVar, bg =gris2, fg="white", font=("Helvetica", 10, "bold"))
+recordLabel.grid(
+    row=2, column=0, columnspan=4, sticky="w")
+
+# Label nbDeplacement
+nbDeplacementVar=tkinter.StringVar()
+nbDeplacementVar.set(f"  Nombre de déplacement : {nbDeplacement}")
+nbDeplacementLabel=tkinter.Label(
+    fenetre, textvariable=nbDeplacementVar, bg =gris2, fg="white", font=("Helvetica", 10, "bold"))
+nbDeplacementLabel.grid(
+    row=3, column=0, columnspan=4, sticky="w") 
+
+# Label sommeTableau (score)
+sommeTableauVar=tkinter.StringVar()
+sommeTableauVar.set(f"  Score : {0}")
+sommeTableauLabel=tkinter.Label(fenetre, textvariable=sommeTableauVar, bg =gris2, fg="white", font=("Helvetica", 10, "bold"))
+sommeTableauLabel.grid(
+    row=4, column=0, columnspan=4, sticky="w")
+
+# Timers
+tempsDebut = time.time()
+temps = round(time.time() - tempsDebut)
+timer = tkinter.StringVar()
+timer.set(temps)
+timerLabel=tkinter.Label(fenetre, textvariable=timer, bg =gris2, fg="white", font=("Helvetica", 10, "bold"))
+timerLabel.grid(
+        row=5, column=0, columnspan=4, sticky="w")
+Timer(temps, timer)
 
 # Afficher le tableau
 AfficherJeu()
@@ -481,18 +571,28 @@ for i in range(4):
     fenetre.grid_columnconfigure(i, minsize=taille)
     fenetre.grid_rowconfigure(i+6, minsize=taille)
 
+
 # Couleur de fond fond
-fenetre.configure(background = "#4d4d4d")
+fenetre.configure(background = gris2)
 
 # Exécution de la fonction "Quitter" lors de lors du click de fermeture de la fenêtre
 fenetre.protocol("WM_DELETE_WINDOW", Quitter)
 
 # Détecter les touches appuyées
-fenetre.bind_all("<Key>",Appuyer)
+fenetre.bind_all("<KeyRelease>",Appuyer)
 
 # Détecte KeyboardInterrupt
 signal.signal(signal.SIGINT, sigint_handler)
 
+# Fenêtre au premier plan avec le focus
+fenetre.focus_force()
+fenetre.lift()
+
+# Détecter lorsqu'on a le focus ou pas
+root.bind("<FocusIn>", Focus)
+root.bind("<FocusOut>", FenetreFocusOut)
+fenetre.bind("<FocusIn>", FenetreFocusIn)
+fenetre.bind("<FocusOut>", FenetreFocusOut)
+
 # Mainloop
 fenetre.mainloop()
-

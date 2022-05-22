@@ -1,10 +1,10 @@
 # Importation des bibliothèques
 import tkinter
 import tkinter.messagebox
-import sys
 import signal
 from PIL import Image, ImageTk
 
+# Importation des fichiers .py du dossier python
 from autresfonctions2048 import *
 
 def TailleFenetre():
@@ -54,12 +54,12 @@ def TailleFenetre():
     fenetre.iconbitmap("2048.ico") # Îcone de la fenêtre
     fenetre.title("2048") # Nom de la fenêtre
     fenetre.geometry("280x370+100+100") # Taille de la fenêtre
-    fenetre.configure(background = "#1E1E1E") # Couleur de fond fond
+    fenetre.configure(background = gris4) # Couleur de fond fond
     fenetre.overrideredirect(True)
     fenetre.attributes("-topmost", True) # Fond de la fenêtre au premier plan
 
     # Barre titre pour changer la barre windows originale
-    barreTitre=tkinter.Frame(fenetre, bg="#3C3C3C", borderwidth=2)
+    barreTitre=tkinter.Frame(fenetre, bg=gris3, borderwidth=2)
     barreTitre.pack(side="top", fill="x")
     barreTitre.bind("<ButtonPress-1>", BougerFenetreCommence)
     barreTitre.bind("<ButtonRelease-1>", BougerFenetreArrete)
@@ -68,65 +68,72 @@ def TailleFenetre():
     icone = Image.open("2048.ico")
     icone = icone.resize((16, 16))
     icone = ImageTk.PhotoImage(icone)
-    label = tkinter.Label(barreTitre, image=icone, bg="#3C3C3C")
-    label.pack(side="left", padx=5, pady=5)
-    label.bind("<ButtonPress-1>", BougerFenetreCommence)
-    label.bind("<ButtonRelease-1>", BougerFenetreArrete)
-    label.bind("<B1-Motion>", BougerFenetre)
+    iconeLabel = tkinter.Label(barreTitre, image=icone, bg=gris3)
+    iconeLabel.pack(side="left", padx=5, pady=5)
+    iconeLabel.bind("<ButtonPress-1>", BougerFenetreCommence)
+    iconeLabel.bind("<ButtonRelease-1>", BougerFenetreArrete)
+    iconeLabel.bind("<B1-Motion>", BougerFenetre)
     # Titre dans la barre titre
-    titre=tkinter.Label(barreTitre, text="  2048", bg="#3C3C3C", fg="white")
+    titre=tkinter.Label(barreTitre, text="  2048", bg=gris3, fg=blanc)
     titre.pack(side="left")
     titre.bind("<ButtonPress-1>", BougerFenetreCommence)
     titre.bind("<ButtonRelease-1>", BougerFenetreArrete)
     titre.bind("<B1-Motion>", BougerFenetre)
     # Bouton fermer
     boutonFermer=tkinter.Button(
-        barreTitre, text="    X    ", command=lambda:[fenetre.destroy(), exit()], bg="#3C3C3C", fg="white",
-        activebackground="#D71526", activeforeground="white", borderwidth=0, font=("Arial", 12))
+        barreTitre, text="    X    ", command=lambda:[fenetre.destroy(), exit()], bg=gris3, fg=blanc,
+        activebackground=rouge, activeforeground=blanc, borderwidth=0, font=("Arial", 12))
     boutonFermer.pack(side="right")
     boutonFermer.bind("<Enter>", EnterBoutonFermer)
     boutonFermer.bind("<Leave>", LeaveBoutonFermer)
 
     # Barre de menu
-    barreMenu = tkinter.Frame(fenetre, borderwidth=3, bg="#3C3C3C")
+    barreMenu = tkinter.Frame(fenetre, borderwidth=3, bg=gris3)
     barreMenu.pack(side="top", fill="x")
     # Création de l"onglet Menu
-    menu = tkinter.Menubutton(barreMenu, text="Menu", bg="#3C3C3C", activebackground="#505050", activeforeground="white", foreground="white")
+    menu = tkinter.Menubutton(barreMenu, text="Menu", bg=gris3, activebackground=gris1, activeforeground=blanc, foreground=blanc)
     menu.pack(side="left")
     # Création d"un menu défilant
-    menuDeroulant = tkinter.Menu(menu, background="#4d4d4d", foreground="#ffffff", activebackground="#094771", tearoff=0)
+    menuDeroulant = tkinter.Menu(menu, background=gris2, foreground=blanc, activebackground=bleu3, tearoff=0)
     menuDeroulant.add_command(
         label="À propos", command = lambda:[tkinter.messagebox.showinfo(
-            "À propos", "2048 (Projet NSI GA.1)\n\nCréé par :\n\n- ING Bryan\n- ABASSE Tidiane\n- GALANG Andrei\n\nVersion : 5.0 (S5)"
+            "À propos", "2048 (Projet NSI GA.1)\n\nCréé par :\n\n- ING Bryan\n- ABASSE Tidiane\n- GALANG Andrei\n\nVersion : 9.0 (S9)", icon="info"
             )])
     # Attribution du menu déroulant au menu Affichage
     menu.configure(menu=menuDeroulant)
 
     # Image
     img = tkinter.PhotoImage(file="2048_logo.png")
-    label = tkinter.Label(fenetre, image=img, bg="#1E1E1E")
-    label.pack(pady=10)
+    imgLabel = tkinter.Label(fenetre, image=img, bg=gris4)
+    imgLabel.pack(pady=10)
 
     # Texte
-    text=tkinter.Label(fenetre, text="Veuillez choisir la taille de la fenêtre", bg="#1E1E1E", fg="white")
+    text=tkinter.Label(fenetre, text=f"Veuillez choisir la taille de la fenêtre\nVotre écran a une résolution {fenetre.winfo_screenwidth()}x{fenetre.winfo_screenheight()}", bg="#1E1E1E", fg=blanc)
     text.pack()
 
     # Création du menu
     OptionList = \
         [
-        "800x932",
-        "600x666",
-        "400x433",
+        "800x876",
+        "600x676",
+        "400x476",
         ]
     variable = tkinter.StringVar(fenetre)
-    variable.set(OptionList[1])
     menuTaille = tkinter.OptionMenu(fenetre, variable, *OptionList)
-    menuTaille.config(background="#3C3C3C", activebackground="#3C3C3C", foreground="white", activeforeground="white", borderwidth=0, bd=0, highlightthickness=0, width=20, border=0)
-    menuTaille["menu"].config(background="#3C3C3C", activebackground="#094771", foreground="white", activeforeground="white", borderwidth=0, bd=0)
+    menuTaille.config(background=gris3, activebackground=gris3, foreground=blanc, activeforeground=blanc, borderwidth=0, bd=0, highlightthickness=0, width=20, border=0)
+    menuTaille["menu"].config(background=gris3, activebackground=bleu3, foreground=blanc, activeforeground=blanc, borderwidth=0, bd=0)
     menuTaille.pack(pady=10)
+    
+    choixpref=False
+    for i in range(len(OptionList)):
+        if int(OptionList[i].split("x")[0]) > fenetre.winfo_screenwidth() or int(OptionList[i].split("x")[1]) > fenetre.winfo_screenheight():
+            menuTaille["menu"].entryconfig(OptionList[i], state="disabled")
+        elif not choixpref:
+            choixpref=True
+            variable.set(OptionList[i])
 
     # Bouton pour valider
-    bouton = tkinter.Button(fenetre, text="   Valider   ", command=fenetre.destroy, borderwidth=0, bg="#0E639C", fg="white", font=("Helvetica", 10))
+    bouton = tkinter.Button(fenetre, text="   Valider   ", command=fenetre.destroy, borderwidth=0, bg=bleu2, fg=blanc, font=("Helvetica", 10))
     bouton.pack()
     bouton.bind("<Enter>", EnterBouton)
     bouton.bind("<Leave>", LeaveBouton)
@@ -141,9 +148,4 @@ def TailleFenetre():
     fenetre.mainloop()
 
     # Récupération de la taille
-    if variable.get() == "800x932":
-        return 200
-    elif variable.get() == "600x666":
-        return 150
-    elif variable.get() == "400x433":
-        return 100
+    return int(int(variable.get().split("x")[0])/4)
