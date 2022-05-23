@@ -332,7 +332,7 @@ def Appuyer(event):
         # 37 Flèche auche
         # 81 Q
         # 100 Pavé numérique gauche
-        if (keycode == 37 or keycode == 81 or keycode == 100) and (deplacementGauche or fusionGauche):
+        if (keycode == 37 or keycode == 81 or keycode == 100) and (deplacementGauche or fusionGauche) and TableauJeu != TableauJeuTempGauche:
             mouvement.gauche(TableauJeu)
             deplacementFait=True
 
@@ -344,7 +344,7 @@ def Appuyer(event):
         # 38 Flèche haut
         # 90 Z
         # 104 Pavé numérique haut
-        elif (keycode == 38 or keycode == 90 or keycode == 104) and (deplacementHaut or fusionHaut):
+        elif (keycode == 38 or keycode == 90 or keycode == 104) and (deplacementHaut or fusionHaut) and TableauJeu != TableauJeuTempHaut:
             mouvement.haut(TableauJeu)
             deplacementFait=True
 
@@ -356,7 +356,7 @@ def Appuyer(event):
         # 39 Flèche droite
         # 68 D
         # 102 Pavé numérique droite
-        elif (keycode == 39 or keycode == 68 or keycode == 102) and (deplacementDroite or fusionDroite):
+        elif (keycode == 39 or keycode == 68 or keycode == 102) and (deplacementDroite or fusionDroite) and TableauJeu != TableauJeuTempDroite:
             mouvement.droite(TableauJeu)
             deplacementFait=True
 
@@ -368,7 +368,7 @@ def Appuyer(event):
         # 40 Flèche bas
         # 83 S
         # 98 Pavé numérique bas
-        elif (keycode == 40 or keycode == 83 or keycode == 98) and (deplacementBas or fusionBas):
+        elif (keycode == 40 or keycode == 83 or keycode == 98) and (deplacementBas or fusionBas) and TableauJeu != TableauJeuTempBas:
             mouvement.bas(TableauJeu)
             deplacementFait = True
 
