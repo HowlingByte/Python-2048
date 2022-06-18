@@ -21,9 +21,9 @@ blanc = "#FFFFFF"
 bgTemp = gris3
 fgTemp = blanc
 
-def TuileAléatoire():
+def TuileAleatoire():
     """
-        TuileAléatoire()
+        TuileAleatoire()
         Sorties :
             Deux entiers au hasard entre 0 et 3
     """

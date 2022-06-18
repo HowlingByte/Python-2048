@@ -14,9 +14,9 @@ def TailleFenetre():
             Retourne la taille de la fenêtre
     """
 
-    def sigint_handler(signal, frame):
+    def Sigint_handler(signal, frame):
         """
-            sigint_handler(signal, frame)
+            Sigint_handler(signal, frame)
                 Ferme la fenetre sans erreur lors du KeyboardInterrupt
         """
         fenetre.destroy()
@@ -150,7 +150,7 @@ def TailleFenetre():
     fenetre.protocol("WM_DELETE_WINDOW", lambda:[fenetre.destroy(), exit()])
 
     # Détecte KeyboardInterrupt
-    signal.signal(signal.SIGINT, sigint_handler)
+    signal.signal(signal.SIGINT, Sigint_handler)
 
     # Exécution de la fenêtre
     fenetre.mainloop()

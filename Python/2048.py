@@ -137,9 +137,9 @@ def Agrandir(event):
 
     fenetre.deiconify()
 
-def sigint_handler(signal, frame):
+def Sigint_handler(signal, frame):
     """
-        sigint_handler(signal, frame)
+        Sigint_handler(signal, frame)
             Ferme la fenetre sans erreur lors du KeyboardInterrupt
     """
 
@@ -187,11 +187,11 @@ def Quitter():
 def Son():
     """
         Son()
-            Initialise ou éteint pygame.mixer en fonction de la variable paremetreSon
+            Initialise ou éteint pygame.mixer en fonction de la variable parametreSon
     """
 
     # Si parametreSon est à True
-    if paremetreSon.get():
+    if parametreSon.get():
         pygame.mixer.init() # Initialisation de pygame.mixer
     else: # Sinon
         pygame.mixer.quit() # Arrêt de pygame.mixer
@@ -203,7 +203,7 @@ def JouerSon(son):
     """
 
     # Si parametreSon est à True
-    if paremetreSon.get():
+    if parametreSon.get():
         pygame.mixer.music.load(son) # Chargement du son
         pygame.mixer.music.play(loops = 0) # Jouer le son
 
@@ -265,7 +265,7 @@ def Recommencer():
     # Boucle pour mettre deux cases de 2 dans le tableau
     caseDebut = 0
     while caseDebut<2:
-        x,y = TuileAléatoire()
+        x,y = TuileAleatoire()
         if TableauJeu[y][x] == 0:
             TableauJeu[y][x] = 2
             caseDebut += 1
@@ -380,7 +380,7 @@ def Appuyer(event):
     if caseVide and deplacementFait:
         # Faire apparaître une nouvelle case de 2
         while not deplacement:
-            x,y=TuileAléatoire()
+            x,y=TuileAleatoire()
             if TableauJeu[y][x] == 0:
                 TableauJeu[y][x] = 2
                 deplacement = True
@@ -411,7 +411,7 @@ def Appuyer(event):
 # Boucle pour mettre deux cases de 2 dans le tableau
 caseDebut = 0
 while caseDebut<2:
-    x,y = TuileAléatoire()
+    x,y = TuileAleatoire()
     if TableauJeu[y][x] == 0:
         TableauJeu[y][x] = 2
         caseDebut += 1
@@ -493,10 +493,10 @@ menuDeroulant = tkinter.Menu(
 )
 
 # Ajouter un checkbutton au menu
-paremetreSon = tkinter.BooleanVar()
-paremetreSon.set(True)
+parametreSon = tkinter.BooleanVar()
+parametreSon.set(True)
 menuDeroulant.add_checkbutton(
-    label = "Son", onvalue = True, offvalue = False, variable = paremetreSon, command = Son()
+    label = "Son", onvalue = True, offvalue = False, variable = parametreSon, command = Son()
 )
 
 # Ajouter bouton Recommencer au menu
@@ -596,7 +596,7 @@ fenetre.protocol("WM_DELETE_WINDOW", Quitter)
 fenetre.bind_all("<KeyRelease>",Appuyer)
 
 # Détecte KeyboardInterrupt
-signal.signal(signal.SIGINT, sigint_handler)
+signal.signal(signal.SIGINT, Sigint_handler)
 
 # Fenêtre au premier plan avec le focus
 fenetre.focus_force()

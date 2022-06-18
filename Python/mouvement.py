@@ -1,6 +1,6 @@
-def gauche(Tab):
+def Gauche(Tab):
     """
-        gauche(Tab : Tab) : (deplacement : bouléen, fusion : bouléen)
+        Gauche(Tab : Tab) : (deplacement : bouléen, fusion : bouléen)
         Déplacement des cases vers la gauche et fusion des cases si deux cases côte à côte sont égaux.
         Variables locales:
             i : ligne
@@ -39,9 +39,9 @@ def gauche(Tab):
     # Retourne les valeurs de déplacement et fusion
     return deplacement, fusion
 
-def haut(Tab):
+def Haut(Tab):
     """
-        haut(Tab : Tab) : (deplacement : bouléen, fusion : bouléen)
+        Haut(Tab : Tab) : (deplacement : bouléen, fusion : bouléen)
         Déplacement des cases vers la haut et fusion des cases si deux cases côte à côte sont égaux.
         Variables locales:
             i : ligne
@@ -80,9 +80,9 @@ def haut(Tab):
     # Retourne les valeurs de déplacement et fusion
     return deplacement, fusion
 
-def droite(Tab):
+def Droite(Tab):
     """
-        droite(Tab : Tab) : (deplacement : bouléen, fusion : bouléen)
+        Droite(Tab : Tab) : (deplacement : bouléen, fusion : bouléen)
         Déplacement des cases vers la droite et fusion des cases si deux cases côte à côte sont égaux.
         Variables locales:
             i : ligne
@@ -121,9 +121,9 @@ def droite(Tab):
     # Retourne les valeurs de déplacement et fusion
     return deplacement, fusion
     
-def bas(Tab):
+def Bas(Tab):
     """
-        bas(Tab : Tab) : (deplacement : bouléen, fusion : bouléen)
+        Bas(Tab : Tab) : (deplacement : bouléen, fusion : bouléen)
             j : colonne
     """
 
