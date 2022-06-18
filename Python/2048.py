@@ -329,7 +329,7 @@ def Appuyer(event):
         # Récupérer keycode de la touche appuyée
         keycode = (event.keycode)
 
-        # 37 Flèche auche
+        # 37 Flèche gauche
         # 81 Q
         # 100 Pavé numérique gauche
         if (keycode == 37 or keycode == 81 or keycode == 100) and (deplacementGauche or fusionGauche) and TableauJeu != TableauJeuTempGauche:
@@ -433,7 +433,7 @@ root.title("2048") # Nom de la fenêtre
 fenetre.iconbitmap("2048.ico") # Îcone de la fenêtre
 fenetre.title("2048") # Nom de la fenêtre
 fenetre.resizable(False, False) # Non redimensionnement de la fenêtre
-fenetre.geometry("+100+100") # Position de la fenêtre
+fenetre.geometry("+0+0") # Position de la fenêtre
 
 # Enlever barre windows
 fenetre.overrideredirect(True)
