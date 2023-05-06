@@ -527,7 +527,7 @@ menuDeroulant.add_separator()
 # Ajouter un bouton à propos au menu
 menuDeroulant.add_command(
     label = "À propos", command = lambda:[tkinter.messagebox.showinfo(
-            "À propos", "2048 (Projet NSI GA.1)\n\nCréé par :\n\n- ING Bryan\n- ABASSE Tidiane\n- GALANG Andrei\n\nVersion : 10.0 (S10)", icon = "info"
+            "À propos", "Python-2048\n\nCréé par :\n\n- Ryse93\n\nVersion : 10.0 (S10)", icon = "info"
         )
     ]
 )
