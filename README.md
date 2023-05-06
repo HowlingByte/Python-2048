@@ -1,6 +1,8 @@
 <div align="center">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/8/8a/2048_logo.png" width="128px" style="max-width:100%;">
-    <h1>Projet 2048</h1>
-</div>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/8/8a/2048_logo.png" width="128px" style="max-width:100%;">
+  <h3 align="center">2048</h3>
 
-Projet NSI GA.1 - ING Bryan - ABASSE Tidiane - GALANG Andrei
+  <p align="center">
+    2048 game on Python with Tkinter.
+  </p>
+</div>
