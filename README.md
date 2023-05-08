@@ -1,8 +1,1 @@
-<div align="center">
-  <img src="https://raw.githubusercontent.com/Ryse93/Python-2048/main/Python/2048_logo.png" width="128px" style="max-width:100%;">
-  <h3 align="center">Python-2048</h3>
-
-  <p align="center">
-    2048 game on Python with Tkinter.
-  </p>
-</div>
+![dessin 2](https://user-images.githubusercontent.com/69793084/236804753-8ce87dbb-92a2-4d5b-bfe1-47aa6d3533ab.png)
