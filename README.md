@@ -19,7 +19,7 @@ pip install tile
 
 ## License
 
-Distributed under the GPL-3.0 License. See [LICENSE](https://github.com/Ryse93/Python-2048/blob/main/LICENSEE) for more information.
+Distributed under the GPL-3.0 License. See [LICENSE](https://github.com/Ryse93/Python-2048/blob/main/LICENSE) for more information.
 
 ## Authors
 
