@@ -6,7 +6,7 @@
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 
-Getting Started
+## Getting Started
 
 It's a school project, so it's not perfect. We are three students working on this project. We are French, so the game is in French. We are not professionals, so the code is not perfect. We are open to any suggestions, so don't hesitate to contact us. We are not responsible for any problems that may.
 
