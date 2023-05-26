@@ -13,12 +13,7 @@ It's a school project, so it's not perfect. We are three students working on thi
 ## Prerequisite
 You need to install the dependencies with the following commands:
 ```sh
-pip install tkinter
-pip install copy
 pip install pygame
-pip install signal
-pip install pillow
-pip install tile
 ```
 
 ## License
