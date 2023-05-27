@@ -12,6 +12,18 @@ import mouvement
 from autresfonctions2048 import *
 from taillefenetre import *
 
+# Start- Discord RPC
+try:
+    from pypresence import Presence
+    RPC = True
+    cliend_id = "1111927811419164682"
+    RPC = Presence(cliend_id)
+    RPC.connect()
+except:
+    RPC = False
+    print("module pypresence not found so the Discord RPC is not working")
+# End- Discord RPC
+
 # Initialisation des variables
 TableauJeu = \
     [
@@ -114,6 +126,18 @@ def Timer(i, label):
     seconde = (f"0{i%60}"[-2:])  # On récupère les secondes
     label.set(f"  Timer : {minute}:{seconde}")  # On met à jour le label
     i = round(time.time() - tempsDebut)  # On met à jour le temps
+
+    if RPC:
+        sommeTableau = sum(TableauJeu[0]) + sum(TableauJeu[1]) + \
+        sum(TableauJeu[2]) + sum(TableauJeu[3])
+        RPC.update(
+            details = "Un jeu de puzzle numérique addictif",
+            state = "Score : " + str(sommeTableau),
+            start = tempsDebut,
+            large_image = "logo",
+            buttons = [{"label": "GitHub", "url": "https://github.com/Ryse93/Python-2048"}]
+        )
+
     # On rappelle la fonction Timer() après 1 seconde
     fenetre.after(1000, lambda: [Timer(i, label)])
 
