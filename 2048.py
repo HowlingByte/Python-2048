@@ -130,11 +130,15 @@ def Timer(i, label):
     if RPC:
         sommeTableau = sum(TableauJeu[0]) + sum(TableauJeu[1]) + \
         sum(TableauJeu[2]) + sum(TableauJeu[3])
+        plusGrandNombre = max(max(TableauJeu[0]), max(TableauJeu[1]), max(TableauJeu[2]), max(TableauJeu[3]))
         RPC.update(
             details = "Un jeu de puzzle numérique addictif",
             state = "Score : " + str(sommeTableau),
             start = tempsDebut,
             large_image = "logo",
+            large_text = "Python-2048",
+            small_image = str(plusGrandNombre),
+            small_text = "Plus grand nombre : " + str(plusGrandNombre),
             buttons = [{"label": "GitHub", "url": "https://github.com/Ryse93/Python-2048"}]
         )
 
