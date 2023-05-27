@@ -130,8 +130,12 @@ def Timer(i, label):
     if RPC:
         sommeTableau = sum(TableauJeu[0]) + sum(TableauJeu[1]) + \
             sum(TableauJeu[2]) + sum(TableauJeu[3])
-        plusGrandNombre = max(max(TableauJeu[0]), max(
-            TableauJeu[1]), max(TableauJeu[2]), max(TableauJeu[3]))
+        plusGrandNombre = max(
+            *TableauJeu[0],
+            *TableauJeu[1],
+            *TableauJeu[2],
+            *TableauJeu[3]
+        )
         RPC.update(
             details="Un jeu de puzzle numérique addictif",
             state="Score : " + str(sommeTableau),
