@@ -14,6 +14,7 @@ It's a school project, so it's not perfect. We are three students working on thi
 You need to install the dependencies with the following commands:
 ```sh
 pip install pygame
+pip install pypresence
 ```
 
 ## License
