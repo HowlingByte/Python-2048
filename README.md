@@ -23,5 +23,5 @@ Distributed under the GPL-3.0 License. See [LICENSE](https://github.com/Ryse93/P
 
 ## Authors
 
-* **[Ryse93](https://github.com/Ryse93)** - *French student in high school*
+* **[Ahhj93](https://github.com/Ahhj93)** - *French student in high school*
 * *2 others students*
