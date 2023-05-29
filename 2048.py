@@ -16,12 +16,12 @@ from taillefenetre import *
 try:
     from pypresence import Presence
     RPC = True
-    cliend_id = "1111927811419164682"
-    RPC = Presence(cliend_id)
+    CLIENT_ID = "1111927811419164682"
+    RPC = Presence(CLIENT_ID)
     RPC.connect()
 except:
     RPC = False
-    print("module pypresence not found so the Discord RPC is not working")
+    print("Module pypresence not found so the Discord RPC is not working")
 # End- Discord RPC
 
 # Initialisation des variables
