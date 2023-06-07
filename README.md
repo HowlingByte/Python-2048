@@ -1,7 +1,7 @@
 # Python-2048
 ![Banner](https://github.com/HowlingByte/Python-2048/assets/69793084/ff1190bb-9d49-4bc7-bfac-c42546e71774)
 
-
+[![pypresence](https://img.shields.io/badge/using-pypresence-00bb88.svg?style=flat-square&logo=discord&logoWidth=20)](https://github.com/qwertyquerty/pypresence)
 ## Built With
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
