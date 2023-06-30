@@ -70,7 +70,7 @@ def FenetreFocusIn(event):
     timerLabel.configure(bg=gris2, fg=blanc)
     for i in range(4):
         for j in range(4):
-            Case[i][j].configure(bg=gris2)
+            Case[i][j].configure(bg=gris2) # type: ignore
 
 
 def FenetreFocusOut(event):
@@ -94,7 +94,7 @@ def FenetreFocusOut(event):
     timerLabel.configure(bg=gris3, fg=gris1)
     for i in range(4):
         for j in range(4):
-            Case[i][j].configure(bg=gris3)
+            Case[i][j].configure(bg=gris3) # type: ignore
 
 
 def Timer(i, label):
@@ -265,9 +265,9 @@ def AfficherJeu():
     for i in range(4):
         # Création des images
         for j in range(4):
-            Img[i][j] = AfficherImage(TableauJeu[i][j], taille)  # Création des images
-            Case[i][j].configure(image=Img[i][j])
-            Case[i][j].image = Img[i][j]
+            Img[i][j] = AfficherImage(TableauJeu[i][j], taille)  # type: ignore # Création des images
+            Case[i][j].configure(image=Img[i][j]) # type: ignore
+            Case[i][j].image = Img[i][j] # type: ignore
 
     # Afficher le nombre de déplacement
     nbDeplacementVar.set(f"  Nombre de déplacement : {nbDeplacement}")
@@ -313,7 +313,7 @@ def Recommencer():
     # Remettre à zéro la variable perdu
     perdu = False
     # Remettre à zéro le temps de départ
-    tempsDebut = time.time()
+    tempsDebut = int(time.time())
 
     # Boucle pour mettre deux cases de 2 dans le tableau
     caseDebut = 0
@@ -607,7 +607,7 @@ menuDeroulant = tkinter.Menu(
 parametreSon = tkinter.BooleanVar()
 parametreSon.set(True)
 menuDeroulant.add_checkbutton(
-    label="Son", onvalue=True, offvalue=False, variable=parametreSon, command=Son()
+    label="Son", onvalue=True, offvalue=False, variable=parametreSon, command=Son() # type: ignore
 )
 
 # Ajouter bouton Recommencer au menu
@@ -648,10 +648,10 @@ menu.configure(menu=menuDeroulant)
 # Label cases
 for i in range(4):
     for j in range(4):
-        Img[i][j] = AfficherImage(TableauJeu[i][j], taille)  # Création des images
-        Case[i][j] = tkinter.Label(fenetre, image=Img[i][j], bg=gris2)  # Créer la case
+        Img[i][j] = AfficherImage(TableauJeu[i][j], taille)  # type: ignore # Création des images
+        Case[i][j] = tkinter.Label(fenetre, image=Img[i][j], bg=gris2)  # type: ignore # Créer la case
         # Placer la case dans la grille de la fenêtre
-        Case[i][j].grid(row=i + 6, column=j)
+        Case[i][j].grid(row=i + 6, column=j) # type: ignore
 
 # Label record
 recordVar = tkinter.StringVar()
@@ -689,8 +689,8 @@ sommeTableauLabel = tkinter.Label(
 sommeTableauLabel.grid(row=4, column=0, columnspan=4, sticky="w")
 
 # Timers
-tempsDebut = time.time()
-temps = round(time.time() - tempsDebut)
+tempsDebut = int(time.time())
+temps = str(round(time.time() - tempsDebut))
 timer = tkinter.StringVar()
 timer.set(temps)
 timerLabel = tkinter.Label(
