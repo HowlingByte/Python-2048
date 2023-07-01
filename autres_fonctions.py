@@ -54,10 +54,10 @@ def afficher_image(case, taille):
         taille = 95
 
     # Redimensionner l'image
-    imageRedimensionner = image.resize((taille, taille))
+    image_redimensionner = image.resize((taille, taille))
 
     # Retourner l'image
-    return ImageTk.PhotoImage(imageRedimensionner)
+    return ImageTk.PhotoImage(image_redimensionner)
 
 
 def enter_bouton_fermer(event):
