@@ -40,7 +40,7 @@ def afficher_image(case, taille):
         Sortie :
             tkinter.PhotoImage - image de la case
     """
-    
+
     # Ouverture de l'image
     image  =  Image.open("Cases/"+str(case)+".png")
 
@@ -50,12 +50,12 @@ def afficher_image(case, taille):
         taille = 139
     elif taille == 100:
         taille = 95
-    
+
     # Redimensionner l'image
     imageRedimensionner = image.resize((taille, taille))
-    
+
     # Retourner l'image
-    return (ImageTk.PhotoImage(imageRedimensionner))
+    return ImageTk.PhotoImage(imageRedimensionner)
 
 def enter_bouton_fermer(event):
     """
