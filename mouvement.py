@@ -4,9 +4,9 @@ mouvement.py
     Auteur : Ahhj93
 """
 
-def Gauche(Tab):
+def gauche(tab):
     """
-    Gauche(Tab : Tab) : (deplacement : bouléen, fusion : bouléen)
+    gauche(tab : tab) : (deplacement : bouléen, fusion : bouléen)
     Déplacement des cases vers la gauche et fusion des cases si deux cases côte à côte sont égaux.
     Variables locales:
         i : ligne
@@ -21,33 +21,33 @@ def Gauche(Tab):
         # Déplacement des cases vers la gauche
         for _ in range(3):
             for j in range(3, 0, -1):
-                if Tab[i][j - 1] == 0:
-                    Tab[i][j - 1] = Tab[i][j]
-                    Tab[i][j] = 0
+                if tab[i][j - 1] == 0:
+                    tab[i][j - 1] = tab[i][j]
+                    tab[i][j] = 0
                     deplacement = True
 
         # Fusion des cases
         for j in range(0, 3):
-            if Tab[i][j] == Tab[i][j + 1] and Tab[i][j] != 0:
-                Tab[i][j] = (Tab[i][j]) * 2
-                Tab[i][j + 1] = 0
+            if tab[i][j] == tab[i][j + 1] and tab[i][j] != 0:
+                tab[i][j] = (tab[i][j]) * 2
+                tab[i][j + 1] = 0
                 fusion = True
 
         # Déplacement des cases vers la gauche
         for _ in range(3):
             for j in range(3, 0, -1):
-                if Tab[i][j - 1] == 0:
-                    Tab[i][j - 1] = Tab[i][j]
-                    Tab[i][j] = 0
+                if tab[i][j - 1] == 0:
+                    tab[i][j - 1] = tab[i][j]
+                    tab[i][j] = 0
                     deplacement = True
 
     # Retourne les valeurs de déplacement et fusion
     return deplacement, fusion
 
 
-def Haut(Tab):
+def haut(tab):
     """
-    Haut(Tab : Tab) : (deplacement : bouléen, fusion : bouléen)
+    haut(tab : tab) : (deplacement : bouléen, fusion : bouléen)
     Déplacement des cases vers la haut et fusion des cases si deux cases côte à côte sont égaux.
     Variables locales:
         i : ligne
@@ -62,33 +62,33 @@ def Haut(Tab):
         # Déplacement des cases vers la haut
         for _ in range(3):
             for i in range(3, 0, -1):
-                if Tab[i - 1][j] == 0:
-                    Tab[i - 1][j] = Tab[i][j]
-                    Tab[i][j] = 0
+                if tab[i - 1][j] == 0:
+                    tab[i - 1][j] = tab[i][j]
+                    tab[i][j] = 0
                     deplacement = True
 
         # Fusion des cases
         for i in range(0, 3):
-            if Tab[i][j] == Tab[i + 1][j] and Tab[i][j] != 0:
-                Tab[i][j] = (Tab[i][j]) * 2
-                Tab[i + 1][j] = 0
+            if tab[i][j] == tab[i + 1][j] and tab[i][j] != 0:
+                tab[i][j] = (tab[i][j]) * 2
+                tab[i + 1][j] = 0
                 fusion = True
 
         # Déplacement des cases vers la haut
         for _ in range(3):
             for i in range(3, 0, -1):
-                if Tab[i - 1][j] == 0:
-                    Tab[i - 1][j] = Tab[i][j]
-                    Tab[i][j] = 0
+                if tab[i - 1][j] == 0:
+                    tab[i - 1][j] = tab[i][j]
+                    tab[i][j] = 0
                     deplacement = True
 
     # Retourne les valeurs de déplacement et fusion
     return deplacement, fusion
 
 
-def Droite(Tab):
+def droite(tab):
     """
-    Droite(Tab : Tab) : (deplacement : bouléen, fusion : bouléen)
+    droite(tab : tab) : (deplacement : bouléen, fusion : bouléen)
     Déplacement des cases vers la droite et fusion des cases si deux cases côte à côte sont égaux.
     Variables locales:
         i : ligne
@@ -103,33 +103,33 @@ def Droite(Tab):
         # Déplacement des cases vers la droite
         for _ in range(3):
             for j in range(0, 3):
-                if Tab[i][j + 1] == 0:
-                    Tab[i][j + 1] = Tab[i][j]
-                    Tab[i][j] = 0
+                if tab[i][j + 1] == 0:
+                    tab[i][j + 1] = tab[i][j]
+                    tab[i][j] = 0
                     deplacement = True
 
         # Fusion des cases
         for j in range(3, 0, -1):
-            if Tab[i][j] == Tab[i][j - 1] and Tab[i][j] != 0:
-                Tab[i][j] = (Tab[i][j]) * 2
-                Tab[i][j - 1] = 0
+            if tab[i][j] == tab[i][j - 1] and tab[i][j] != 0:
+                tab[i][j] = (tab[i][j]) * 2
+                tab[i][j - 1] = 0
                 fusion = True
 
         # Déplacement des cases vers la droite
         for _ in range(3):
             for j in range(0, 3):
-                if Tab[i][j + 1] == 0:
-                    Tab[i][j + 1] = Tab[i][j]
-                    Tab[i][j] = 0
+                if tab[i][j + 1] == 0:
+                    tab[i][j + 1] = tab[i][j]
+                    tab[i][j] = 0
                     deplacement = True
 
     # Retourne les valeurs de déplacement et fusion
     return deplacement, fusion
 
 
-def Bas(Tab):
+def bas(tab):
     """
-    Bas(Tab : Tab) : (deplacement : bouléen, fusion : bouléen)
+    bas(tab : tab) : (deplacement : bouléen, fusion : bouléen)
         j : colonne
     """
 
@@ -141,24 +141,24 @@ def Bas(Tab):
         # Déplacement des cases vers le bas
         for _ in range(3):
             for i in range(0, 3):
-                if Tab[i + 1][j] == 0:
-                    Tab[i + 1][j] = Tab[i][j]
-                    Tab[i][j] = 0
+                if tab[i + 1][j] == 0:
+                    tab[i + 1][j] = tab[i][j]
+                    tab[i][j] = 0
                     deplacement = True
 
         # Fusion des cases
         for i in range(3, 0, -1):
-            if Tab[i][j] == Tab[i - 1][j] and Tab[i][j] != 0:
-                Tab[i][j] = (Tab[i][j]) * 2
-                Tab[i - 1][j] = 0
+            if tab[i][j] == tab[i - 1][j] and tab[i][j] != 0:
+                tab[i][j] = (tab[i][j]) * 2
+                tab[i - 1][j] = 0
                 fusion = True
 
         # Déplacement des cases vers la droite
         for _ in range(3):
             for i in range(0, 3):
-                if Tab[i + 1][j] == 0:
-                    Tab[i + 1][j] = Tab[i][j]
-                    Tab[i][j] = 0
+                if tab[i + 1][j] == 0:
+                    tab[i + 1][j] = tab[i][j]
+                    tab[i][j] = 0
                     deplacement = True
 
     # Retourne les valeurs de déplacement et fusion

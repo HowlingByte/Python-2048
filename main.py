@@ -390,16 +390,16 @@ def appuyer(event):
 
     # Test si seulement déplacement possible
     tableau_jeu_temp_gauche = copy.deepcopy(TableauJeu)
-    deplacement_gauche, fusion_gauche = mouvement.Gauche(tableau_jeu_temp_gauche)
+    deplacement_gauche, fusion_gauche = mouvement.gauche(tableau_jeu_temp_gauche)
 
     tableau_jeu_temp_haut = copy.deepcopy(TableauJeu)
-    deplacement_haut, fusion_haut = mouvement.Haut(tableau_jeu_temp_haut)
+    deplacement_haut, fusion_haut = mouvement.haut(tableau_jeu_temp_haut)
 
     tableau_jeu_temp_droite = copy.deepcopy(TableauJeu)
-    deplacement_droite, fusion_droite = mouvement.Droite(tableau_jeu_temp_droite)
+    deplacement_droite, fusion_droite = mouvement.droite(tableau_jeu_temp_droite)
 
     tableau_jeu_temp_bas = copy.deepcopy(TableauJeu)
-    deplacement_bas, fusion_bas = mouvement.Bas(tableau_jeu_temp_bas)
+    deplacement_bas, fusion_bas = mouvement.bas(tableau_jeu_temp_bas)
 
     if (
         deplacement_gauche
@@ -438,7 +438,7 @@ def appuyer(event):
             and (deplacement_gauche or fusion_gauche)
             and TableauJeu != tableau_jeu_temp_gauche
         ):
-            mouvement.Gauche(TableauJeu)
+            mouvement.gauche(TableauJeu)
             deplacement_fait = True
 
             if fusion_gauche:
@@ -455,7 +455,7 @@ def appuyer(event):
             and (deplacement_haut or fusion_haut)
             and TableauJeu != tableau_jeu_temp_haut
         ):
-            mouvement.Haut(TableauJeu)
+            mouvement.haut(TableauJeu)
             deplacement_fait = True
 
             if fusion_haut:
@@ -472,7 +472,7 @@ def appuyer(event):
             and (deplacement_droite or fusion_droite)
             and TableauJeu != tableau_jeu_temp_droite
         ):
-            mouvement.Droite(TableauJeu)
+            mouvement.droite(TableauJeu)
             deplacement_fait = True
 
             if fusion_droite:
@@ -489,7 +489,7 @@ def appuyer(event):
             and (deplacement_bas or fusion_bas)
             and TableauJeu != tableau_jeu_temp_bas
         ):
-            mouvement.Bas(TableauJeu)
+            mouvement.bas(TableauJeu)
             deplacement_fait = True
 
             if fusion_bas:

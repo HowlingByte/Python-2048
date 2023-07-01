@@ -27,6 +27,8 @@ from autres_fonctions import (
     leave_bouton,
 )
 
+X: int | None = None
+Y: int | None = None
 
 def taille_fenetre():
     """
@@ -50,18 +52,18 @@ def taille_fenetre():
         Entrée :
             event : événement
         """
-        global x, y  # On récupère les variables x et y
-        x = event.x  # On récupère la position de la souris en x
-        y = event.y  # On récupère la position de la souris en y
+        global X, Y  #pylint: disable=W0603 # On récupère les variables x et y
+        X = event.x  # On récupère la position de la souris en x
+        Y = event.y  # On récupère la position de la souris en y
 
     def bouger_fenetre_arrete(_event):
         """
         bouger_fenetre_arrete(_event)
             Fonction qui permet de bouger la fenêtre
         """
-        global x, y  # On récupère les variables x et y
-        x = None  # On réinitialise x
-        y = None  # On réinitialise y
+        global X, Y  #pylint: disable=W0603 # On récupère les variables x et y
+        X = None  # On réinitialise x
+        Y = None  # On réinitialise y
 
     def bouger_fenetre(event):
         """
@@ -71,20 +73,20 @@ def taille_fenetre():
         Sortie :
             Bouge la fenêtre
         """
-        global x, y  # On récupère les variables x et y
-        deltax = (
-            event.x - x
+        global X, Y  #pylint: disable=W0602 # On récupère les variables x et y
+        delta_x = (
+            event.x - X
         )  # On calcule la différence entre la position de la souris et la position de la souris au début du déplacement
-        deltay = (
-            event.y - y
+        delta_y = (
+            event.y - Y
         )  # On calcule la différence entre la position de la souris et la position de la souris au début du déplacement
-        ax = (
-            fenetre.winfo_x() + deltax
+        a_x = (
+            fenetre.winfo_x() + delta_x
         )  # On calcule la nouvelle position de la fenêtre en fonction de la différence entre la position de la souris et la position de la souris au début du déplacement
-        ay = (
-            fenetre.winfo_y() + deltay
+        a_y = (
+            fenetre.winfo_y() + delta_y
         )  # On calcule la nouvelle position de la fenêtre en fonction de la différence entre la position de la souris et la position de la souris au début du déplacement
-        fenetre.geometry(f"+{ax}+{ay}")  # On déplace la fenêtre
+        fenetre.geometry(f"+{a_x}+{a_y}")  # On déplace la fenêtre
 
     # Lancer la fenêtre Tkinter
     fenetre = tkinter.Tk()
@@ -133,7 +135,7 @@ def taille_fenetre():
         borderwidth=0,
         font=("Arial", 12),
     )
-    bouton_fermer.pack(side="right")
+    bouton_fermer.pack(side="right") #pylint: disable=W0101
     bouton_fermer.bind("<Enter>", enter_bouton_fermer)
     bouton_fermer.bind("<Leave>", leave_bouton_fermer)
 
@@ -243,7 +245,7 @@ def taille_fenetre():
     fenetre.protocol("WM_DELETE_WINDOW", lambda: [fenetre.destroy(), sys.exit()])
 
     # Détecte KeyboardInterrupt
-    signal.signal(signal.SIGINT, sigint_handler)
+    signal.signal(signal.SIGINT, sigint_handler) #pylint: disable=W0101
 
     # Exécution de la fenêtre
     fenetre.mainloop()
