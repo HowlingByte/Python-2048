@@ -88,8 +88,8 @@ def TailleFenetre():
         activebackground = ROUGE, activeforeground = BLANC, borderwidth = 0, font = ("Arial", 12)
     )
     boutonFermer.pack(side = "right")
-    boutonFermer.bind("<Enter>", EnterBoutonFermer)
-    boutonFermer.bind("<Leave>", LeaveBoutonFermer)
+    boutonFermer.bind("<Enter>", enter_bouton_fermer)
+    boutonFermer.bind("<Leave>", leave_bouton_fermer)
 
     # Barre de menu
     barreMenu = tkinter.Frame(fenetre, borderwidth = 3, bg = GRIS3)

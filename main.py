@@ -282,7 +282,7 @@ def afficher_jeu():
     for i in range(4):
         # Création des images
         for j in range(4):
-            Img[i][j] = AfficherImage(TableauJeu[i][j], taille)  # type: ignore # Création des images
+            Img[i][j] = afficher_image(TableauJeu[i][j], taille)  # type: ignore # Création des images
             Case[i][j].configure(image=Img[i][j])  # type: ignore
             Case[i][j].image = Img[i][j]  # type: ignore
 
@@ -335,7 +335,7 @@ def recommencer():
     # Boucle pour mettre deux cases de 2 dans le tableau
     caseDebut = 0
     while caseDebut < 2:
-        x, y = TuileAleatoire()
+        x, y = tuile_aleatoire()
         if TableauJeu[y][x] == 0:
             TableauJeu[y][x] = 2
             caseDebut += 1
@@ -482,7 +482,7 @@ def appuyer(event):
     if caseVide and deplacementFait:
         # Faire apparaître une nouvelle case de 2
         while not deplacement:
-            x, y = TuileAleatoire()
+            x, y = tuile_aleatoire()
             if TableauJeu[y][x] == 0:
                 TableauJeu[y][x] = 2
                 deplacement = True
@@ -520,7 +520,7 @@ def appuyer(event):
 # Boucle pour mettre deux cases de 2 dans le tableau
 caseDebut = 0
 while caseDebut < 2:
-    x, y = TuileAleatoire()
+    x, y = tuile_aleatoire()
     if TableauJeu[y][x] == 0:
         TableauJeu[y][x] = 2
         caseDebut += 1
@@ -577,8 +577,8 @@ boutonFermer = tkinter.Button(
     font=("Arial", 12),
 )
 boutonFermer.grid(row=0, column=1, sticky="ne")
-boutonFermer.bind("<Enter>", EnterBoutonFermer)
-boutonFermer.bind("<Leave>", LeaveBoutonFermer)
+boutonFermer.bind("<Enter>", enter_bouton_fermer)
+boutonFermer.bind("<Leave>", leave_bouton_fermer)
 boutonMinimiser = tkinter.Button(
     boutonFermerMinimiserFrame,
     text="    —    ",
@@ -665,7 +665,7 @@ menu.configure(menu=menuDeroulant)
 # Label cases
 for i in range(4):
     for j in range(4):
-        Img[i][j] = AfficherImage(TableauJeu[i][j], taille)  # type: ignore # Création des images
+        Img[i][j] = afficher_image(TableauJeu[i][j], taille)  # type: ignore # Création des images
         Case[i][j] = tkinter.Label(fenetre, image=Img[i][j], bg=GRIS2)  # type: ignore # Créer la case
         # Placer la case dans la grille de la fenêtre
         Case[i][j].grid(row=i + 6, column=j)  # type: ignore

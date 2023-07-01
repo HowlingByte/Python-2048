@@ -21,9 +21,9 @@ BLANC = "#FFFFFF"
 BG_TEMP = GRIS3
 FG_TEMP = BLANC
 
-def TuileAleatoire():
+def tuile_aleatoire():
     """
-        TuileAleatoire()
+        tuile_aleatoire()
         Sorties :
             Deux entiers au hasard entre 0 et 3
     """
@@ -32,9 +32,9 @@ def TuileAleatoire():
     y = random.randint(0,3) # On génère un entier entre 0 et 3
     return x,y # On retourne les deux entiers
 
-def AfficherImage(case, taille):
+def afficher_image(case, taille):
     """
-        AfficherImage(case : entier) : tkinter.PhotoImage
+        afficher_image(case : entier) : tkinter.PhotoImage
         Entrée :
             case : numéro de la case
         Sortie :
@@ -57,9 +57,9 @@ def AfficherImage(case, taille):
     # Retourner l'image
     return (ImageTk.PhotoImage(imageRedimensionner))
 
-def EnterBoutonFermer(event):
+def enter_bouton_fermer(event):
     """
-        EnterBoutonFermer(event)
+        enter_bouton_fermer(event)
             Changement de couleur du bouton lorsqu'on passe la souris dessus
     """
     global BG_TEMP
@@ -68,9 +68,9 @@ def EnterBoutonFermer(event):
     FG_TEMP = event.widget["fg"]
     event.widget.configure(bg = ROUGE, fg = BLANC) # Changement de couleur du bouton
 
-def LeaveBoutonFermer(event):
+def leave_bouton_fermer(event):
     """
-        LeaveBoutonFermer(event)
+        leave_bouton_fermer(event)
             Changement de couleur du bouton lorsqu'on sort la souris de la zone du bouton
     """
     event.widget.configure(bg = BG_TEMP, fg = FG_TEMP) # Changement de couleur du bouton
