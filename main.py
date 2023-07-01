@@ -50,10 +50,10 @@ except ModuleNotFoundError:
 TableauJeu = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
 Case = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
 Img = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
-nbDeplacement = 0
-perdu = False
-gagne = False
-jouer = True
+NB_DEPLACEMENT = 0
+PERDU = False
+GAGNER = False
+JOUER = True
 
 
 def reinitialiser_score():
@@ -131,7 +131,7 @@ def fonction_timer(i, label):
     minute = f"0{i//60}"[-2:]  # On récupère les minutes
     seconde = f"0{i%60}"[-2:]  # On récupère les secondes
     label.set(f"  Timer : {minute}:{seconde}")  # On met à jour le label
-    i = round(time.time() - tempsDebut)  # On met à jour le temps
+    i = round(time.time() - TEMPS_DEBUT)  # On met à jour le temps
 
     if RPC_MODULE:
         somme_tableau = (
@@ -146,7 +146,7 @@ def fonction_timer(i, label):
         RPC.update(
             details="Un jeu de puzzle numérique addictif",
             state="Score : " + str(somme_tableau),
-            start=tempsDebut,
+            start=TEMPS_DEBUT,
             large_image="logo",
             large_text="Python-2048",
             small_image=str(plus_grand_nombre),
@@ -303,7 +303,7 @@ def afficher_jeu():
             Case[i][j].image = Img[i][j]  # type: ignore
 
     # Afficher le nombre de déplacement
-    nbDeplacementVar.set(f"  Nombre de déplacement : {nbDeplacement}")
+    nbDeplacementVar.set(f"  Nombre de déplacement : {NB_DEPLACEMENT}")
 
     # Afficher le score (somme du tableau)
     somme_tableau = (
@@ -333,20 +333,20 @@ def recommencer():
     """
 
     # Variables globales
-    global nbDeplacement
-    global perdu
-    global tempsDebut
+    global NB_DEPLACEMENT #pylint: disable=global-statement
+    global PERDU #pylint: disable=global-statement
+    global TEMPS_DEBUT #pylint: disable=global-statement
 
     # Remettre à zéro le tableau
     for i in range(4):
         TableauJeu[i] = [0, 0, 0, 0]
 
     # Remettre à zéro le nombre de déplacement
-    nbDeplacement = 0
+    NB_DEPLACEMENT = 0
     # Remettre à zéro la variable perdu
-    perdu = False
+    PERDU = False
     # Remettre à zéro le temps de départ
-    tempsDebut = int(time.time())
+    TEMPS_DEBUT = int(time.time())
 
     # Boucle pour mettre deux cases de 2 dans le tableau
     caseDebut = 0
@@ -367,23 +367,23 @@ def appuyer(event):
     """
 
     # Variables globales
-    global perdu
-    global gagne
-    global nbDeplacement
-    global jouer
+    global PERDU #pylint: disable=global-statement
+    global GAGNER #pylint: disable=global-statement
+    global NB_DEPLACEMENT #pylint: disable=global-statement
+    global JOUER #pylint: disable=global-statement
 
     # Variables locales
-    caseVide = False
+    case_vide = False
     deplacement = False
-    deplacementPossible = False
-    deplacementFait = False
+    deplacement_possible = False
+    deplacement_fait = False
 
     # Test si case vide donc déplacement possible
     for i in range(0, 4):
         for j in range(0, 4):
             if TableauJeu[i][j] == 0:
-                caseVide = True
-                deplacementPossible = True
+                case_vide = True
+                deplacement_possible = True
 
     # Test si seulement déplacement possible
     TableauJeuTempGauche = copy.deepcopy(TableauJeu)
@@ -408,22 +408,22 @@ def appuyer(event):
         or fusionDroite
         or fusionBas
     ):
-        deplacementPossible = True
+        deplacement_possible = True
 
     # Si déplacement impossible, perdu
-    if not deplacementPossible and not perdu and jouer:
-        perdu = True
+    if not deplacement_possible and not PERDU and JOUER:
+        PERDU = True
         jouer_son("Audio/Perdu.mp3")
-        jouer = False
+        JOUER = False
         if tkinter.messagebox.showinfo(
             "Perdu",
             f"Vous avez perdu !\n{nbDeplacementVar.get()}\n{sommeTableauVar.get()}\n{timer.get()}",
             icon="info",
         ):
             recommencer()
-            jouer = True
+            JOUER = True
 
-    elif deplacementPossible and jouer:
+    elif deplacement_possible and JOUER:
         # Récupérer keycode de la touche appuyée
         keycode = event.keycode
 
@@ -436,7 +436,7 @@ def appuyer(event):
             and TableauJeu != TableauJeuTempGauche
         ):
             mouvement.Gauche(TableauJeu)
-            deplacementFait = True
+            deplacement_fait = True
 
             if fusionGauche:
                 jouer_son("Audio/Fusion.mp3")  # Jouer le son de la fusion
@@ -453,7 +453,7 @@ def appuyer(event):
             and TableauJeu != TableauJeuTempHaut
         ):
             mouvement.Haut(TableauJeu)
-            deplacementFait = True
+            deplacement_fait = True
 
             if fusionHaut:
                 jouer_son("Audio/Fusion.mp3")  # Jouer le son de la fusion
@@ -470,7 +470,7 @@ def appuyer(event):
             and TableauJeu != TableauJeuTempDroite
         ):
             mouvement.Droite(TableauJeu)
-            deplacementFait = True
+            deplacement_fait = True
 
             if fusionDroite:
                 jouer_son("Audio/Fusion.mp3")  # Jouer le son de la fusion
@@ -487,7 +487,7 @@ def appuyer(event):
             and TableauJeu != TableauJeuTempBas
         ):
             mouvement.Bas(TableauJeu)
-            deplacementFait = True
+            deplacement_fait = True
 
             if fusionBas:
                 jouer_son("Audio/Fusion.mp3")  # Jouer le son de la fusion
@@ -495,7 +495,7 @@ def appuyer(event):
                 # Jouer le son du déplacement
                 jouer_son("Audio/Deplacement.mp3")
 
-    if caseVide and deplacementFait:
+    if case_vide and deplacement_fait:
         # Faire apparaître une nouvelle case de 2
         while not deplacement:
             x, y = tuile_aleatoire()
@@ -504,16 +504,16 @@ def appuyer(event):
                 deplacement = True
 
         # Ajouter 1 au compteur d'étape
-        nbDeplacement += 1
+        NB_DEPLACEMENT += 1
 
     # Valeur du tableau "TableauJeu" dans la fenêtre
     afficher_jeu()
 
     # Test si 2048 est atteint
     for i in range(4):
-        if 2048 in TableauJeu[i] and not gagne and jouer:
-            jouer = False
-            gagne = True
+        if 2048 in TableauJeu[i] and not GAGNER and JOUER:
+            JOUER = False
+            GAGNER = True
             # Son lorsque gagné
             jouer_son("Audio/Gagne.mp3")
             # Message de victoire
@@ -527,9 +527,9 @@ def appuyer(event):
                 "Continuer", "Voulez-vous continuez ?", icon="question"
             ):
                 recommencer()
-                jouer = True
+                JOUER = True
             else:
-                jouer = True
+                JOUER = True
 
 
 # Main
@@ -699,7 +699,7 @@ recordLabel.grid(row=2, column=0, columnspan=4, sticky="w")
 
 # Label nbDeplacement
 nbDeplacementVar = tkinter.StringVar()
-nbDeplacementVar.set(f"  Nombre de déplacement : {nbDeplacement}")
+nbDeplacementVar.set(f"  Nombre de déplacement : {NB_DEPLACEMENT}")
 nbDeplacementLabel = tkinter.Label(
     fenetre,
     textvariable=nbDeplacementVar,
@@ -722,8 +722,8 @@ sommeTableauLabel = tkinter.Label(
 sommeTableauLabel.grid(row=4, column=0, columnspan=4, sticky="w")
 
 # Timers
-tempsDebut: int = int(time.time())
-temps: int = round(time.time() - tempsDebut)
+TEMPS_DEBUT: int = int(time.time())
+temps: int = round(time.time() - TEMPS_DEBUT)
 timer = tkinter.StringVar()
 timer.set(str(temps))
 timerLabel = tkinter.Label(
