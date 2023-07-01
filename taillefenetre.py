@@ -14,27 +14,37 @@ def TailleFenetre():
             Retourne la taille de la fenêtre
     """
 
-    def Sigint_handler(signal, frame):
+    def sigint_handler(_signal, _frame):
         """
-            Sigint_handler(signal, frame)
+            sigint_handler(_signal, _frame)
                 Ferme la fenetre sans erreur lors du KeyboardInterrupt
         """
         fenetre.destroy()
         exit()
 
-    def BougerFenetreCommence(event):
+    def bouger_fenetre_commence(event):
+        """
+            bouger_fenetre_commence(event)
+                Fonction qui permet de bouger la fenêtre
+            Entrée :
+                event : événement
+        """
         global x, y # On récupère les variables x et y
         x = event.x # On récupère la position de la souris en x
         y = event.y # On récupère la position de la souris en y
 
-    def BougerFenetreArrete(event):
+    def bouger_fenetre_arrete(_event):
+        """
+            bouger_fenetre_arrete(_event)
+                Fonction qui permet de bouger la fenêtre
+        """
         global x, y # On récupère les variables x et y
         x = None # On réinitialise x
         y = None # On réinitialise y
 
-    def BougerFenetre(event):
+    def bouger_fenetre(event):
         """
-            BougerFenetre(event)
+            bouger_fenetre(event)
             Entrée :
                 event : événement
             Sortie :
@@ -61,9 +71,9 @@ def TailleFenetre():
     # Barre titre pour changer la barre windows originale
     barreTitre = tkinter.Frame(fenetre, bg = GRIS3, borderwidth = 2)
     barreTitre.pack(side = "top", fill = "x")
-    barreTitre.bind("<ButtonPress-1>", BougerFenetreCommence)
-    barreTitre.bind("<ButtonRelease-1>", BougerFenetreArrete)
-    barreTitre.bind("<B1-Motion>", BougerFenetre)
+    barreTitre.bind("<ButtonPress-1>", bouger_fenetre_commence)
+    barreTitre.bind("<ButtonRelease-1>", bouger_fenetre_arrete)
+    barreTitre.bind("<B1-Motion>", bouger_fenetre)
 
     # Icone dans la barre titre
     icone = Image.open("2048.ico")
@@ -71,16 +81,16 @@ def TailleFenetre():
     icone = ImageTk.PhotoImage(icone)
     iconeLabel = tkinter.Label(barreTitre, image = icone, bg = GRIS3)
     iconeLabel.pack(side = "left", padx = 5, pady = 5)
-    iconeLabel.bind("<ButtonPress-1>", BougerFenetreCommence)
-    iconeLabel.bind("<ButtonRelease-1>", BougerFenetreArrete)
-    iconeLabel.bind("<B1-Motion>", BougerFenetre)
+    iconeLabel.bind("<ButtonPress-1>", bouger_fenetre_commence)
+    iconeLabel.bind("<ButtonRelease-1>", bouger_fenetre_arrete)
+    iconeLabel.bind("<B1-Motion>", bouger_fenetre)
 
     # Titre dans la barre titre
     titre = tkinter.Label(barreTitre, text = "  2048", bg = GRIS3, fg = BLANC)
     titre.pack(side = "left")
-    titre.bind("<ButtonPress-1>", BougerFenetreCommence)
-    titre.bind("<ButtonRelease-1>", BougerFenetreArrete)
-    titre.bind("<B1-Motion>", BougerFenetre)
+    titre.bind("<ButtonPress-1>", bouger_fenetre_commence)
+    titre.bind("<ButtonRelease-1>", bouger_fenetre_arrete)
+    titre.bind("<B1-Motion>", bouger_fenetre)
 
     # Bouton fermer
     boutonFermer = tkinter.Button(
@@ -117,7 +127,12 @@ def TailleFenetre():
     imgLabel.pack(pady = 10)
 
     # Texte
-    text = tkinter.Label(fenetre, text = f"Veuillez choisir la taille de la fenêtre\nVotre écran a une résolution {fenetre.winfo_screenwidth()}x{fenetre.winfo_screenheight()}", bg = "#1E1E1E", fg = BLANC)
+    text = tkinter.Label(
+        fenetre,
+        text = f"Veuillez choisir la taille de la fenêtre\nVotre écran a une résolution {fenetre.winfo_screenwidth()}x{fenetre.winfo_screenheight()}",
+        bg = "#1E1E1E",
+        fg = BLANC
+    )
     text.pack()
 
     # Création du menu
@@ -128,29 +143,39 @@ def TailleFenetre():
     ]
     variable = tkinter.StringVar(fenetre)
     menuTaille = tkinter.OptionMenu(fenetre, variable, *OptionList)
-    menuTaille.config(background = GRIS3, activebackground = GRIS3, foreground = BLANC, activeforeground = BLANC, borderwidth = 0, bd = 0, highlightthickness = 0, width = 20, border = 0)
-    menuTaille["menu"].config(background = GRIS3, activebackground = BLEU3, foreground = BLANC, activeforeground = BLANC, borderwidth = 0, bd = 0)
+    menuTaille.config(
+        background = GRIS3, activebackground = GRIS3, foreground = BLANC, activeforeground = BLANC,
+        borderwidth = 0, bd = 0, highlightthickness = 0, width = 20, border = 0
+    )
+    menuTaille["menu"].config(
+        background = GRIS3, activebackground = BLEU3, foreground = BLANC,activeforeground = BLANC,
+        borderwidth = 0, bd = 0
+    )
     menuTaille.pack(pady = 10)
     
     choixpref = False
-    for i in range(len(OptionList)):
-        if int(OptionList[i].split("x")[0]) > fenetre.winfo_screenwidth() or int(OptionList[i].split("x")[1]) > fenetre.winfo_screenheight():
-            menuTaille["menu"].entryconfig(OptionList[i], state = "disabled")
+    for option in OptionList:
+        if int(option.split("x")[0]) > fenetre.winfo_screenwidth() \
+            or int(option.split("x")[1]) > fenetre.winfo_screenheight():
+
+            menuTaille["menu"].entryconfig(option, state = "disabled")
+
         elif not choixpref:
+
             choixpref = True
-            variable.set(OptionList[i])
+            variable.set(option)
 
     # Bouton pour valider
     bouton = tkinter.Button(fenetre, text = "   Valider   ", command = fenetre.destroy, borderwidth = 0, bg = BLEU2, fg = BLANC, font = ("Helvetica", 10))
     bouton.pack()
-    bouton.bind("<Enter>", EnterBouton)
-    bouton.bind("<Leave>", LeaveBouton)
+    bouton.bind("<Enter>", enter_bouton)
+    bouton.bind("<Leave>", leave_bouton)
 
     # Fermer le programme lors de lors du click de fermeture de la fenêtre
     fenetre.protocol("WM_DELETE_WINDOW", lambda:[fenetre.destroy(), exit()])
 
     # Détecte KeyboardInterrupt
-    signal.signal(signal.SIGINT, Sigint_handler)
+    signal.signal(signal.SIGINT, sigint_handler)
 
     # Exécution de la fenêtre
     fenetre.mainloop()

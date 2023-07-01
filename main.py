@@ -591,8 +591,8 @@ boutonMinimiser = tkinter.Button(
     font=("Arial", 12),
 )
 boutonMinimiser.grid(row=0, column=0, sticky="ne")
-boutonMinimiser.bind("<Enter>", EnterBoutonMinimiser)
-boutonMinimiser.bind("<Leave>", LeaveBoutonMinimiser)
+boutonMinimiser.bind("<Enter>", enter_bouton_minimiser)
+boutonMinimiser.bind("<Leave>", leave_bouton_minimiser)
 
 # Icone dans la barre titre
 icone = Image.open("2048.ico")

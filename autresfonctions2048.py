@@ -75,9 +75,9 @@ def leave_bouton_fermer(event):
     """
     event.widget.configure(bg = BG_TEMP, fg = FG_TEMP) # Changement de couleur du bouton
 
-def EnterBoutonMinimiser(event):
+def enter_bouton_minimiser(event):
     """
-        EnterBoutonMinimiser(event)
+        enter_bouton_minimiser(event)
             Changement de couleur du bouton lorsqu'on passe la souris dessus
     """
     global BG_TEMP
@@ -86,24 +86,24 @@ def EnterBoutonMinimiser(event):
     FG_TEMP = event.widget["fg"]
     event.widget.configure(bg = GRIS1, fg = BLANC) # Changement de couleur du bouton
 
-def LeaveBoutonMinimiser(event):
+def leave_bouton_minimiser(event):
     """
-        LeaveBoutonMinimiser(event)
+        leave_bouton_minimiser(event)
             Changement de couleur du bouton lorsqu'on sort la souris de la zone du bouton
     """
 
     event.widget.configure(bg = BG_TEMP, fg = FG_TEMP) # Changement de couleur du bouton
 
-def EnterBouton(event):
+def enter_bouton(event):
     """
-        EnterBouton(event)
+        enter_bouton(event)
             Changement de couleur du bouton lorsqu'on passe la souris dessus
     """
     event.widget.configure(bg = BLEU1, fg = BLANC) # Changement de couleur du bouton
 
-def LeaveBouton(event):
+def leave_bouton(event):
     """
-        LeaveBouton(event)
+        leave_bouton(event)
             Changement de couleur du bouton lorsqu'on sort la souris de la zone du bouton
     """
     event.widget.configure(bg = BLEU2, fg = BLANC) # Changement de couleur du bouton
