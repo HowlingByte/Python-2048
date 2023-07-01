@@ -92,9 +92,9 @@ def fenetre_focus_in(_event):
     nbDeplacementLabel.configure(bg=GRIS2, fg=BLANC)
     sommeTableauLabel.configure(bg=GRIS2, fg=BLANC)
     timerLabel.configure(bg=GRIS2, fg=BLANC)
-    for i in range(4):
-        for j in range(4):
-            Case[i][j].configure(bg=GRIS2)  # type: ignore
+    for case_y in range(4):
+        for case_x in range(4):
+            Case[case_y][case_x].configure(bg=GRIS2)  # type: ignore
 
 
 def fenetre_focus_out(_event):
@@ -117,12 +117,12 @@ def fenetre_focus_out(_event):
     nbDeplacementLabel.configure(bg=GRIS3, fg=GRIS1)
     sommeTableauLabel.configure(bg=GRIS3, fg=GRIS1)
     timerLabel.configure(bg=GRIS3, fg=GRIS1)
-    for i in range(4):
-        for j in range(4):
-            Case[i][j].configure(bg=GRIS3)  # type: ignore
+    for case_y in range(4):
+        for case_x in range(4):
+            Case[case_y][case_x].configure(bg=GRIS3)  # type: ignore
 
 
-def fonction_timer(i, label):
+def fonction_timer(temps_seconde, temps_label):
     """
     fonction_timer(i, label)
         Fonction qui permet de mettre à jour le label timerLabel
@@ -131,10 +131,10 @@ def fonction_timer(i, label):
         label : label qui contient le temps
     """
 
-    minute = f"0{i//60}"[-2:]  # On récupère les minutes
-    seconde = f"0{i%60}"[-2:]  # On récupère les secondes
-    label.set(f"  Timer : {minute}:{seconde}")  # On met à jour le label
-    i = round(time.time() - TEMPS_DEBUT)  # On met à jour le temps
+    minute = f"0{temps_seconde//60}"[-2:]  # On récupère les minutes
+    seconde = f"0{temps_seconde%60}"[-2:]  # On récupère les secondes
+    temps_label.set(f"  Timer : {minute}:{seconde}")  # On met à jour le label
+    temps_seconde = round(time.time() - TEMPS_DEBUT)  # On met à jour le temps
 
     if RPC_MODULE:
         somme_tableau = (
@@ -298,12 +298,12 @@ def afficher_jeu():
         Affiche le tableau avec 4 lignes et forme la fenêtre
     """
 
-    for i in range(4):
+    for case_y in range(4):
         # Création des images
-        for j in range(4):
-            Img[i][j] = afficher_image(TableauJeu[i][j], taille)  # type: ignore # Création des images
-            Case[i][j].configure(image=Img[i][j])  # type: ignore
-            Case[i][j].image = Img[i][j]  # type: ignore
+        for case_x in range(4):
+            Img[case_y][case_x] = afficher_image(TableauJeu[case_y][case_x], taille)  # type: ignore # Création des images
+            Case[case_y][case_x].configure(image=Img[case_y][case_x])  # type: ignore
+            Case[case_y][case_x].image = Img[case_y][case_x]  # type: ignore
 
     # Afficher le nombre de déplacement
     nbDeplacementVar.set(f"  Nombre de déplacement : {NB_DEPLACEMENT}")
@@ -341,8 +341,8 @@ def recommencer():
     global TEMPS_DEBUT  # pylint: disable=global-statement
 
     # Remettre à zéro le tableau
-    for i in range(4):
-        TableauJeu[i] = [0, 0, 0, 0]
+    for ligne in range(4):
+        TableauJeu[ligne] = [0, 0, 0, 0]
 
     # Remettre à zéro le nombre de déplacement
     NB_DEPLACEMENT = 0
@@ -382,9 +382,9 @@ def appuyer(event):
     deplacement_fait = False
 
     # Test si case vide donc déplacement possible
-    for i in range(0, 4):
-        for j in range(0, 4):
-            if TableauJeu[i][j] == 0:
+    for case_y in range(0, 4):
+        for case_x in range(0, 4):
+            if TableauJeu[case_y][case_x] == 0:
                 case_vide = True
                 deplacement_possible = True
 
@@ -513,8 +513,8 @@ def appuyer(event):
     afficher_jeu()
 
     # Test si 2048 est atteint
-    for i in range(4):
-        if 2048 in TableauJeu[i] and not GAGNER and JOUER:
+    for ligne in range(4):
+        if 2048 in TableauJeu[ligne] and not GAGNER and JOUER:
             JOUER = False
             GAGNER = True
             # Son lorsque gagné
