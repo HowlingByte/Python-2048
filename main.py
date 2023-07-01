@@ -61,18 +61,18 @@ def fenetre_focus_in(_event):
     """
 
     barreTitre.configure(bg=GRIS3)
-    titre.configure(bg=GRIS3, fg=blanc)
+    titre.configure(bg=GRIS3, fg=BLANC)
     boutonFermerMinimiserFrame.configure(bg=GRIS3)
-    boutonFermer.configure(bg=GRIS3, fg=blanc)
-    boutonMinimiser.configure(bg=GRIS3, fg=blanc)
+    boutonFermer.configure(bg=GRIS3, fg=BLANC)
+    boutonMinimiser.configure(bg=GRIS3, fg=BLANC)
     label.configure(bg=GRIS3)
-    menu.configure(bg=GRIS3, fg=blanc)
-    menuDeroulant.configure(bg=GRIS3, fg=blanc)
+    menu.configure(bg=GRIS3, fg=BLANC)
+    menuDeroulant.configure(bg=GRIS3, fg=BLANC)
     fenetre.configure(bg=GRIS2)
-    recordLabel.configure(bg=GRIS2, fg=blanc)
-    nbDeplacementLabel.configure(bg=GRIS2, fg=blanc)
-    sommeTableauLabel.configure(bg=GRIS2, fg=blanc)
-    timerLabel.configure(bg=GRIS2, fg=blanc)
+    recordLabel.configure(bg=GRIS2, fg=BLANC)
+    nbDeplacementLabel.configure(bg=GRIS2, fg=BLANC)
+    sommeTableauLabel.configure(bg=GRIS2, fg=BLANC)
+    timerLabel.configure(bg=GRIS2, fg=BLANC)
     for i in range(4):
         for j in range(4):
             Case[i][j].configure(bg=GRIS2)  # type: ignore
@@ -571,7 +571,7 @@ boutonFermer = tkinter.Button(
     command=quitter,
     bg=GRIS3,
     fg="white",
-    activebackground=rouge,
+    activebackground=ROUGE,
     activeforeground="white",
     borderwidth=0,
     font=("Arial", 12),
@@ -617,7 +617,7 @@ menu.grid(row=0, column=1)
 
 # Création d"un menu défilant
 menuDeroulant = tkinter.Menu(
-    menu, background=GRIS2, foreground=blanc, tearoff=0, activebackground=bleu3
+    menu, background=GRIS2, foreground=BLANC, tearoff=0, activebackground=BLEU3
 )
 
 # Ajouter un checkbutton au menu
