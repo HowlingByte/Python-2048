@@ -11,6 +11,7 @@ import copy
 import signal
 import time
 import pygame
+import sys
 from PIL import Image, ImageTk
 
 # Importation des fichiers .py du dossier python
@@ -196,7 +197,7 @@ def sigint_handler(_signal, _frame):
 
     fenetre.destroy()  # Fermer la fenêtre
     pygame.mixer.quit()  # Fermer pygame
-    exit()  # Quitter le programme
+    sys.exit()  # Quitter le programme
 
 
 def bouger_fenetre_commence(event):
@@ -259,7 +260,7 @@ def quitter():
     ):
         fenetre.destroy()  # Fermer la fenêtre
         pygame.mixer.quit()  # Fermeture de pygame
-        exit()  # Quitter le programme
+        sys.exit()  # Quitter le programme
 
 
 def son():

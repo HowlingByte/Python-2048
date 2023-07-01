@@ -8,6 +8,7 @@ taille_fenetre.py
 import tkinter
 import tkinter.messagebox
 import signal
+import sys
 from PIL import Image, ImageTk
 
 # Importation des fichiers .py du dossier python
@@ -40,7 +41,7 @@ def taille_fenetre():
             Ferme la fenetre sans erreur lors du KeyboardInterrupt
         """
         fenetre.destroy()
-        exit()
+        sys.exit()
 
     def bouger_fenetre_commence(event):
         """
@@ -124,7 +125,7 @@ def taille_fenetre():
     bouton_fermer = tkinter.Button(
         barre_titre,
         text="    X    ",
-        command=lambda: [fenetre.destroy(), exit()],
+        command=lambda: [fenetre.destroy(), sys.exit()],
         bg=GRIS3,
         fg=BLANC,
         activebackground=ROUGE,
@@ -239,7 +240,7 @@ def taille_fenetre():
     bouton.bind("<Leave>", leave_bouton)
 
     # Fermer le programme lors de lors du click de fermeture de la fenêtre
-    fenetre.protocol("WM_DELETE_WINDOW", lambda: [fenetre.destroy(), exit()])
+    fenetre.protocol("WM_DELETE_WINDOW", lambda: [fenetre.destroy(), sys.exit()])
 
     # Détecte KeyboardInterrupt
     signal.signal(signal.SIGINT, sigint_handler)
