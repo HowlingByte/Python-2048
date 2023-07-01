@@ -51,7 +51,7 @@ def afficher_image(case: int, taille: int) -> ImageTk.PhotoImage:
     """
 
     # Ouverture de l'image
-    image = Image.open("Cases/" + str(case) + ".png")
+    image = Image.open("cases/" + str(case) + ".png")
 
     if taille == 200:
         taille = 189

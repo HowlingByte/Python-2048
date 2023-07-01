@@ -91,7 +91,7 @@ def fenetre_focus_in(_event):
     recordLabel.configure(bg=GRIS2, fg=BLANC)
     nbDeplacementLabel.configure(bg=GRIS2, fg=BLANC)
     sommeTableauLabel.configure(bg=GRIS2, fg=BLANC)
-    timerLabel.configure(bg=GRIS2, fg=BLANC)
+    timer_label.configure(bg=GRIS2, fg=BLANC)
     for case_y in range(4):
         for case_x in range(4):
             Case[case_y][case_x].configure(bg=GRIS2)  # type: ignore
@@ -116,15 +116,15 @@ def fenetre_focus_out(_event):
     recordLabel.configure(bg=GRIS3, fg=GRIS1)
     nbDeplacementLabel.configure(bg=GRIS3, fg=GRIS1)
     sommeTableauLabel.configure(bg=GRIS3, fg=GRIS1)
-    timerLabel.configure(bg=GRIS3, fg=GRIS1)
+    timer_label.configure(bg=GRIS3, fg=GRIS1)
     for case_y in range(4):
         for case_x in range(4):
             Case[case_y][case_x].configure(bg=GRIS3)  # type: ignore
 
 
-def fonction_timer(temps_seconde, temps_label):
+def fonction_timer(temps_seconde, timer_text):
     """
-    fonction_timer(i, label)
+    fonction_timer(temps_seconde, temps_text)
         Fonction qui permet de mettre à jour le label timerLabel
     Entrée :
         i : temps en seconde
@@ -133,7 +133,7 @@ def fonction_timer(temps_seconde, temps_label):
 
     minute = f"0{temps_seconde//60}"[-2:]  # On récupère les minutes
     seconde = f"0{temps_seconde%60}"[-2:]  # On récupère les secondes
-    temps_label.set(f"  Timer : {minute}:{seconde}")  # On met à jour le label
+    timer_text.set(f"  Timer : {minute}:{seconde}")  # On met à jour le label
     temps_seconde = round(time.time() - TEMPS_DEBUT)  # On met à jour le temps
 
     if RPC_MODULE:
@@ -160,7 +160,7 @@ def fonction_timer(temps_seconde, temps_label):
         )
 
     # On rappelle la fonction fonction_timer() après 1 seconde
-    fenetre.after(1000, lambda: [fonction_timer(i, label)])
+    fenetre.after(1000, lambda: [fonction_timer(temps_seconde, timer_text)])
 
 
 def focus(_event):
@@ -416,7 +416,7 @@ def appuyer(event):
     # Si déplacement impossible, perdu
     if not deplacement_possible and not PERDU and JOUER:
         PERDU = True
-        jouer_son("Audio/Perdu.mp3")
+        jouer_son("audio/perdu.mp3")
         JOUER = False
         if tkinter.messagebox.showinfo(
             "Perdu",
@@ -442,10 +442,10 @@ def appuyer(event):
             deplacement_fait = True
 
             if fusion_gauche:
-                jouer_son("Audio/Fusion.mp3")  # Jouer le son de la fusion
+                jouer_son("audio/fusion.mp3")  # Jouer le son de la fusion
             else:
                 # Jouer le son du déplacement
-                jouer_son("Audio/Deplacement.mp3")
+                jouer_son("audio/deplacement.mp3")
 
         # 38 Flèche haut
         # 90 Z
@@ -459,10 +459,10 @@ def appuyer(event):
             deplacement_fait = True
 
             if fusion_haut:
-                jouer_son("Audio/Fusion.mp3")  # Jouer le son de la fusion
+                jouer_son("audio/fusion.mp3")  # Jouer le son de la fusion
             else:
                 # Jouer le son du déplacement
-                jouer_son("Audio/Deplacement.mp3")
+                jouer_son("audio/deplacement.mp3")
 
         # 39 Flèche droite
         # 68 D
@@ -476,10 +476,10 @@ def appuyer(event):
             deplacement_fait = True
 
             if fusion_droite:
-                jouer_son("Audio/Fusion.mp3")  # Jouer le son de la fusion
+                jouer_son("audio/fusion.mp3")  # Jouer le son de la fusion
             else:
                 # Jouer le son du déplacement
-                jouer_son("Audio/Deplacement.mp3")
+                jouer_son("audio/deplacement.mp3")
 
         # 40 Flèche bas
         # 83 S
@@ -493,10 +493,10 @@ def appuyer(event):
             deplacement_fait = True
 
             if fusion_bas:
-                jouer_son("Audio/Fusion.mp3")  # Jouer le son de la fusion
+                jouer_son("audio/fusion.mp3")  # Jouer le son de la fusion
             else:
                 # Jouer le son du déplacement
-                jouer_son("Audio/Deplacement.mp3")
+                jouer_son("audio/deplacement.mp3")
 
     if case_vide and deplacement_fait:
         # Faire apparaître une nouvelle case de 2
@@ -518,7 +518,7 @@ def appuyer(event):
             JOUER = False
             GAGNER = True
             # Son lorsque gagné
-            jouer_son("Audio/Gagne.mp3")
+            jouer_son("audio/gagner.mp3")
             # Message de victoire
             tkinter.messagebox.showinfo(
                 "Gagné",
@@ -735,10 +735,10 @@ TEMPS_DEBUT: int = int(time.time())
 temps: int = round(time.time() - TEMPS_DEBUT)
 timer = tkinter.StringVar()
 timer.set(str(temps))
-timerLabel = tkinter.Label(
+timer_label = tkinter.Label(
     fenetre, textvariable=timer, bg=GRIS2, fg="white", font=("Helvetica", 10, "bold")
 )
-timerLabel.grid(row=5, column=0, columnspan=4, sticky="w")
+timer_label.grid(row=5, column=0, columnspan=4, sticky="w")
 fonction_timer(temps, timer)
 
 # Afficher le tableau
