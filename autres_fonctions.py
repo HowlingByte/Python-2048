@@ -3,7 +3,7 @@ import random
 from PIL import Image, ImageTk
 
 ##Couleur
-#Gris
+# Gris
 GRIS1 = "#505050"
 GRIS2 = "#4D4D4D"
 GRIS3 = "#3C3C3C"
@@ -21,28 +21,30 @@ BLANC = "#FFFFFF"
 BG_TEMP = GRIS3
 FG_TEMP = BLANC
 
+
 def tuile_aleatoire():
     """
-        tuile_aleatoire()
-        Sorties :
-            Deux entiers au hasard entre 0 et 3
+    tuile_aleatoire()
+    Sorties :
+        Deux entiers au hasard entre 0 et 3
     """
 
-    x = random.randint(0,3) # On génère un entier entre 0 et 3
-    y = random.randint(0,3) # On génère un entier entre 0 et 3
-    return x,y # On retourne les deux entiers
+    random_x = random.randint(0, 3)  # On génère un entier entre 0 et 3
+    random_y = random.randint(0, 3)  # On génère un entier entre 0 et 3
+    return random_x, random_y  # On retourne les deux entiers
+
 
 def afficher_image(case, taille):
     """
-        afficher_image(case : entier) : tkinter.PhotoImage
-        Entrée :
-            case : numéro de la case
-        Sortie :
-            tkinter.PhotoImage - image de la case
+    afficher_image(case : entier) : tkinter.PhotoImage
+    Entrée :
+        case : numéro de la case
+    Sortie :
+        tkinter.PhotoImage - image de la case
     """
 
     # Ouverture de l'image
-    image  =  Image.open("Cases/"+str(case)+".png")
+    image = Image.open("Cases/" + str(case) + ".png")
 
     if taille == 200:
         taille = 189
@@ -57,53 +59,59 @@ def afficher_image(case, taille):
     # Retourner l'image
     return ImageTk.PhotoImage(imageRedimensionner)
 
+
 def enter_bouton_fermer(event):
     """
-        enter_bouton_fermer(event)
-            Changement de couleur du bouton lorsqu'on passe la souris dessus
+    enter_bouton_fermer(event)
+        Changement de couleur du bouton lorsqu'on passe la souris dessus
     """
     global BG_TEMP
     global FG_TEMP
     BG_TEMP = event.widget["bg"]
     FG_TEMP = event.widget["fg"]
-    event.widget.configure(bg = ROUGE, fg = BLANC) # Changement de couleur du bouton
+    event.widget.configure(bg=ROUGE, fg=BLANC)  # Changement de couleur du bouton
+
 
 def leave_bouton_fermer(event):
     """
-        leave_bouton_fermer(event)
-            Changement de couleur du bouton lorsqu'on sort la souris de la zone du bouton
+    leave_bouton_fermer(event)
+        Changement de couleur du bouton lorsqu'on sort la souris de la zone du bouton
     """
-    event.widget.configure(bg = BG_TEMP, fg = FG_TEMP) # Changement de couleur du bouton
+    event.widget.configure(bg=BG_TEMP, fg=FG_TEMP)  # Changement de couleur du bouton
+
 
 def enter_bouton_minimiser(event):
     """
-        enter_bouton_minimiser(event)
-            Changement de couleur du bouton lorsqu'on passe la souris dessus
+    enter_bouton_minimiser(event)
+        Changement de couleur du bouton lorsqu'on passe la souris dessus
     """
     global BG_TEMP
     global FG_TEMP
     BG_TEMP = event.widget["bg"]
     FG_TEMP = event.widget["fg"]
-    event.widget.configure(bg = GRIS1, fg = BLANC) # Changement de couleur du bouton
+    event.widget.configure(bg=GRIS1, fg=BLANC)  # Changement de couleur du bouton
+
 
 def leave_bouton_minimiser(event):
     """
-        leave_bouton_minimiser(event)
-            Changement de couleur du bouton lorsqu'on sort la souris de la zone du bouton
+    leave_bouton_minimiser(event)
+        Changement de couleur du bouton lorsqu'on sort la souris de la zone du bouton
     """
 
-    event.widget.configure(bg = BG_TEMP, fg = FG_TEMP) # Changement de couleur du bouton
+    event.widget.configure(bg=BG_TEMP, fg=FG_TEMP)  # Changement de couleur du bouton
+
 
 def enter_bouton(event):
     """
-        enter_bouton(event)
-            Changement de couleur du bouton lorsqu'on passe la souris dessus
+    enter_bouton(event)
+        Changement de couleur du bouton lorsqu'on passe la souris dessus
     """
-    event.widget.configure(bg = BLEU1, fg = BLANC) # Changement de couleur du bouton
+    event.widget.configure(bg=BLEU1, fg=BLANC)  # Changement de couleur du bouton
+
 
 def leave_bouton(event):
     """
-        leave_bouton(event)
-            Changement de couleur du bouton lorsqu'on sort la souris de la zone du bouton
+    leave_bouton(event)
+        Changement de couleur du bouton lorsqu'on sort la souris de la zone du bouton
     """
-    event.widget.configure(bg = BLEU2, fg = BLANC) # Changement de couleur du bouton
+    event.widget.configure(bg=BLEU2, fg=BLANC)  # Changement de couleur du bouton
