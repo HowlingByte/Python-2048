@@ -1,46 +1,47 @@
 # Importation des bibliothèques
 import random
+import tkinter
 from PIL import Image, ImageTk
 
 ##Couleur
 # Gris
-GRIS1 = "#505050"
-GRIS2 = "#4D4D4D"
-GRIS3 = "#3C3C3C"
-GRIS4 = "#1E1E1E"
+GRIS1: str = "#505050"
+GRIS2: str = "#4D4D4D"
+GRIS3: str = "#3C3C3C"
+GRIS4: str = "#1E1E1E"
 # Bleu
-BLEU1 = "#1177BB"
-BLEU2 = "#0E639C"
-BLEU3 = "#094771"
+BLEU1: str = "#1177BB"
+BLEU2: str = "#0E639C"
+BLEU3: str = "#094771"
 # Rouge
-ROUGE = "#D71526"
+ROUGE: str = "#D71526"
 # Blanc
-BLANC = "#FFFFFF"
+BLANC: str = "#FFFFFF"
 
 ## Variable
-BG_TEMP = GRIS3
-FG_TEMP = BLANC
+BG_TEMP: str = GRIS3
+FG_TEMP: str = BLANC
 
 
-def tuile_aleatoire():
+def tuile_aleatoire() -> tuple[int, int]:
     """
     tuile_aleatoire()
     Sorties :
         Deux entiers au hasard entre 0 et 3
     """
 
-    random_x = random.randint(0, 3)  # On génère un entier entre 0 et 3
-    random_y = random.randint(0, 3)  # On génère un entier entre 0 et 3
+    random_x: int = random.randint(0, 3)  # On génère un entier entre 0 et 3
+    random_y: int = random.randint(0, 3)  # On génère un entier entre 0 et 3
     return random_x, random_y  # On retourne les deux entiers
 
 
-def afficher_image(case, taille):
+def afficher_image(case: int, taille: int) -> ImageTk.PhotoImage:
     """
-    afficher_image(case : entier) : tkinter.PhotoImage
+    afficher_image(case : entier) : ImageTk.PhotoImage
     Entrée :
         case : numéro de la case
     Sortie :
-        tkinter.PhotoImage - image de la case
+        ImageTk.PhotoImage - image de la case
     """
 
     # Ouverture de l'image
@@ -60,7 +61,7 @@ def afficher_image(case, taille):
     return ImageTk.PhotoImage(image_redimensionner)
 
 
-def enter_bouton_fermer(event):
+def enter_bouton_fermer(event: tkinter.Event) -> None:
     """
     enter_bouton_fermer(event)
         Changement de couleur du bouton lorsqu'on passe la souris dessus
@@ -72,7 +73,7 @@ def enter_bouton_fermer(event):
     event.widget.configure(bg=ROUGE, fg=BLANC)  # Changement de couleur du bouton
 
 
-def leave_bouton_fermer(event):
+def leave_bouton_fermer(event: tkinter.Event) -> None:
     """
     leave_bouton_fermer(event)
         Changement de couleur du bouton lorsqu'on sort la souris de la zone du bouton
@@ -80,7 +81,7 @@ def leave_bouton_fermer(event):
     event.widget.configure(bg=BG_TEMP, fg=FG_TEMP)  # Changement de couleur du bouton
 
 
-def enter_bouton_minimiser(event):
+def enter_bouton_minimiser(event: tkinter.Event) -> None:
     """
     enter_bouton_minimiser(event)
         Changement de couleur du bouton lorsqu'on passe la souris dessus
