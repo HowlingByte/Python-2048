@@ -5,7 +5,7 @@ import signal
 from PIL import Image, ImageTk
 
 # Importation des fichiers .py du dossier python
-from autresfonctions2048 import (
+from autres_fonctions import (
     GRIS1,
     GRIS2,
     GRIS3,
@@ -91,32 +91,32 @@ def taille_fenetre():
     fenetre.attributes("-topmost", True)  # Fond de la fenêtre au premier plan
 
     # Barre titre pour changer la barre windows originale
-    barreTitre = tkinter.Frame(fenetre, bg=GRIS3, borderwidth=2)
-    barreTitre.pack(side="top", fill="x")
-    barreTitre.bind("<ButtonPress-1>", bouger_fenetre_commence)
-    barreTitre.bind("<ButtonRelease-1>", bouger_fenetre_arrete)
-    barreTitre.bind("<B1-Motion>", bouger_fenetre)
+    barre_titre = tkinter.Frame(fenetre, bg=GRIS3, borderwidth=2)
+    barre_titre.pack(side="top", fill="x")
+    barre_titre.bind("<ButtonPress-1>", bouger_fenetre_commence)
+    barre_titre.bind("<ButtonRelease-1>", bouger_fenetre_arrete)
+    barre_titre.bind("<B1-Motion>", bouger_fenetre)
 
     # Icone dans la barre titre
     icone = Image.open("2048.ico")
     icone = icone.resize((16, 16))
     icone = ImageTk.PhotoImage(icone)
-    iconeLabel = tkinter.Label(barreTitre, image=icone, bg=GRIS3)
-    iconeLabel.pack(side="left", padx=5, pady=5)
-    iconeLabel.bind("<ButtonPress-1>", bouger_fenetre_commence)
-    iconeLabel.bind("<ButtonRelease-1>", bouger_fenetre_arrete)
-    iconeLabel.bind("<B1-Motion>", bouger_fenetre)
+    icone_label = tkinter.Label(barre_titre, image=icone, bg=GRIS3)
+    icone_label.pack(side="left", padx=5, pady=5)
+    icone_label.bind("<ButtonPress-1>", bouger_fenetre_commence)
+    icone_label.bind("<ButtonRelease-1>", bouger_fenetre_arrete)
+    icone_label.bind("<B1-Motion>", bouger_fenetre)
 
     # Titre dans la barre titre
-    titre = tkinter.Label(barreTitre, text="  2048", bg=GRIS3, fg=BLANC)
+    titre = tkinter.Label(barre_titre, text="  2048", bg=GRIS3, fg=BLANC)
     titre.pack(side="left")
     titre.bind("<ButtonPress-1>", bouger_fenetre_commence)
     titre.bind("<ButtonRelease-1>", bouger_fenetre_arrete)
     titre.bind("<B1-Motion>", bouger_fenetre)
 
     # Bouton fermer
-    boutonFermer = tkinter.Button(
-        barreTitre,
+    bouton_fermer = tkinter.Button(
+        barre_titre,
         text="    X    ",
         command=lambda: [fenetre.destroy(), exit()],
         bg=GRIS3,
@@ -126,17 +126,17 @@ def taille_fenetre():
         borderwidth=0,
         font=("Arial", 12),
     )
-    boutonFermer.pack(side="right")
-    boutonFermer.bind("<Enter>", enter_bouton_fermer)
-    boutonFermer.bind("<Leave>", leave_bouton_fermer)
+    bouton_fermer.pack(side="right")
+    bouton_fermer.bind("<Enter>", enter_bouton_fermer)
+    bouton_fermer.bind("<Leave>", leave_bouton_fermer)
 
     # Barre de menu
-    barreMenu = tkinter.Frame(fenetre, borderwidth=3, bg=GRIS3)
-    barreMenu.pack(side="top", fill="x")
+    barre_menu = tkinter.Frame(fenetre, borderwidth=3, bg=GRIS3)
+    barre_menu.pack(side="top", fill="x")
 
     # Création de l"onglet Menu
     menu = tkinter.Menubutton(
-        barreMenu,
+        barre_menu,
         text="Menu",
         bg=GRIS3,
         activebackground=GRIS1,
@@ -146,10 +146,10 @@ def taille_fenetre():
     menu.pack(side="left")
 
     # Création d"un menu défilant
-    menuDeroulant = tkinter.Menu(
+    menu_deroulant = tkinter.Menu(
         menu, background=GRIS2, foreground=BLANC, activebackground=BLEU3, tearoff=0
     )
-    menuDeroulant.add_command(
+    menu_deroulant.add_command(
         label="À propos",
         command=lambda: [
             tkinter.messagebox.showinfo(
@@ -161,12 +161,12 @@ def taille_fenetre():
     )
 
     # Attribution du menu déroulant au menu Affichage
-    menu.configure(menu=menuDeroulant)
+    menu.configure(menu=menu_deroulant)
 
     # Image
     img = tkinter.PhotoImage(file="2048_logo.png")
-    imgLabel = tkinter.Label(fenetre, image=img, bg=GRIS4)
-    imgLabel.pack(pady=10)
+    img_label = tkinter.Label(fenetre, image=img, bg=GRIS4)
+    img_label.pack(pady=10)
 
     # Texte
     text = tkinter.Label(
