@@ -1,3 +1,9 @@
+"""
+autres_fonctions.py
+    contient les fonctions annexes au jeu
+    Auteur : Ryse93
+"""
+
 # Importation des bibliothèques
 import random
 import tkinter
@@ -66,8 +72,8 @@ def enter_bouton_fermer(event: tkinter.Event) -> None:
     enter_bouton_fermer(event)
         Changement de couleur du bouton lorsqu'on passe la souris dessus
     """
-    global BG_TEMP
-    global FG_TEMP
+    global BG_TEMP # pylint: disable=global-statement
+    global FG_TEMP # pylint: disable=global-statement
     BG_TEMP = event.widget["bg"]
     FG_TEMP = event.widget["fg"]
     event.widget.configure(bg=ROUGE, fg=BLANC)  # Changement de couleur du bouton
@@ -86,8 +92,8 @@ def enter_bouton_minimiser(event: tkinter.Event) -> None:
     enter_bouton_minimiser(event)
         Changement de couleur du bouton lorsqu'on passe la souris dessus
     """
-    global BG_TEMP
-    global FG_TEMP
+    global BG_TEMP # pylint: disable=global-statement
+    global FG_TEMP # pylint: disable=global-statement
     BG_TEMP = event.widget["bg"]
     FG_TEMP = event.widget["fg"]
     event.widget.configure(bg=GRIS1, fg=BLANC)  # Changement de couleur du bouton

@@ -1,3 +1,9 @@
+"""
+taille_fenetre.py
+    Fonction de la taille de la fenêtre du jeu.
+    Auteur : Ahhj93
+"""
+
 # Importation des bibliothèques
 import tkinter
 import tkinter.messagebox

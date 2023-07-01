@@ -3,6 +3,7 @@ main.py
     Fichier qui contient le code du jeu 2048
     Auteur : Ahhj93
 """
+
 # Importation des bibliothèques
 import tkinter
 import tkinter.messagebox
