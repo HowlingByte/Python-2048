@@ -10,8 +10,8 @@ import tkinter.messagebox
 import copy
 import signal
 import time
-import pygame
 import sys
+import pygame
 from PIL import Image, ImageTk
 
 # Importation des fichiers .py du dossier python
@@ -54,6 +54,9 @@ NB_DEPLACEMENT = 0
 PERDU = False
 GAGNER = False
 JOUER = True
+
+X: int | None = None
+Y: int | None = None
 
 
 def reinitialiser_score():
@@ -207,9 +210,9 @@ def bouger_fenetre_commence(event):
     Entrée :
         event : événement
     """
-    global x, y  # On récupère les variables x et y
-    x = event.x  # On récupère la position de la souris en x
-    y = event.y  # On récupère la position de la souris en y
+    global X, Y  # pylint: disable=global-statement # On récupère les variables x et y
+    X = event.x  # On récupère la position de la souris en x
+    Y = event.y  # On récupère la position de la souris en y
 
 
 def bouger_fenetre_arrete(_event):
@@ -217,9 +220,9 @@ def bouger_fenetre_arrete(_event):
     bouger_fenetre_arrete(_event)
         Fonction qui permet de réinitialiser les variables x et y
     """
-    global x, y  # On récupère les variables x et y
-    x = None  # On réinitialise x
-    y = None  # On réinitialise y
+    global X, Y  # pylint: disable=global-statement # On récupère les variables x et y
+    X = None  # On réinitialise x
+    Y = None  # On réinitialise y
 
 
 def bouger_fenetre(event):
@@ -232,20 +235,20 @@ def bouger_fenetre(event):
         Bouge la fenêtre
     """
 
-    global x, y  # On récupère les variables x et y
-    deltax = (
-        event.x - x
+    global X, Y  # pylint: disable=W0602 # On récupère les variables x et y
+    delta_x = (
+        event.x - X
     )  # On calcule la différence entre la position de la souris et la position de la souris au début du déplacement
-    deltay = (
-        event.y - y
+    delta_y = (
+        event.y - Y
     )  # On calcule la différence entre la position de la souris et la position de la souris au début du déplacement
-    ax = (
-        fenetre.winfo_x() + deltax
+    a_x = (
+        fenetre.winfo_x() + delta_x
     )  # On calcule la nouvelle position de la fenêtre en fonction de la différence entre la position de la souris et la position de la souris au début du déplacement
-    ay = (
-        fenetre.winfo_y() + deltay
+    a_y = (
+        fenetre.winfo_y() + delta_y
     )  # On calcule la nouvelle position de la fenêtre en fonction de la différence entre la position de la souris et la position de la souris au début du déplacement
-    fenetre.geometry(f"+{ax}+{ay}")  # On déplace la fenêtre
+    fenetre.geometry(f"+{a_x}+{a_y}")  # On déplace la fenêtre
 
 
 def quitter():
@@ -333,9 +336,9 @@ def recommencer():
     """
 
     # Variables globales
-    global NB_DEPLACEMENT #pylint: disable=global-statement
-    global PERDU #pylint: disable=global-statement
-    global TEMPS_DEBUT #pylint: disable=global-statement
+    global NB_DEPLACEMENT  # pylint: disable=global-statement
+    global PERDU  # pylint: disable=global-statement
+    global TEMPS_DEBUT  # pylint: disable=global-statement
 
     # Remettre à zéro le tableau
     for i in range(4):
@@ -349,12 +352,12 @@ def recommencer():
     TEMPS_DEBUT = int(time.time())
 
     # Boucle pour mettre deux cases de 2 dans le tableau
-    caseDebut = 0
-    while caseDebut < 2:
-        x, y = tuile_aleatoire()
-        if TableauJeu[y][x] == 0:
-            TableauJeu[y][x] = 2
-            caseDebut += 1
+    case_debut = 0
+    while case_debut < 2:
+        random_x, random_y = tuile_aleatoire()
+        if TableauJeu[random_y][random_x] == 0:
+            TableauJeu[random_y][random_x] = 2
+            case_debut += 1
 
     # Afficher le jeu
     afficher_jeu()
@@ -367,10 +370,10 @@ def appuyer(event):
     """
 
     # Variables globales
-    global PERDU #pylint: disable=global-statement
-    global GAGNER #pylint: disable=global-statement
-    global NB_DEPLACEMENT #pylint: disable=global-statement
-    global JOUER #pylint: disable=global-statement
+    global PERDU  # pylint: disable=global-statement
+    global GAGNER  # pylint: disable=global-statement
+    global NB_DEPLACEMENT  # pylint: disable=global-statement
+    global JOUER  # pylint: disable=global-statement
 
     # Variables locales
     case_vide = False
@@ -386,27 +389,27 @@ def appuyer(event):
                 deplacement_possible = True
 
     # Test si seulement déplacement possible
-    TableauJeuTempGauche = copy.deepcopy(TableauJeu)
-    deplacementGauche, fusionGauche = mouvement.Gauche(TableauJeuTempGauche)
+    tableau_jeu_temp_gauche = copy.deepcopy(TableauJeu)
+    deplacement_gauche, fusion_gauche = mouvement.Gauche(tableau_jeu_temp_gauche)
 
-    TableauJeuTempHaut = copy.deepcopy(TableauJeu)
-    deplacementHaut, fusionHaut = mouvement.Haut(TableauJeuTempHaut)
+    tableau_jeu_temp_haut = copy.deepcopy(TableauJeu)
+    deplacement_haut, fusion_haut = mouvement.Haut(tableau_jeu_temp_haut)
 
-    TableauJeuTempDroite = copy.deepcopy(TableauJeu)
-    deplacementDroite, fusionDroite = mouvement.Droite(TableauJeuTempDroite)
+    tableau_jeu_temp_droite = copy.deepcopy(TableauJeu)
+    deplacement_droite, fusion_droite = mouvement.Droite(tableau_jeu_temp_droite)
 
-    TableauJeuTempBas = copy.deepcopy(TableauJeu)
-    deplacementBas, fusionBas = mouvement.Bas(TableauJeuTempBas)
+    tableau_jeu_temp_bas = copy.deepcopy(TableauJeu)
+    deplacement_bas, fusion_bas = mouvement.Bas(tableau_jeu_temp_bas)
 
     if (
-        deplacementGauche
-        or deplacementHaut
-        or deplacementDroite
-        or deplacementBas
-        or fusionGauche
-        or fusionHaut
-        or fusionDroite
-        or fusionBas
+        deplacement_gauche
+        or deplacement_haut
+        or deplacement_droite
+        or deplacement_bas
+        or fusion_gauche
+        or fusion_haut
+        or fusion_droite
+        or fusion_bas
     ):
         deplacement_possible = True
 
@@ -432,13 +435,13 @@ def appuyer(event):
         # 100 Pavé numérique gauche
         if (
             (keycode == 37 or keycode == 81 or keycode == 100)
-            and (deplacementGauche or fusionGauche)
-            and TableauJeu != TableauJeuTempGauche
+            and (deplacement_gauche or fusion_gauche)
+            and TableauJeu != tableau_jeu_temp_gauche
         ):
             mouvement.Gauche(TableauJeu)
             deplacement_fait = True
 
-            if fusionGauche:
+            if fusion_gauche:
                 jouer_son("Audio/Fusion.mp3")  # Jouer le son de la fusion
             else:
                 # Jouer le son du déplacement
@@ -449,13 +452,13 @@ def appuyer(event):
         # 104 Pavé numérique haut
         elif (
             (keycode == 38 or keycode == 90 or keycode == 104)
-            and (deplacementHaut or fusionHaut)
-            and TableauJeu != TableauJeuTempHaut
+            and (deplacement_haut or fusion_haut)
+            and TableauJeu != tableau_jeu_temp_haut
         ):
             mouvement.Haut(TableauJeu)
             deplacement_fait = True
 
-            if fusionHaut:
+            if fusion_haut:
                 jouer_son("Audio/Fusion.mp3")  # Jouer le son de la fusion
             else:
                 # Jouer le son du déplacement
@@ -466,13 +469,13 @@ def appuyer(event):
         # 102 Pavé numérique droite
         elif (
             (keycode == 39 or keycode == 68 or keycode == 102)
-            and (deplacementDroite or fusionDroite)
-            and TableauJeu != TableauJeuTempDroite
+            and (deplacement_droite or fusion_droite)
+            and TableauJeu != tableau_jeu_temp_droite
         ):
             mouvement.Droite(TableauJeu)
             deplacement_fait = True
 
-            if fusionDroite:
+            if fusion_droite:
                 jouer_son("Audio/Fusion.mp3")  # Jouer le son de la fusion
             else:
                 # Jouer le son du déplacement
@@ -483,13 +486,13 @@ def appuyer(event):
         # 98 Pavé numérique bas
         elif (
             (keycode == 40 or keycode == 83 or keycode == 98)
-            and (deplacementBas or fusionBas)
-            and TableauJeu != TableauJeuTempBas
+            and (deplacement_bas or fusion_bas)
+            and TableauJeu != tableau_jeu_temp_bas
         ):
             mouvement.Bas(TableauJeu)
             deplacement_fait = True
 
-            if fusionBas:
+            if fusion_bas:
                 jouer_son("Audio/Fusion.mp3")  # Jouer le son de la fusion
             else:
                 # Jouer le son du déplacement
@@ -498,9 +501,9 @@ def appuyer(event):
     if case_vide and deplacement_fait:
         # Faire apparaître une nouvelle case de 2
         while not deplacement:
-            x, y = tuile_aleatoire()
-            if TableauJeu[y][x] == 0:
-                TableauJeu[y][x] = 2
+            random_x, random_y = tuile_aleatoire()
+            if TableauJeu[random_y][random_x] == 0:
+                TableauJeu[random_y][random_x] = 2
                 deplacement = True
 
         # Ajouter 1 au compteur d'étape
@@ -519,7 +522,9 @@ def appuyer(event):
             # Message de victoire
             tkinter.messagebox.showinfo(
                 "Gagné",
-                f"Vous avez gagné !\n{nbDeplacementVar.get()}\n{sommeTableauVar.get()}\n{timer.get()}",
+                f"Vous avez gagné !\n{nbDeplacementVar.get()} \
+                \n{sommeTableauVar.get()} \
+                \n{timer.get()}",
                 icon="info",
             )
             # Demande à l'utilisateur si recommencer
@@ -534,12 +539,12 @@ def appuyer(event):
 
 # Main
 # Boucle pour mettre deux cases de 2 dans le tableau
-caseDebut = 0
-while caseDebut < 2:
-    x, y = tuile_aleatoire()
-    if TableauJeu[y][x] == 0:
-        TableauJeu[y][x] = 2
-        caseDebut += 1
+CASE_DEBUT = 0
+while CASE_DEBUT < 2:
+    RANDOM_X, RANDOM_Y = tuile_aleatoire()
+    if TableauJeu[RANDOM_Y][RANDOM_X] == 0:
+        TableauJeu[RANDOM_Y][RANDOM_X] = 2
+        CASE_DEBUT += 1
 
 # Lancer la fonction TailleFenêtre pour avoir la taille de la fenêtre qu'on demande à l'utilisateur
 taille = taille_fenetre()
@@ -681,8 +686,12 @@ menu.configure(menu=menuDeroulant)
 # Label cases
 for i in range(4):
     for j in range(4):
-        Img[i][j] = afficher_image(TableauJeu[i][j], taille)  # type: ignore # Création des images
-        Case[i][j] = tkinter.Label(fenetre, image=Img[i][j], bg=GRIS2)  # type: ignore # Créer la case
+        Img[i][j] = afficher_image(  # type: ignore # Création des images
+            TableauJeu[i][j], taille
+        )
+        Case[i][j] = tkinter.Label(  # type: ignore # Créer la case
+            fenetre, image=Img[i][j], bg=GRIS2 # type: ignore
+        )
         # Placer la case dans la grille de la fenêtre
         Case[i][j].grid(row=i + 6, column=j)  # type: ignore
 
