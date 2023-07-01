@@ -14,8 +14,22 @@ from PIL import Image, ImageTk
 
 # Importation des fichiers .py du dossier python
 import mouvement
-from autresfonctions2048 import *
-from taillefenetre import *
+from autres_fonctions import (
+    GRIS1,
+    GRIS2,
+    GRIS3,
+    GRIS4,
+    BLEU3,
+    ROUGE,
+    BLANC,
+    enter_bouton_fermer,
+    leave_bouton_fermer,
+    tuile_aleatoire,
+    enter_bouton_minimiser,
+    leave_bouton_minimiser,
+    afficher_image,
+)
+from taille_fenetre import taille_fenetre
 
 # Start- Discord RPC
 try:
@@ -526,7 +540,7 @@ while caseDebut < 2:
         caseDebut += 1
 
 # Lancer la fonction TailleFenêtre pour avoir la taille de la fenêtre qu'on demande à l'utilisateur
-taille = TailleFenetre()
+taille = taille_fenetre()
 
 # Lancer la fenêtre Tkinter
 root = tkinter.Tk()
