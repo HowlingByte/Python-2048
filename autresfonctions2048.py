@@ -4,10 +4,10 @@ from PIL import Image, ImageTk
 
 ##Couleur
 #Gris
-gris1 = "#505050"
-gris2 = "#4D4D4D"
-gris3 = "#3C3C3C"
-gris4 = "#1E1E1E"
+GRIS1 = "#505050"
+GRIS2 = "#4D4D4D"
+GRIS3 = "#3C3C3C"
+GRIS4 = "#1E1E1E"
 # Bleu
 bleu1 = "#1177BB"
 bleu2 = "#0E639C"
@@ -18,7 +18,7 @@ rouge = "#D71526"
 blanc = "#FFFFFF"
 
 ## Variable
-bgTemp = gris3
+bgTemp = GRIS3
 fgTemp = blanc
 
 def TuileAleatoire():
@@ -84,7 +84,7 @@ def EnterBoutonMinimiser(event):
     global fgTemp
     bgTemp = event.widget["bg"]
     fgTemp = event.widget["fg"]
-    event.widget.configure(bg = gris1, fg = blanc) # Changement de couleur du bouton
+    event.widget.configure(bg = GRIS1, fg = blanc) # Changement de couleur du bouton
 
 def LeaveBoutonMinimiser(event):
     """
