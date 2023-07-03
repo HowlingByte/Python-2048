@@ -30,7 +30,7 @@ from autres_fonctions import (
 X: int | None = None
 Y: int | None = None
 
-def taille_fenetre():
+def taille_fenetre() -> int:
     """
     taille_fenetre()
     Sortie :

@@ -4,7 +4,7 @@ mouvement.py
     Auteur : Ahhj93
 """
 
-def gauche(tab):
+def gauche(tab: list) -> tuple[bool, bool]:
     """
     gauche(tab : tab) : (deplacement : bouléen, fusion : bouléen)
     Déplacement des cases vers la gauche et fusion des cases si deux cases côte à côte sont égaux.
@@ -45,7 +45,7 @@ def gauche(tab):
     return deplacement, fusion
 
 
-def haut(tab):
+def haut(tab: list) -> tuple[bool, bool]:
     """
     haut(tab : tab) : (deplacement : bouléen, fusion : bouléen)
     Déplacement des cases vers la haut et fusion des cases si deux cases côte à côte sont égaux.
@@ -86,7 +86,7 @@ def haut(tab):
     return deplacement, fusion
 
 
-def droite(tab):
+def droite(tab: list) -> tuple[bool, bool]:
     """
     droite(tab : tab) : (deplacement : bouléen, fusion : bouléen)
     Déplacement des cases vers la droite et fusion des cases si deux cases côte à côte sont égaux.
@@ -127,7 +127,7 @@ def droite(tab):
     return deplacement, fusion
 
 
-def bas(tab):
+def bas(tab: list) -> tuple[bool, bool]:
     """
     bas(tab : tab) : (deplacement : bouléen, fusion : bouléen)
         j : colonne

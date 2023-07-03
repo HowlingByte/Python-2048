@@ -122,15 +122,17 @@ def fenetre_focus_out(_event):
             Case[case_y][case_x].configure(bg=GRIS3)  # type: ignore
 
 
-def fonction_timer(temps_seconde, timer_text):
+def fonction_timer(temps_seconde: int, timer_text: tkinter.StringVar):
     """
     fonction_timer(temps_seconde, temps_text)
         Fonction qui permet de mettre à jour le label timerLabel
     Entrée :
-        i : temps en seconde
-        label : label qui contient le temps
+        temps_seconde : temps en seconde
+        timer_text : label qui contient le temps
     """
 
+    print(type(temps_seconde))
+    print(type(timer_text))
     minute = f"0{temps_seconde//60}"[-2:]  # On récupère les minutes
     seconde = f"0{temps_seconde%60}"[-2:]  # On récupère les secondes
     timer_text.set(f"  Timer : {minute}:{seconde}")  # On met à jour le label
