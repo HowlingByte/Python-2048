@@ -30,6 +30,7 @@ from autres_fonctions import (
 X: int | None = None
 Y: int | None = None
 
+
 def taille_fenetre() -> int:
     """
     taille_fenetre()
@@ -52,7 +53,7 @@ def taille_fenetre() -> int:
         Entrée :
             event : événement
         """
-        global X, Y  #pylint: disable=W0603 # On récupère les variables x et y
+        global X, Y  # pylint: disable=W0603 # On récupère les variables x et y
         X = event.x  # On récupère la position de la souris en x
         Y = event.y  # On récupère la position de la souris en y
 
@@ -61,7 +62,7 @@ def taille_fenetre() -> int:
         bouger_fenetre_arrete(_event)
             Fonction qui permet de bouger la fenêtre
         """
-        global X, Y  #pylint: disable=W0603 # On récupère les variables x et y
+        global X, Y  # pylint: disable=W0603 # On récupère les variables x et y
         X = None  # On réinitialise x
         Y = None  # On réinitialise y
 
@@ -73,7 +74,7 @@ def taille_fenetre() -> int:
         Sortie :
             Bouge la fenêtre
         """
-        global X, Y  #pylint: disable=W0602 # On récupère les variables x et y
+        global X, Y  # pylint: disable=W0602 # On récupère les variables x et y
         delta_x = (
             event.x - X
         )  # On calcule la différence entre la position de la souris et la position de la souris au début du déplacement
@@ -135,7 +136,7 @@ def taille_fenetre() -> int:
         borderwidth=0,
         font=("Arial", 12),
     )
-    bouton_fermer.pack(side="right") #pylint: disable=W0101
+    bouton_fermer.pack(side="right")  # pylint: disable=W0101
     bouton_fermer.bind("<Enter>", enter_bouton_fermer)
     bouton_fermer.bind("<Leave>", leave_bouton_fermer)
 
@@ -218,7 +219,7 @@ def taille_fenetre() -> int:
     choixpref = False
     for option in option_list:
         if (
-            int(option.split("x")[0]) > fenetre.winfo_screenwidth()
+            int(option.split("x", maxsplit=1)[0]) > fenetre.winfo_screenwidth()
             or int(option.split("x")[1]) > fenetre.winfo_screenheight()
         ):
             menu_taille["menu"].entryconfig(option, state="disabled")
@@ -245,7 +246,7 @@ def taille_fenetre() -> int:
     fenetre.protocol("WM_DELETE_WINDOW", lambda: [fenetre.destroy(), sys.exit()])
 
     # Détecte KeyboardInterrupt
-    signal.signal(signal.SIGINT, sigint_handler) #pylint: disable=W0101
+    signal.signal(signal.SIGINT, sigint_handler)  # pylint: disable=W0101
 
     # Exécution de la fenêtre
     fenetre.mainloop()
