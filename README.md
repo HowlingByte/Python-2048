@@ -22,5 +22,5 @@ Distributed under the GPL-3.0 License. See [LICENSE](https://github.com/Ryse93/P
 
 ## 👥 Authors
 
-* [**@Ahhj93**](https://github.com/Ahhj93) - French student in CPGE MP2I
+* [**@Ahhj93**](https://github.com/Ahhj93) — French student in CPGE MP2I
 * *2 others students*
